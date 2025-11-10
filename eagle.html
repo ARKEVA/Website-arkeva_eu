@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Our multi source management solution.">
+    <title>Eagle</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./media/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./media/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./media/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./media/favicon/android-chrome-192x192.png">
+    <link rel="manifest" href="./media/favicon/site.webmanifest">
+
+
+
+    <!-- IMPORTS -->
+    <!-- **JQUERY** -->
+    <script src="./scripts/jquery-3.7.1.min.js"></script>
+    <!-- **GOOGLE FONTS** -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+
+
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/animations.css">
+    <link rel="stylesheet" href="./styles/components.css">
+    <link rel="stylesheet" href="./styles/products.css">
+
+    <!-- CANONICAL -->
+    <link rel="canonical" href="https://arkeva.eu/eagle">
+
+    <!-- IS MOBILE -->
+    <script src="./scripts/mobile_version.js"></script>
+
+</head>
+
+<body>
+
+
+    <div id="fixed_header" data-component="Fixed Header"></div>
+    <div class="fixed_background"></div>
+
+    <section id="main_page">
+        <div id="top_header" data-component="Top Header"></div>
+        <div class="content technology">
+            <h1>EAGLE</h1>
+            <h2>Our multi source management solution.</h2>
+            <p>Manage and forecast events in your facility, from sensors relevant trends analytics to real time digital
+                twins.</p>
+        </div>
+    </section>
+
+
+
+    <!-- <section class="section_1">
+        <div id="product_video">
+            <img class="play_btn" src="./media/icon/play.png" onclick="$('#product_video img').hide()">
+            <img class="thumbnail" src="./media/img/cover-eagle.webp">
+        </div>
+    </section> -->
+
+
+
+
+    <section class="section_1">
+
+
+        <h2>Eagle's potential</h2>
+
+        <div class="bullet_points">
+            <div class="illustration_container">
+                <div class="number">1</div>
+                <hr>
+                <div class="illustration_crop">
+                    <img src="./media/img/products/eagle/illustration-1.jpg"
+                        alt="immersive digital overview of the facility">
+                </div>
+                <hr>
+                <div class="number">1</div>
+            </div>
+
+            <div class="feature-item">
+                <h3>Getting the best insights from your facility.</h3>
+                <div>We provide you with a live digital twin, enabling a complete overview of the
+                    facility.</div>
+            </div>
+        </div>
+
+
+        <div class="bullet_points">
+            <div class="illustration_container">
+                <div class="number">2</div>
+                <hr>
+                <div class="illustration_crop">
+                    <img src="./media/img/products/eagle/illustration-2.jpg"
+                        alt="lidar representation of the facilities">
+                </div>
+                <hr>
+                <div class="number">2</div>
+            </div>
+
+            <div class="feature-item">
+                <h3>Merging information from different sources.</h3>
+            <div>Our models are based on several information sources, including cameras, Lidar,
+                sensors,... matching your
+                facility’s organization.</div>
+            </div>
+        </div>
+
+
+        <div class="bullet_points">
+            <div class="illustration_container">
+                <div class="number">3</div>
+                <hr>
+                <div class="illustration_crop">
+                    <img src="./media/img/products/eagle/illustration-3.jpg"
+                        alt="illustration of the platform">
+                </div>
+                <hr>
+                <div class="number">3</div>
+            </div>
+
+            <div class="feature-item">
+                <h3>Enabling you to simulate scenarios and manage alerts in real time.</h3>
+                <div>Our solution can provide several analytics and predictive tools to keep you one
+                    step ahead. This is made
+                    possible by an intuitive digital platform, adaptable to your needs.</div>
+            </div>
+        </div>
+
+
+
+
+        <script>
+            $(document).ready(function () {
+                if (!is_mobile) {
+                    // Stocker la dernière div active
+                    let lastActiveDiv = null;
+
+                    // Ajouter un événement pour les boutons
+                    $('.illustration_container').on('mouseenter click', function () {
+                        const parentDiv = $(this).closest('.bullet_points'); // Trouve la div parente
+
+                        if (lastActiveDiv) {
+                            lastActiveDiv.removeClass('active'); // Retirer la classe de la dernière div active
+                        }
+
+                        parentDiv.addClass('active'); // Ajouter la classe à la nouvelle div
+                        lastActiveDiv = parentDiv; // Mettre à jour la dernière div active
+                    });
+
+                } else {
+                    const elements = document.querySelectorAll(".bullet_points .illustration_container, .bullet_points .feature-item");
+
+                    function checkScroll() {
+                        elements.forEach(el => {
+                            const rect = el.getBoundingClientRect();
+                            const triggerPoint = window.innerHeight * 0.95; // Déclenche à 75% de la hauteur de l'écran
+
+                            if (rect.top < triggerPoint) {
+                                el.classList.add("active");
+                            } else {
+                                el.classList.remove("active");
+                            }
+                        });
+                    }
+
+                    window.addEventListener("scroll", checkScroll);
+                    checkScroll(); // Vérifie au chargement de la page
+                }
+            });
+        </script>
+
+    </section>
+
+
+
+
+
+
+    <footer data-component="Footer"></footer>
+
+    <script src="./scripts/content_data.js"></script>
+    <script src="./scripts/components.js"></script>
+
+</body>
+
+</html>

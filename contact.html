@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Contact us: Send a message or schedule a call to receive free advice, expertise, and explore how we can collaborate.">
+
+    <title>Arkeva - Contact</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./media/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./media/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./media/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./media/favicon/android-chrome-192x192.png">
+    <link rel="manifest" href="./media/favicon/site.webmanifest">
+
+
+
+    <!-- IMPORTS -->
+    <!-- **JQUERY** -->
+    <script src="./scripts/jquery-3.7.1.min.js"></script>
+    <!-- **GOOGLE FONTS** -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <!-- **EMAILJS** -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="./scripts/emailjs.js"></script>
+
+
+
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/animations.css">
+    <link rel="stylesheet" href="./styles/components.css">
+    <link rel="stylesheet" href="./styles/contact.css">
+
+    <!-- CANONICAL -->
+    <link rel="canonical" href="https://arkeva.eu/contact">
+
+    <!-- IS MOBILE -->
+    <script src="./scripts/mobile_version.js"></script>
+</head>
+
+<body>
+
+
+    <div id="fixed_header" data-component="Fixed Header"></div>
+    <div class="fixed_background"></div>
+
+    <section id="main_page">
+        <div id="top_header" data-component="Top Header"></div>
+        <div class="form_content">
+            <h1 style="display: none;">Contact us</h1>
+            <h2>Let’s get in touch 👋</h2>
+
+            <div class="forms-container">
+                <!-- Formulaire gauche -->
+                <div class="form-left">
+                    <h2>Drop us a line:</h2>
+                    <form action="#" method="POST" id="contact-form">
+                        <div class="form_flex">
+                            <div class="input_flex">
+                                <label for="contact-first_name">First Name</label>
+                                <input type="text" id="contact-first_name" name="contact-first_name" required>
+
+                                <label for="contact-last_name">Last Name</label>
+                                <input type="text" id="contact-last_name" name="contact-last_name" required>
+
+                            </div>
+                            <div class="input_flex">
+                                <label for="contact-user_email">Email</label>
+                                <input type="email" id="contact-user_email" name="contact-user_email" required>
+
+                                <label for="contact-user_company">Company</label>
+                                <input type="text" id="contact-user_company" name="contact-user_company" required>
+                            </div>
+                        </div>
+
+                        <label for="contact-goal">Contact Goal</label>
+                        <input type="text" id="contact-goal" name="contact-goal" required>
+
+                        <label for="contact-user_message">Your Message</label>
+                        <textarea id="contact-user_message" name="contact-user_message" rows="4" required
+                            style="width: 100%;"></textarea>
+
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+
+                <!-- Formulaire droit -->
+                <div class="form-right" id="meeting_contact">
+                    <h2>Or schedule a call with us:</h2>
+                    <p>Get free expertise, advice, and/or let’s see what we can achieve together 🚀</p>
+                    <form action="#" method="POST" id="meeting-form">
+                        <div class="form_flex">
+                            <div class="input_flex">
+                                <label for="meeting-first_name">First Name</label>
+                                <input type="text" id="meeting-first_name" name="meeting-first_name" required>
+
+                                <label for="meeting-user_email">Email</label>
+                                <input type="email" id="meeting-user_email" name="meeting-user_email" required>
+                            </div>
+                            <div class="input_flex">
+
+                                <label for="meeting-last_name">Last Name</label>
+                                <input type="text" id="meeting-last_name" name="meeting-last_name" required>
+
+                                <label for="meeting-user_company">Company</label>
+                                <input type="text" id="meeting-user_company" name="meeting-user_company" required>
+                            </div>
+                        </div>
+
+                        <label for="meeting-title">Meeting Title</label>
+                        <input type="text" id="meeting-title" name="meeting-title" required>
+
+                        <label for="meeting-participants">Who would you like in the meeting</label>
+                        <div id="meeting-participants">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="meeting-participants" value="Data_scientist">
+                                <span class="checkbox-circle"></span> Data scientist
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="meeting-participants" value="AI_expert">
+                                <span class="checkbox-circle"></span> AI expert
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="meeting-participants" value="Business_support">
+                                <span class="checkbox-circle"></span> Business support
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="meeting-participants" value="HR">
+                                <span class="checkbox-circle"></span> HR
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="meeting-participants" value="Direction">
+                                <span class="checkbox-circle"></span> Direction
+                            </label>
+                        </div>
+
+
+
+
+
+                        <label for="meeting-availabilities">Availabilities</label>
+                        <input type="text" id="meeting-availabilities" name="meeting-availabilities" required>
+
+                        <button type="submit">Schedule</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <footer data-component="Footer"></footer>
+
+
+    <script src="./scripts/content_data.js"></script>
+    <script src="./scripts/components.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,438 @@
+#product_video {
+    position: relative;
+    width: 85vw;
+    height: 50vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    justify-self: center;
+    margin: auto;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+
+#product_video #presentation_video {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+#product_video img.play_btn {
+    z-index: 1;
+    height: 6rem;
+    cursor: pointer;
+    transition: .4s ease-in-out transform;
+    filter: invert();
+}
+
+#product_video img.play_btn:hover {
+    transition: .3s ease-out transform;
+    transform: scale(1.2);
+}
+
+#product_video img.thumbnail {
+    position: absolute;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    object-fit: cover;
+    border-radius: 20px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+}
+
+
+h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+
+/* =========== SUPERPOWER HOVERABLE DIVs =========== */
+.bullet_points {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+}
+
+.bullet_points .feature-item {
+    transform: translateY(-150%) scale(0.8);
+    width: 100%;
+    padding: 1rem 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    opacity: 0;
+    transition: transform .2s ease-out, opacity .2s ease-out;
+    align-items: center;
+    max-width: 600px;
+}
+
+
+
+.bullet_points.active .feature-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.bullet_points .feature-item h3 {
+    font-size: 1.4rem;
+    margin: 0;
+    color: black;
+    font-weight: 500;
+}
+
+.bullet_points .feature-item div {
+    text-align: center;
+    font-size: 1.125rem;
+    color: #5f6368;
+    padding: 0;
+    font-weight: 500;
+    width: 100%;
+}
+
+
+.bullet_points .illustration_container {
+    z-index: 1;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    box-sizing: border-box;
+    transform: translateY(50px);
+    transition: transform .5s ease-out, opacity .5s ease-out;
+    width: fit-content;
+
+}
+
+.bullet_points.active .illustration_container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+.bullet_points .illustration_container .illustration_crop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: fit-content;
+    height: fit-content;
+}
+
+.bullet_points .illustration_container .illustration_crop img {
+    border-radius: 20px;
+    width: 40vw;
+    min-width: 400px;
+    height: auto;
+    transition: width .5s ease-in;
+}
+
+.bullet_points.active .illustration_container .illustration_crop img {
+    width: 50vw;
+}
+
+
+
+
+
+
+.bullet_points .illustration_container hr {
+    width: 20px;
+    border: thin transparent solid;
+    border-bottom: thin var(--c-grey) solid;
+}
+
+.bullet_points.active .illustration_container hr {
+    border-bottom: thin var(--c-orange) solid;
+}
+
+.bullet_points .illustration_container .number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: thin var(--c-grey) solid;
+    color: var(--c-grey);
+    height: 2rem;
+    width: 2rem;
+}
+
+.bullet_points.active .illustration_container .number {
+    border: thin var(--c-orange) solid;
+    color: var(--c-orange);
+}
+
+
+
+/* MOBILE ANIMATIONS */
+.bullet_points .feature-item.active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.bullet_points .illustration_container.active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+
+/* Zoom animation */
+.bullet_points .illustration_container .illustration_crop {
+    animation: autoZoomAnimation linear both;
+    animation-timeline: view();
+}
+
+@keyframes autoZoomAnimation {
+    0% {
+        width: 80%;
+        height: 10%;
+    }
+
+    20%,
+    100% {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+
+
+
+
+
+/* TEL */
+@media screen and (max-width: 1023px) {
+    #product_video {
+        width: 90vw;
+        height: 60vw;
+        margin: auto 0;
+    }
+
+    .bullet_points {
+        flex-direction: column !important;
+        width: 100%;
+        height: fit-content;
+        margin-bottom: 2rem;
+    }
+
+    .bullet_points .feature-item {
+        align-items: flex-start;
+        padding: 2rem 0;
+        transform: translateY(50px);
+    }
+
+    .bullet_points .feature-item div {
+        transition: transform 1s ease-in-out;
+        text-align: left;
+    }
+
+    .bullet_points .feature-item h3 {
+        text-align: left;
+    }
+
+    .bullet_points .illustration_container {
+        overflow: unset;
+        flex-direction: column;
+        opacity: 0;
+        width: 100%;
+    }
+
+    .bullet_points .illustration_container .illustration_crop {
+        border-radius: 20px;
+    }
+
+    .bullet_points .illustration_container .illustration_crop img {
+        width: calc(100vw - 4rem);
+        min-width: unset;
+        height: auto;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    .bullet_points .illustration_container .number,
+    .bullet_points .illustration_container hr {
+        display: none;
+    }
+
+
+}
+
+
+
+
+
+
+
+/* ======== Mockup ======== */
+.tablet_mockup {
+    padding: 20vh 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.tablet_mockup .ipad-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 2000px;
+}
+
+.tablet_mockup .ipad-container {
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: center;
+    transition: transform 0.2s ease-out;
+    /* Douce transition lors du déplacement de la souris */
+    width: 60vw;
+    height: auto;
+    aspect-ratio: 2048/1342;
+}
+
+
+.tablet_mockup .ipad-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.tablet_mockup .ipad-frame-image {
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+}
+
+.tablet_mockup .ipad-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1.5rem;
+    width: calc(100% - 3rem);
+    height: calc(100% - 3rem);
+    overflow: hidden;
+}
+
+.tablet_mockup .ipad-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+}
+
+.tablet_mockup .ipad-screen.active {
+    opacity: 1;
+}
+
+.tablet_mockup .ipad-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tablet_mockup .btn_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 100px;
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    margin: 0 auto;
+    width: fit-content;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 5px;
+    gap: .75rem;
+}
+
+.tablet_mockup .btn_container button {
+    background-color: transparent;
+    border-radius: 100px;
+    border: none;
+    padding: .75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color .3s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .35rem;
+}
+
+.tablet_mockup .btn_container button img {
+    filter: invert();
+    height: 1.25rem;
+}
+
+.tablet_mockup .btn_container button.active {
+    background-color: #ff305e;
+    color: white;
+}
+
+.tablet_mockup .btn_container button.active img {
+    filter: unset;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* TEL */
+@media screen and (max-width: 1023px) {
+
+    /* ======== Mockup ======== */
+    .tablet_mockup .ipad-container {
+        width: 85vw;
+    }
+
+    .tablet_mockup .ipad-content {
+        margin: .5rem;
+        width: calc(100% - 1rem);
+        height: calc(100% - 1rem);
+    }
+
+
+    .tablet_mockup .btn_container {
+        gap: 0;
+    }
+
+    .tablet_mockup .btn_container button {
+        font-size: .7rem;
+        padding: .4rem;
+        gap: .2rem;
+    }
+
+    .tablet_mockup .btn_container button img {
+        height: .8rem;
+    }
+
+}

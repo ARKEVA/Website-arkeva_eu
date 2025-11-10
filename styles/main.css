@@ -1,0 +1,213 @@
+:root {
+    --c-light-grey: #F8F8F8;
+    --c-pink: #ee2962;
+    --c-grey: #aaaaaa;
+    --c-orange: #FF8E44;
+    --c-blue: #2B4288;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 12px;
+    font-family: "Montserrat", Arial;
+
+}
+
+
+
+
+/* ==== DISPLAY VERSION ==== */
+
+/* VERSION PC PAR DÉFAUT */
+.mobile_version {
+   visibility: hidden;
+   opacity: 0;
+   overflow: hidden;
+   height: 0;
+}
+
+/* VERSION MOBILE */
+@media screen and (max-width: 1023px) {
+    .pc_version {
+        display: none!important;
+    }
+    
+    .mobile_version {
+        visibility: visible;
+        opacity: 1;
+        overflow: unset;
+        height: fit-content;
+    }
+}
+
+
+
+/* ==== Common classes ==== */
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #2C3639;
+    margin-bottom: 1rem;
+}
+
+h4 {
+    font-weight: 400;
+    font-size: 1rem;
+    align-items: center;
+    text-align: center;
+    color: #5F7076;
+    margin-bottom: 2rem;
+}
+
+
+
+
+/* ==== Personalized classes ==== */
+.hidden {
+    display: none;
+}
+
+.fixed_background {
+    z-index: -1;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background-color: #2e396a;
+    background: linear-gradient(255.62deg, rgba(163, 77, 113, 0.6) 1.74%, rgb(45, 78, 129, .6) 98.26%), url("../media/img/background.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+section {
+    background-color: #fff;
+}
+
+.section_1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 2rem;
+    box-sizing: border-box;
+    min-height: 100vh;
+    /* Utilise toute la hauteur de la fenêtre */
+}
+
+.center_div {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    flex: 1;
+}
+
+
+.section_1>img,
+.section_1 .center_div>img {
+    width: 80%;
+}
+
+.btn_pink {
+    position: relative;
+    cursor: pointer;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+    color: var(--c-pink);
+    border-radius: 100px;
+    padding: 1rem 2rem;
+    padding-right: 4rem;
+    width: fit-content;
+    height: fit-content;
+    transition: transform 1s;
+    /* display: flex; */
+    flex-direction: row;
+    align-items: center;
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+}
+
+.btn_pink:hover {
+    transition: color .5s, background-color .5s;
+    background-color: var(--c-pink);
+    color: white;
+    transition: transform .5s;
+    transform: scale(1.05);
+}
+
+
+.btn_pink:hover .arrow {
+    transition: background-color .5s;
+    background-color: white;
+    color: white;
+}
+
+.btn_pink:hover .arrow img {
+    transition: filter .5s;
+    filter: unset;
+}
+
+.btn_pink .arrow {
+    background-color: var(--c-pink);
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    width: auto;
+    aspect-ratio: 1;
+}
+
+.btn_pink .arrow img {
+    filter: invert();
+    height: 1rem;
+}
+
+
+img.figma_preview {
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
+
+/* ==== ANIMATIONS ==== */
+.blinking_text {
+    animation: text_blink 7s ease 0s infinite normal forwards;
+}
+
+@keyframes text_blink {
+
+    0%,
+    50%,
+    100% {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0.4;
+    }
+}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Pages -->
+  <url>
+    <loc>https://arkeva.eu/</loc>
+    <lastmod>2025-08-18T10:00:26+00:00</lastmod>
+    <priority>1.00</priority>
+    <!-- Images -->
+    <image:image>
+      <image:loc>https://arkeva.eu/media/logo/arkeva text - colors.png</image:loc>
+      <image:caption>arkeva text - colors</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/logo/arkeva logo text - white.png</image:loc>
+      <image:caption>Arkeva Logo</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/cover-spider.webp</image:loc>
+      <image:caption>Spider Project</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/cover-eagle.webp</image:loc>
+      <image:caption>Eagle Project</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/our-approach.png</image:loc>
+      <image:caption>Our approach at Arkeva</image:caption>
+    </image:image>
+    <!-- Team -->
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/arkeva team/profile JB-T.jpg</image:loc>
+      <image:caption>Jean-Baptiste Tachoires - Founder and CEO of ARKEVA</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/arkeva team/profile A-BH.jpg</image:loc>
+      <image:caption>Adam Ben Hellal - Head of Product at Arkeva</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/arkeva team/profile A-B.jpg</image:loc>
+      <image:caption>Allan Boillaud - Business Engineer</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/arkeva team/profile P-V.jpg</image:loc>
+      <image:caption>Paul Vialard - Data and AI Engineer</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://arkeva.eu/media/img/arkeva team/profile M-M.jpg</image:loc>
+      <image:caption>Mathis Mouawad - Developer UI/UX</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://arkeva.eu/contact</loc>
+    <lastmod>2025-01-28T10:00:26+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://arkeva.eu/spider</loc>
+    <lastmod>2025-01-28T10:00:26+00:00</lastmod>
+    <priority>0.30</priority>
+  </url>
+
+  <url>
+    <loc>https://arkeva.eu/eagle</loc>
+    <lastmod>2025-01-28T10:00:26+00:00</lastmod>
+    <priority>0.30</priority>
+  </url>
+
+</urlset>

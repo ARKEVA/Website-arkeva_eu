@@ -1,0 +1,163 @@
+#services_overview.section_1 {
+    height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.service_presentation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: last baseline;
+    box-sizing: border-box;
+
+    order: 2;
+    align-self: stretch;
+    flex-grow: 1;
+    gap: 2rem;
+}
+
+/* MAIN SERVICE */
+.main_service {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1rem;
+}
+
+.main_service p {
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+.main_service .square_info {
+    justify-content: flex-end !important;
+}
+
+.main_service .square_info .cover {
+    aspect-ratio: 3/2;
+}
+
+/* CARROUSSEL */
+.carroussel {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.carroussel .carroussel_content {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.carroussel .carroussel_content .square_info:hover {
+    transition:  transform .5s ease;
+    transform: scale(1.03);
+}
+
+.carroussel .carroussel_content .square_info .title {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.carroussel .carroussel_content .square_info h5 {
+    font-size: .8rem;
+    text-align: center;
+    width: 100%;
+}
+
+
+.square_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    background-color: #f7f6fa;
+    border-radius: 10px;
+    transition: transform .5s ease;
+
+    /* Inside auto layout */
+    align-self: stretch;
+    flex: 1;
+    padding: 1rem;
+}
+
+
+
+.square_info .cover {
+    filter: invert();
+    aspect-ratio: 1;
+    min-height: 100px;
+    width: 100%;
+    background-image: url('../media/img/services/predictive\ maintenance.png');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.square_info .title {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 5px;
+    gap: 2px;
+    font-size: 2rem;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+}
+
+
+
+.square_info button {
+    border: none;
+    text-decoration: underline;
+    color: var(--c-pink);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.square_info button:hover {
+    opacity: .4;
+}
+
+
+
+/* TEL */
+@media screen and (max-width: 1023px) {
+    #services_overview.section_1 {
+        height: auto;
+    }
+
+    .service_presentation {
+        flex-direction: column;
+    }
+
+    .carroussel {
+        width: 100%;
+    }
+
+    .carroussel .carroussel_content {
+        overflow-x: scroll;
+    }
+
+    .carroussel .carroussel_content .square_info {
+        min-width: 140px;
+    }
+
+    .square_info .cover {}
+
+    .square_info {}
+
+}
