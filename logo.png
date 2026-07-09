@@ -1,0 +1,176 @@
+/* ============================================================
+   ARKEVA — Shared JS v2
+   i18n · nav · reveals · compteurs · magnétisme · progress
+   ============================================================ */
+(function(){
+'use strict';
+
+/* ---------- I18N ---------- */
+window.lang = localStorage.getItem('arkeva-lang') || 'fr';
+window.setLang = function(l){
+  window.lang = l;
+  localStorage.setItem('arkeva-lang', l);
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-fr]').forEach(el=>{
+    const v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-fr-ph]').forEach(el=>{
+    const v = el.getAttribute('data-'+l+'-ph');
+    if(v!==null) el.placeholder = v;
+  });
+  document.querySelectorAll('.lang-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.lang===l));
+  document.dispatchEvent(new CustomEvent('langchange',{detail:l}));
+};
+
+/* ---------- DOM READY ---------- */
+document.addEventListener('DOMContentLoaded', function(){
+
+  document.querySelectorAll('.lang-toggle button').forEach(b=>{
+    b.addEventListener('click', ()=>window.setLang(b.dataset.lang));
+  });
+
+  /* nav scroll + burger */
+  const nav = document.getElementById('nav');
+  if(nav){
+    const onScroll = ()=>nav.classList.toggle('scrolled', window.scrollY>30);
+    window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  }
+  const burger = document.getElementById('burger');
+  const links = document.getElementById('navlinks');
+  if(burger && links){
+    burger.addEventListener('click', ()=>links.classList.toggle('open'));
+    links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+  }
+
+  /* progress bar */
+  const pg = document.getElementById('pgbar');
+  if(pg){
+    window.addEventListener('scroll', ()=>{
+      const h = document.documentElement;
+      const p = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+      pg.style.width = p + '%';
+    }, {passive:true});
+  }
+
+  /* reveals */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* counters — data-count, data-prefix, data-suffix, data-decimals */
+  function animateCount(el){
+    const target = parseFloat(el.dataset.count);
+    const dec = parseInt(el.dataset.decimals||'0');
+    const pre = el.dataset.prefix||'', suf = el.dataset.suffix||'';
+    const dur = 1600, start = performance.now();
+    function fmt(v){
+      return v.toLocaleString(window.lang==='fr'?'fr-FR':'en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+    }
+    function tick(now){
+      const p = Math.min((now-start)/dur,1);
+      const eased = 1-Math.pow(1-p,3);
+      el.textContent = pre + fmt(target*eased) + suf;
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const cio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target); cio.unobserve(e.target);} });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+  /* magnetic buttons */
+  if(matchMedia('(pointer:fine)').matches){
+    document.querySelectorAll('.btn-primary,.btn-amber').forEach(btn=>{
+      btn.addEventListener('mousemove', e=>{
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width/2) * .18;
+        const y = (e.clientY - r.top - r.height/2) * .3;
+        btn.style.transform = `translate(${x}px,${y}px)`;
+      });
+      btn.addEventListener('mouseleave', ()=>{ btn.style.transform=''; });
+    });
+  }
+
+  /* forms — envoi réel via Web3Forms vers contact@arkeva.eu
+     ⚠️ À CONFIGURER : remplacez la valeur ci-dessous par votre clé d'accès Web3Forms.
+     1. Allez sur https://web3forms.com  2. Saisissez contact@arkeva.eu
+     3. Copiez la « Access Key » reçue par email  4. Collez-la ici.
+     Tant que la clé n'est pas renseignée, le formulaire ne fait que SIMULER l'envoi. */
+  const WEB3FORMS_KEY = '5eae5eb6-136f-4c49-859e-fd2c92342e96';
+  const W3 = {
+    fr:{sending:'Envoi…', sent:'✓ Demande envoyée', fail:'⚠ Erreur — réessayer'},
+    en:{sending:'Sending…', sent:'✓ Request sent', fail:'⚠ Error — retry'}
+  };
+  document.querySelectorAll('form[data-demo]').forEach(f=>{
+    f.addEventListener('submit', async e=>{
+      e.preventDefault();
+      const btn = f.querySelector('button[type=submit]');
+      const old = btn.textContent;
+      const t = W3[window.lang] || W3.fr;
+
+      /* clé non configurée → on conserve la simulation pour ne pas casser le site */
+      if(WEB3FORMS_KEY.startsWith('REMPLACER')){
+        console.warn('[Arkeva] Clé Web3Forms non configurée — le formulaire SIMULE l\'envoi. Renseignez WEB3FORMS_KEY dans assets/arkeva.js pour activer l\'envoi réel vers contact@arkeva.eu.');
+        btn.textContent = t.sent;
+        setTimeout(()=>{ f.reset(); btn.textContent = old; }, 2800);
+        return;
+      }
+
+      const data = new FormData(f);
+      const nom  = (data.get('Nom')||'').toString().trim();
+      const ent  = (data.get('Entreprise')||'').toString().trim();
+      const mail = (data.get('Email')||'').toString().trim();
+      const who  = [nom, ent && '('+ent+')'].filter(Boolean).join(' ');
+      data.append('access_key', WEB3FORMS_KEY);
+      /* sujet enrichi pour le tri en boîte de réception : « … — Jean Dupont (Usine SA) » */
+      data.append('subject', (f.dataset.subject || 'Nouveau contact — Site Arkeva') + (who ? ' — ' + who : ''));
+      data.append('from_name', 'Site Arkeva');
+      /* « Répondre » dans la messagerie écrit directement au prospect */
+      if(mail) data.append('replyto', mail);
+      /* contexte utile dans le corps du mail */
+      data.append('Page', location.href);
+      data.append('Langue', (window.lang||'fr').toUpperCase());
+
+      btn.disabled = true;
+      btn.textContent = t.sending;
+      try{
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method:'POST',
+          headers:{ 'Accept':'application/json' },
+          body:data
+        });
+        const json = await res.json();
+        if(json.success){
+          btn.textContent = t.sent;
+          setTimeout(()=>{ f.reset(); btn.textContent = old; btn.disabled = false; }, 2800);
+        } else { throw new Error(json.message || 'submit failed'); }
+      } catch(err){
+        console.error('[Arkeva] Envoi du formulaire échoué :', err);
+        btn.textContent = t.fail;
+        setTimeout(()=>{ btn.textContent = old; btn.disabled = false; }, 3200);
+      }
+    });
+  });
+
+  /* active nav link */
+  const path = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a[href]').forEach(a=>{
+    if(a.getAttribute('href').split('#')[0] === path) a.classList.add('active');
+  });
+
+  /* mobile : réinjecte le CTA principal dans le menu burger */
+  const _navCta = document.querySelector('.nav-right .btn-primary');
+  const _navMenu = document.getElementById('navlinks');
+  if(_navCta && _navMenu){
+    const c = _navCta.cloneNode(true);
+    c.classList.add('nav-cta-mobile');
+    c.addEventListener('click', ()=>_navMenu.classList.remove('open'));
+    _navMenu.appendChild(c);
+  }
+
+  window.setLang(window.lang);
+});
+})();

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPCR9PBT');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartDiag — Capitalisez sur votre savoir-faire terrain | Arkeva</title>
+<meta name="description" content="SmartDiag identifie la cause racine, guide la résolution et capitalise chaque intervention. Diagnostic sourcé en 9 secondes, 100% on-prem." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/favicon.png" />
+<link rel="stylesheet" href="assets/arkeva.css">
+<style>
+/* ---------- HERO ---------- */
+.sd-hero{padding:180px 0 100px;position:relative;overflow:hidden}
+.sd-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(43,240,201,.08),transparent 60%),radial-gradient(ellipse 50% 40% at 10% 90%,rgba(91,140,255,.07),transparent 60%)}
+.sd-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:2}
+.sd-hero h1{font-size:clamp(38px,5.4vw,66px);font-weight:700;margin-bottom:24px}
+.sd-hero .lead{font-size:clamp(16.5px,1.9vw,19.5px);color:var(--muted);margin-bottom:36px}
+.sd-cta{display:flex;gap:14px;flex-wrap:wrap}
+/* console mock */
+.console{background:#080E1B;border:1px solid var(--line2);border-radius:18px;overflow:hidden;box-shadow:0 40px 100px -36px rgba(0,0,0,.85);position:relative}
+.console-top{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.console-top i{width:11px;height:11px;border-radius:50%;display:block}
+.console-top i:nth-child(1){background:#ff5f57}.console-top i:nth-child(2){background:#febc2e}.console-top i:nth-child(3){background:#28c840}
+.console-top .t{margin-left:10px;font-size:12px;color:var(--faint);font-family:var(--font-m)}
+.console-tabs{display:flex;border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
+.console-tabs button{flex:1;background:none;border:none;color:var(--faint);font-family:var(--font-m);font-size:11px;letter-spacing:.1em;padding:11px 8px;cursor:pointer;position:relative;transition:.3s;text-transform:uppercase}
+.console-tabs button.on{color:var(--teal)}
+.console-tabs button.on::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--teal)}
+.console-body{padding:24px;min-height:330px;font-size:13.5px}
+.panel{display:none;animation:pfade .5s var(--ease)}
+.panel.on{display:block}
+@keyframes pfade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.alert-row{display:flex;align-items:center;gap:12px;background:rgba(255,92,92,.07);border:1px solid rgba(255,92,92,.25);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.alert-row .ad{width:9px;height:9px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite;flex:0 0 auto}
+.alert-row b{font-size:13.5px}
+.alert-row .mono{font-size:11px;color:var(--faint);display:block;margin-top:2px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-family:var(--font-m);font-size:12px;margin-top:18px}
+.kv dt{color:var(--faint)}
+.kv dd{color:var(--text)}
+.diagbox{background:rgba(43,240,201,.06);border:1px solid rgba(43,240,201,.22);border-radius:12px;padding:16px;margin-bottom:12px}
+.diagbox h5{font-size:13.5px;margin-bottom:6px;color:var(--teal)}
+.diagbox p{font-size:13px;color:var(--muted);line-height:1.55}
+.diagbox .src{font-family:var(--font-m);font-size:11px;color:var(--teal);display:block;margin-top:8px}
+.conf{display:flex;align-items:center;gap:10px;margin-top:14px;font-family:var(--font-m);font-size:11px;color:var(--faint)}
+.conf .bar{flex:1;height:5px;border-radius:4px;background:rgba(255,255,255,.07);overflow:hidden}
+.conf .bar i{display:block;height:100%;width:0;background:var(--grad);border-radius:4px;transition:width 1.2s var(--ease)}
+.report-line{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px;color:var(--muted)}
+.report-line:last-child{border:none}
+.report-line .ok{color:var(--teal);font-weight:700;flex:0 0 auto}
+/* ---------- KPI BAND ---------- */
+.kpis{padding:70px 0;background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;text-align:center}
+.kpi .n{font-family:var(--font-d);font-weight:700;font-size:clamp(32px,4vw,50px);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.kpi .l{color:var(--muted);font-size:13.5px;margin-top:10px}
+/* ---------- TIMELINE AVANT/APRÈS ---------- */
+.ba{display:grid;gap:18px;margin-top:20px}
+.ba-row{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px}
+.ba-row.after{border-color:rgba(43,240,201,.3);background:linear-gradient(180deg,rgba(43,240,201,.05),var(--surface))}
+/* timeline animée Sans→Avec en boucle */
+.ba-anim{position:relative;overflow:hidden;border-color:rgba(43,240,201,.28);background:linear-gradient(180deg,rgba(43,240,201,.05),var(--surface))}
+.ba-anim .ba-head{margin-bottom:16px}
+.anim-title{display:grid}
+.anim-title>span{grid-area:1/1;font-family:var(--font-d);font-weight:700;font-size:16px}
+.anim-tot{display:grid;justify-items:end}
+.anim-tot>span{grid-area:1/1;font-family:var(--font-m);font-size:13px;white-space:nowrap}
+.anim-tot .st-sans{color:var(--faint)}
+.anim-tot .st-avec{color:var(--teal)}
+.ba-track{position:relative;height:34px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.03)}
+.ba-layer{position:absolute;inset:0;display:flex;font-family:var(--font-m);font-size:10.5px}
+.ba-layer div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;color:#04121a;font-weight:600;min-width:0}
+.ba-layer.sans .seg1{background:#5A6886}.ba-layer.sans .seg2{background:#8E9DBC}.ba-layer.sans .seg3{background:#FFB224}.ba-layer.sans .seg4{background:#FF7A45}
+.ba-layer.avec .active{flex:0 0 100%}
+.ba-layer.avec .active .fix{background:var(--teal)}
+.ba-layer.avec .active .seg3{background:#FFB224}
+.ba-layer.avec .freed{flex:1;color:var(--teal);font-weight:600;font-size:10px;letter-spacing:.03em;border-left:1px dashed rgba(43,240,201,.55);background:repeating-linear-gradient(45deg,rgba(43,240,201,.05),rgba(43,240,201,.05) 7px,rgba(43,240,201,.11) 7px,rgba(43,240,201,.11) 14px)}
+.ba-cap{display:flex;justify-content:space-between;font-family:var(--font-m);font-size:10.5px;color:var(--faint);margin-top:8px}
+.anim-end{display:grid;justify-items:end}
+.anim-end>span{grid-area:1/1;white-space:nowrap}
+.ba-layer.sans,.st-sans{animation:baSans 7s var(--ease) infinite}
+.ba-layer.avec,.st-avec{animation:baAvec 7s var(--ease) infinite}
+.ba-layer.avec .active{animation:baRetract 7s var(--ease) infinite}
+@keyframes baSans{0%,40%{opacity:1}48%,92%{opacity:0}100%{opacity:1}}
+@keyframes baAvec{0%,40%{opacity:0}48%,92%{opacity:1}100%{opacity:0}}
+@keyframes baRetract{0%,52%{flex-basis:100%}66%,92%{flex-basis:34%}100%{flex-basis:34%}}
+@media (prefers-reduced-motion:reduce){
+  .ba-layer.sans,.st-sans,.ba-layer.avec,.st-avec,.ba-layer.avec .active{animation:none}
+  .ba-layer.sans,.st-sans{opacity:0}
+  .ba-layer.avec,.st-avec{opacity:1}
+  .ba-layer.avec .active{flex-basis:34%}
+}
+.ba-row .ba-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.ba-row h4{font-size:16px}
+.ba-row .tot{font-family:var(--font-m);font-size:13px;color:var(--faint)}
+.ba-row.after .tot{color:var(--teal)}
+.tl{display:flex;height:34px;border-radius:8px;overflow:hidden;font-family:var(--font-m);font-size:10.5px}
+.tl div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;color:#04121a;font-weight:600;min-width:0}
+.tl .seg1{background:#5A6886}.tl .seg2{background:#8E9DBC}.tl .seg3{background:#FFB224}.tl .seg4{background:#FF7A45}
+.tl .fix{background:var(--teal)}
+.tl-cap{display:flex;justify-content:space-between;font-family:var(--font-m);font-size:10.5px;color:var(--faint);margin-top:8px}
+/* ---------- WORKFLOW 5 ÉTAPES ---------- */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:30px}
+.flow::before{content:"";position:absolute;top:28px;left:8%;right:8%;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--violet));opacity:.4}
+.step{text-align:center;padding:0 14px;position:relative}
+.step .node{width:56px;height:56px;border-radius:50%;background:var(--bg);border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:var(--font-d);font-weight:700;font-size:19px;position:relative;z-index:2;transition:.4s}
+.step.in .node{border-color:var(--teal);background:var(--grad-soft);box-shadow:0 0 0 6px rgba(43,240,201,.08)}
+.step h4{font-size:16px;margin-bottom:8px}
+.step p{font-size:13px;color:var(--muted)}
+/* ---------- FEATURES ---------- */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;transition:.45s var(--ease);position:relative;overflow:hidden}
+.feat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:.45s}
+.feat:hover::before{transform:scaleX(1)}
+.feat:hover{transform:translateY(-5px);border-color:var(--line2);background:var(--surface2)}
+.feat .fi{width:44px;height:44px;border-radius:12px;background:var(--grad-soft);display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:18px}
+.feat h4{font-size:17px;margin-bottom:8px}
+.feat p{font-size:14px;color:var(--muted)}
+/* ---------- COMPARE ---------- */
+.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:10px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px;transition:.4s}
+.col.win{background:linear-gradient(180deg,rgba(43,240,201,.1),var(--surface));border-color:rgba(43,240,201,.4);transform:scale(1.02)}
+.col h4{font-size:17px;margin-bottom:6px}
+.col .verb{font-family:var(--font-m);font-size:11px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+.col.win .verb{color:var(--teal)}
+.col .desc{font-size:14px;color:var(--muted)}
+.col .crown{font-size:22px;margin-bottom:6px;display:block}
+/* ---------- SOUVERAINETÉ ---------- */
+.sov{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sov .card h3{display:flex;align-items:center;gap:12px}
+@media(max-width:980px){
+  .sd-grid{grid-template-columns:1fr;gap:44px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-grid,.compare,.sov{grid-template-columns:1fr}
+  .col.win{transform:none}
+  .flow{grid-template-columns:1fr;gap:24px}
+  .flow::before{display:none}
+}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPCR9PBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="pgbar"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img class="mark" src="assets/logo.png" alt="Arkeva" />
+      
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="smartdiag.html">SmartDiag</a>
+      <a href="ai-factory.html">AI Factory</a>
+      <a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a>
+      <a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a>
+      <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button data-lang="fr" class="active">FR</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <a href="#contact" class="btn btn-primary" data-fr="Demander une démo" data-en="Request a demo">Demander une démo</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="sd-hero gridbg">
+  <div class="wrap sd-grid">
+    <div>
+      <div class="hero-badge"><span class="dot"></span><span data-fr="SmartDiag · IA de diagnostic souveraine" data-en="SmartDiag · Sovereign diagnostic AI">SmartDiag · IA de diagnostic souveraine</span></div>
+      <h1><span data-fr="9 secondes entre la panne et " data-en="9 seconds between the breakdown and ">9 secondes entre la panne et </span><span class="grad-text" data-fr="le plan d'action." data-en="the action plan.">le plan d'action.</span></h1>
+      <p class="lead" data-fr="SmartDiag crée une cartographie vivante de votre environnement, croisant capteurs, GMAO, historiques,... pour accompagner le technicien à chaque étape du processus."
+         data-en="SmartDiag creates a living map of your environment, crossing sensors, CMMS, and historical data to support the technician at every step of the process.">SmartDiag crée une cartographie vivante de votre environnement, croisant capteurs, GMAO, historiques,... pour accompagner le technicien à chaque étape du processus.</p>
+      <div class="sd-cta">
+        <a href="#contact" class="btn btn-primary" data-fr="Réserver un pilote" data-en="Book a pilot">Réserver un pilote</a>
+        <a href="smartdiag-demo.html" class="btn btn-ghost" data-fr="Essayer une visualisation simplifiée →" data-en="Try a simplified visualization →">Essayer une visualisation simplifiée →</a>
+      </div>
+    </div>
+    <div class="reveal d1">
+      <div class="console">
+        <div class="console-top"><i></i><i></i><i></i><span class="t">SmartDiag · MOT-04 — Convoyeur L3</span></div>
+        <div class="console-tabs" id="sdtabs">
+          <button class="on" data-p="0" data-fr="⚠ Alerte" data-en="⚠ Alert">⚠ Alerte</button>
+          <button data-p="1" data-fr="◎ Diagnostic" data-en="◎ Diagnosis">◎ Diagnostic</button>
+          <button data-p="2" data-fr="✓ Rapport" data-en="✓ Report">✓ Rapport</button>
+        </div>
+        <div class="console-body">
+          <div class="panel on" id="p0">
+            <div class="alert-row"><span class="ad"></span><div><b data-fr="Dérive vibratoire détectée — palier moteur MOT-04" data-en="Vibration drift detected — motor bearing MOT-04">Dérive vibratoire détectée — palier moteur MOT-04</b><span class="mono">2026-06-10 · 06:42:13 · SCADA L3</span></div></div>
+            <dl class="kv">
+              <dt data-fr="Équipement" data-en="Equipment">Équipement</dt><dd>MOT-04 · SEW R57 DRN90</dd>
+              <dt data-fr="Sévérité" data-en="Severity">Sévérité</dt><dd style="color:var(--amber)" data-fr="Haute — arrêt probable &lt; 4 h" data-en="High — likely stop &lt; 4h">Haute — arrêt probable &lt; 4 h</dd>
+              <dt data-fr="Impact aval" data-en="Downstream impact">Impact aval</dt><dd>CMP-01 · CNV-03</dd>
+              <dt data-fr="Coût d'arrêt estimé" data-en="Estimated downtime cost">Coût d'arrêt estimé</dt><dd style="color:var(--red)">450 k€/h</dd>
+            </dl>
+          </div>
+          <div class="panel" id="p1">
+            <div class="diagbox">
+              <h5 data-fr="Cause racine — désalignement d'accouplement" data-en="Root cause — coupling misalignment">Cause racine — désalignement d'accouplement</h5>
+              <p data-fr="Signature vibratoire identique à 3 interventions passées. Vérifier le serrage des 4 vis de fixation, contrôler l'alignement laser (tolérance 0,05 mm)." data-en="Vibration signature matches 3 past interventions. Check the 4 mounting bolts' torque, run a laser alignment (0.05 mm tolerance).">Signature vibratoire identique à 3 interventions passées. Vérifier le serrage des 4 vis de fixation, contrôler l'alignement laser (tolérance 0,05 mm).</p>
+              <span class="src">OT-2024-118 · OT-2023-067 · Manuel SKF p.42</span>
+            </div>
+            <div class="conf"><span data-fr="CONFIANCE" data-en="CONFIDENCE">CONFIANCE</span><div class="bar"><i id="confbar"></i></div><span>96%</span></div>
+            <div class="conf" style="margin-top:8px"><span data-fr="TEMPS DE DIAGNOSTIC" data-en="DIAGNOSIS TIME">TEMPS DE DIAGNOSTIC</span><span style="color:var(--teal)">9,2 s</span></div>
+          </div>
+          <div class="panel" id="p2">
+            <div class="report-line"><span class="ok">✓</span><span data-fr="Rapport d'intervention pré-rédigé — OT-2026-204" data-en="Pre-drafted intervention report — WO-2026-204">Rapport d'intervention pré-rédigé — OT-2026-204</span></div>
+            <div class="report-line"><span class="ok">✓</span><span data-fr="Consignation LOTO et mesures de sécurité incluses" data-en="LOTO lockout and safety measures included">Consignation LOTO et mesures de sécurité incluses</span></div>
+            <div class="report-line"><span class="ok">✓</span><span data-fr="Pièces référencées : accouplement SKF FRC-110" data-en="Parts referenced: SKF FRC-110 coupling">Pièces référencées : accouplement SKF FRC-110</span></div>
+            <div class="report-line"><span class="ok">✓</span><span data-fr="Intervention capitalisée dans la base atelier" data-en="Intervention captured in the workshop base">Intervention capitalisée dans la base atelier</span></div>
+            <div class="report-line"><span class="ok">✓</span><span data-fr="Dashboards MTTR & récurrence mis à jour" data-en="MTTR & recurrence dashboards updated">Dashboards MTTR & récurrence mis à jour</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KPI ============ -->
+<section class="kpis">
+  <div class="wrap kpi-grid">
+    <div class="kpi reveal"><div class="n" data-count="40" data-prefix="−" data-suffix="%">0</div><div class="l" data-fr="de temps d'arrêt machine (pilote packaging)" data-en="machine downtime (packaging pilot)">de temps d'arrêt machine (pilote packaging)</div></div>
+    <div class="kpi reveal d1"><div class="n" data-count="9" data-suffix=" s">0</div><div class="l" data-fr="pour un diagnostic sourcé et vérifiable" data-en="for a sourced, verifiable diagnosis">pour un diagnostic sourcé et vérifiable</div></div>
+    <div class="kpi reveal d2"><div class="n" data-count="100" data-suffix="%">0</div><div class="l" data-fr="des réponses tracées vers vos documents" data-en="of answers traced to your documents">des réponses tracées vers vos documents</div></div>
+    <div class="kpi reveal d3"><div class="n">0</div><div class="l" data-fr="donnée sortie de l'usine — on-prem natif" data-en="data leaving the plant — native on-prem">donnée sortie de l'usine — on-prem natif</div></div>
+  </div>
+</section>
+
+<!-- ============ AVANT / APRÈS ============ -->
+<section class="sec gridbg">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">01</span><span data-fr="L'anatomie d'une panne" data-en="Anatomy of a breakdown">L'anatomie d'une panne</span></span>
+      <h2 data-fr="Où passent vos 4 heures d'arrêt ?" data-en="Where do your 4 downtime hours go?">Où passent vos 4 heures d'arrêt ?</h2>
+      <p data-fr="L'essentiel du temps d'arrêt n'est pas la réparation — c'est la recherche : comprendre, retrouver le bon document, joindre la bonne personne. C'est exactement ce que SmartDiag élimine." data-en="Most downtime isn't the repair — it's the search: understanding, finding the right document, reaching the right person. That's exactly what SmartDiag eliminates.">L'essentiel du temps d'arrêt n'est pas la réparation — c'est la recherche : comprendre, retrouver le bon document, joindre la bonne personne. C'est exactement ce que SmartDiag élimine.</p>
+    </div>
+    <div class="ba">
+      <div class="ba-row ba-anim reveal">
+        <div class="ba-head">
+          <h4 class="anim-title">
+            <span class="st-sans" data-fr="Sans SmartDiag" data-en="Without SmartDiag">Sans SmartDiag</span>
+            <span class="st-avec" data-fr="Avec SmartDiag" data-en="With SmartDiag">Avec SmartDiag</span>
+          </h4>
+          <span class="tot anim-tot">
+            <span class="st-sans" data-fr="Arrêt total : ~4 h 10" data-en="Total stop: ~4h10">Arrêt total : ~4 h 10</span>
+            <span class="st-avec" data-fr="Arrêt total : ~1 h  · le savoir est capitalisé" data-en="Total stop: ~1h · knowledge is captured">Arrêt total : ~1 h 25 · le savoir est capitalisé</span>
+          </span>
+        </div>
+        <div class="ba-track">
+          <div class="ba-layer sans">
+            <div class="seg1" style="flex:55" data-fr="Recherche cause · 55 min" data-en="Finding cause · 55 min">Recherche cause · 55 min</div>
+            <div class="seg2" style="flex:70" data-fr="Doc & expert · 70 min" data-en="Docs & expert · 70 min">Doc & expert · 70 min</div>
+            <div class="seg3" style="flex:80" data-fr="Réparation · 80 min" data-en="Repair · 80 min">Réparation · 80 min</div>
+            <div class="seg4" style="flex:45" data-fr="Rapport · 45 min" data-en="Report · 45 min">Rapport · 45 min</div>
+          </div>
+          <div class="ba-layer avec">
+            <div class="active">
+              <div class="fix" style="flex:9">9 s</div>
+              <div class="seg3" style="flex:80" data-fr="Réparation guidée · 55 min" data-en="Guided repair · 55 min">Réparation guidée · 80 min</div>
+              <div class="fix" style="flex:7" data-fr="Rapport auto" data-en="Auto report">Rapport auto</div>
+            </div>
+            <div class="freed" data-fr="−76 % · temps rendu à la production" data-en="−76% · time given back to production">−76 % · temps rendu à la production</div>
+          </div>
+        </div>
+        <div class="ba-cap">
+          <span>T+0</span>
+          <span class="anim-end">
+            <span class="st-sans">T+4 h 10</span>
+            <span class="st-avec" style="color:var(--teal)">T+1 h · −76 %</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKFLOW ============ -->
+<section class="sec sec-alt" id="process">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">02</span><span data-fr="Du déclenchement au rapport" data-en="From trigger to report">Du déclenchement au rapport</span></span>
+      <h2 data-fr="Une seule interface, pour l'ensemble du processus opérationnel." data-en="One interface, for the entire operational process.">Une seule interface, dans le flux de travail.</h2>
+    </div>
+    <div class="flow">
+      <div class="step reveal"><div class="node">1</div><h4 data-fr="Détection" data-en="Detection">Détection</h4><p data-fr="Connecté à vos systèmes, SmartDiag détecte l'anomalie immédiatement." data-en="Connected to your systems, SmartDiag detects the anomaly instantly.">Connecté à vos systèmes, SmartDiag détecte l'anomalie immédiatement.</p></div>
+      <div class="step reveal d1"><div class="node">2</div><h4 data-fr="Diagnostic" data-en="Diagnosis">Diagnostic</h4><p data-fr="Le technicien reçoit origine, cause racine et procédure de résolution." data-en="The technician receives origin, root cause and resolution procedure.">Le technicien reçoit origine, cause racine et procédure de résolution.</p></div>
+      <div class="step reveal d2"><div class="node">3</div><h4 data-fr="Dialogue" data-en="Dialogue">Dialogue</h4><p data-fr="Il interroge manuels et historiques en langage naturel pour approfondir." data-en="They query manuals and history in natural language to dig deeper.">Il interroge manuels et historiques en langage naturel pour approfondir.</p></div>
+      <div class="step reveal d3"><div class="node">4</div><h4 data-fr="Rapport" data-en="Report">Rapport</h4><p data-fr="Panne résolue : rapport pré-rédigé, mesures de sécurité incluses." data-en="Fault resolved: pre-drafted report, safety measures included.">Panne résolue : rapport pré-rédigé, mesures de sécurité incluses.</p></div>
+      <div class="step reveal d4"><div class="node">5</div><h4 data-fr="Capitalisation" data-en="Capitalization">Capitalisation</h4><p data-fr="Le rapport enrichit la base et alimente les tableaux de bord." data-en="The report enriches the base and feeds the dashboards.">Le rapport enrichit la base et alimente les tableaux de bord.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">03</span><span data-fr="Une maquette pour faciliter votre compréhension de notre offre" data-en="A mockup to help you understand our offering">Démo</span></span>
+      <h2 data-fr="SmartDiag, en vue simplifiée" data-en="SmartDiag, a simplified view">Une approche par module pour accompagner vos enjeux de transformation progressifs</h2>
+      <p data-fr="Une approche par module pour accompagner vos enjeux de transformation progressifs" data-en="A module-based approach to support your progressive transformation challenges">Bougez votre souris sur la tablette pour l'incliner — et explorez l'interface réelle de SmartDiag.</p>
+    </div>
+
+    <style>
+    .demo-stage{display:flex;justify-content:center;padding:14px 0 4px}
+    .tablet{--rx:0deg;--ry:0deg;position:relative;display:block;width:min(1080px,96%);aspect-ratio:16/10;border-radius:34px;padding:17px;background:linear-gradient(150deg,#1a2335,#0b111d);border:1px solid var(--line2);box-shadow:0 50px 120px -40px rgba(0,0,0,.92),inset 0 0 0 1px rgba(255,255,255,.04);transform:perspective(1700px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .3s var(--ease);will-change:transform}
+    .tablet::before{content:"";position:absolute;top:50%;left:7px;width:5px;height:5px;border-radius:50%;background:#39455c;transform:translateY(-50%)}
+    .tablet-screen{position:relative;width:100%;height:100%;border-radius:15px;overflow:hidden;background:#0d1117;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+    .tablet-screen iframe{position:absolute;top:0;left:0;width:1180px;transform-origin:top left;transform:scale(var(--scale,.71));border:0;background:#0d1117}
+    .tablet .glare{position:absolute;inset:17px;border-radius:17px;pointer-events:none;background:linear-gradient(110deg,rgba(255,255,255,.14),rgba(255,255,255,0) 42%);opacity:.5;mix-blend-mode:screen;transition:opacity .3s}
+    .tablet:hover .glare{opacity:.78}
+    @media(prefers-reduced-motion:reduce){.tablet{transition:none}}
+    </style>
+
+    <div class="demo-stage reveal">
+      <div class="tablet" id="sdTablet">
+        <div class="tablet-screen">
+          <iframe id="sdFrame" src="smartdiag-demo.html" title="Démo SmartDiag interactive" loading="lazy"></iframe>
+        </div>
+        <span class="glare" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:28px" class="reveal d1">
+      <a href="smartdiag-demo.html" class="btn btn-ghost" data-fr="Ouvrir la maquette en plein écran →" data-en="Open the full-screen mockup →">Ouvrir la démo en plein écran →</a>
+    </div>
+
+    <script>
+    (function(){
+      var t=document.getElementById('sdTablet'),f=document.getElementById('sdFrame');
+      if(!t||!f) return;
+      var s=t.querySelector('.tablet-screen');
+      function fit(){var sc=s.clientWidth/1180;f.style.height=(s.clientHeight/sc)+'px';t.style.setProperty('--scale',sc);}
+      window.addEventListener('resize',fit);
+      setTimeout(fit,80);
+      var tilt=matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+      var raf,cl=function(v){return Math.max(-0.5,Math.min(0.5,v));};
+      function setTilt(nx,ny){
+        if(!tilt) return;
+        nx=cl(nx);ny=cl(ny);
+        if(raf)cancelAnimationFrame(raf);
+        raf=requestAnimationFrame(function(){
+          t.style.setProperty('--ry',(nx*7).toFixed(2)+'deg');
+          t.style.setProperty('--rx',(-ny*6).toFixed(2)+'deg');
+        });
+      }
+      function bindInner(){
+        try{
+          var d=f.contentWindow&&f.contentWindow.document;
+          if(!d||d.__tiltBound) return;
+          d.__tiltBound=true;
+          d.addEventListener('mousemove',function(e){
+            setTilt(e.clientX/1180-0.5,(e.clientY/((parseFloat(f.style.height))||737))-0.5);
+          });
+        }catch(err){}
+      }
+      /* synchronise la langue de la maquette (iframe même origine) avec le site */
+      function syncLang(){
+        try{
+          var w=f.contentWindow;
+          if(!w||!w.__applyTr) return;
+          w.__LANG=(window.lang||'fr');
+          w.document.documentElement.lang=w.__LANG;
+          w.__applyTr(w.document.body);
+        }catch(err){}
+      }
+      f.addEventListener('load',function(){fit();bindInner();syncLang();});
+      setTimeout(function(){fit();bindInner();syncLang();},500);
+      setTimeout(function(){bindInner();syncLang();},1500);
+      document.addEventListener('langchange',syncLang);
+      if(tilt){
+        document.addEventListener('mousemove',function(e){
+          var r=t.getBoundingClientRect();
+          setTilt((e.clientX-(r.left+r.width/2))/r.width,(e.clientY-(r.top+r.height/2))/r.height);
+        });
+        document.addEventListener('mouseleave',function(){t.style.setProperty('--rx','0deg');t.style.setProperty('--ry','0deg');});
+      }
+    })();
+    </script>
+  </div>
+</section>
+
+<!-- ============ SOUVERAINETÉ + COMPARE ============ -->
+<section class="sec sec-alt gridbg">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">04</span><span data-fr="Confiance" data-en="Trust">Confiance</span></span>
+      <h2 data-fr="Nos garanties." data-en="Our guarantees.">Nos garanties.</h2>
+    </div>
+    <div class="sov">
+      <div class="card ticks reveal">
+        <h3>🔒 <span data-fr="Souveraineté totale" data-en="Total sovereignty">Souveraineté totale</span></h3>
+        <p style="margin-top:12px" data-fr="Nos modèles tournent dans vos usines. Votre patrimoine industriel ne transite par aucun cloud externe." data-en="Models computed locally, knowledge base hosted inside the plant. Your industrial assets never transit through an external cloud — a decisive advantage for sensitive sites (defense, pharma, nuclear).">Modèles calculés localement, base de connaissance hébergée dans l'usine. Votre patrimoine industriel ne transite par aucun cloud externe — un avantage décisif pour les sites sensibles (défense, pharma, nucléaire).</p>
+      </div>
+      <div class="card ticks reveal d1">
+        <h3>🛡 <span data-fr="Fiabilité et robustesse" data-en="Reliability and strenght">Anti-hallucination par construction</span></h3>
+        <p style="margin-top:12px" data-fr="SmartDiag ne répond que sur la base de vos données (+ notices en ligne si vous l'y autorisez), et cite ses sources. La confiance du technicien est la clé de l'adoption." data-en="SmartDiag only answers from your data, and cites its sources. If the answer doesn't exist, it says so — and suggests leads. Technician trust is the condition for adoption.">SmartDiag ne répond que sur la base de vos données, et cite ses sources. Si la réponse n'existe pas, il le dit — et propose des pistes. La confiance du technicien est la condition de l'adoption.</p>
+      </div>
+      <div class="card ticks reveal d2">
+        <h3>🔄 <span data-fr="Toujours un coup d'avance" data-en="Always best-in-class">Toujours un coup d'avance</span></h3>
+        <p style="margin-top:12px" data-fr="SmartDiag s'intègre — et se retire — facilement de votre SI. Aucun verrouillage : c'est précisément ce qui nous oblige à nous améliorer en continu pour rester la meilleure solution du marché. Votre liberté est notre exigence." data-en="SmartDiag integrates — and uninstalls — easily from your IS. No lock-in: that's exactly what forces us to keep improving and stay the best solution on the market. You keep your freedom, we keep our edge.">SmartDiag s'intègre — et se retire — facilement de votre SI. Aucun verrouillage : c'est précisément ce qui nous oblige à nous améliorer en continu pour rester la meilleure solution du marché. Vous gardez votre liberté, nous gardons notre exigence.</p>
+      </div>
+    </div>
+
+    <div class="sec-head center reveal" style="margin:90px auto 44px">
+      <h2 data-fr="Là où les autres s'arrêtent." data-en="Where the others stop.">Là où les autres s'arrêtent.</h2>
+    </div>
+    <div class="compare">
+      <div class="col reveal"><h4>GMAO / CMMS</h4><div class="verb" data-fr="Archive & planifie" data-en="Archives & plans">Archive & planifie</div><p class="desc" data-fr="Enregistre l'historique mais ne diagnostique pas et accompagne partiellement." data-en="Records history but diagnoses nothing.">Enregistre l'historique mais ne diagnostique rien.</p></div>
+      <div class="col reveal d1"><h4 data-fr="Maintenance prédictive" data-en="Predictive maintenance">Maintenance prédictive</h4><div class="verb" data-fr="Surveille" data-en="Monitors">Surveille</div><p class="desc" data-fr="Anticipe la panne sans expliquer la résolution." data-en="Anticipates failure without explaining the fix.">Anticipe la panne sans expliquer la résolution.</p></div>
+      <div class="col reveal d2"><h4 data-fr="Chatbot générique" data-en="Generic chatbot">Chatbot générique</h4><div class="verb" data-fr="Improvise" data-en="Improvises">Improvise</div><p class="desc" data-fr="Répond hors contexte, sans vos données ni vos process." data-en="Answers out of context, without your data or processes.">Répond hors contexte, sans vos données ni vos process.</p></div>
+      <div class="col win reveal d3"><h4>SmartDiag</h4><div class="verb" data-fr="Comprend · Trace · Capitalise" data-en="Understands · Traces · Captures">Comprend · Trace · Capitalise</div><p class="desc" data-fr="Diagnostique, documente et conserve le savoir, dans vos process." data-en="Diagnoses, documents and retains know-how, within your processes.">Diagnostique, documente et conserve le savoir, dans vos process.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="cta-grid">
+        <div>
+          <h2 data-fr="Observez SmartDiag sur votre ligne, pas sur des slides." data-en="See SmartDiag on your line, not on slides.">Observez SmartDiag sur votre ligne, pas sur des slides.</h2>
+          <p data-fr="Démo sur vos cas d'usage, puis cadrage et pilote mesuré contre votre baseline. Critères go/no-go définis avant de commencer." data-en="A demo on your use cases, then scoping and a pilot measured against your baseline. Go/no-go criteria set before we start.">Démo sur vos cas d'usage, puis cadrage et pilote mesuré contre votre baseline. Critères go/no-go définis avant de commencer.</p>
+          <div class="cta-points">
+            <div data-fr="Réponse sous 48 h" data-en="Reply within 48h">Réponse sous 48 h</div>
+            <div data-fr="Pilote en 3 à 4 mois, mesuré" data-en="A measured 3–4 month pilot">Pilote en 3 à 4 mois, mesuré</div>
+            <div data-fr="100% on-prem, sans refonte SI" data-en="100% on-prem, no IT overhaul">100% on-prem, sans refonte SI</div>
+          </div>
+        </div>
+        <form data-demo data-subject="Site Arkeva — Demande de démo SmartDiag">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <div class="row">
+            <input type="text" name="Nom" required placeholder="Nom" data-fr-ph="Nom" data-en-ph="Name" />
+            <input type="text" name="Entreprise" required placeholder="Entreprise" data-fr-ph="Entreprise" data-en-ph="Company" />
+          </div>
+          <input type="email" name="Email" required placeholder="Email professionnel" data-fr-ph="Email professionnel" data-en-ph="Work email" />
+          <textarea name="Message" placeholder="Décrivez votre ligne ou votre enjeu…" data-fr-ph="Décrivez votre ligne ou votre enjeu…" data-en-ph="Describe your line or challenge…"></textarea>
+          <button type="submit" class="btn btn-primary" data-fr="Demander une démo SmartDiag" data-en="Request a SmartDiag demo">Demander une démo SmartDiag</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="bigword">SMARTDIAG</div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo"><img class="mark" src="assets/logo.png" alt="Arkeva" /></a>
+        <p data-fr="IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel." data-en="Sovereign AI for Industry 4.0. We turn your workshops' memory into an operational asset.">IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel.</p>
+      </div>
+      <div class="foot-col"><h5 data-fr="Produits" data-en="Products">Produits</h5>
+        <a href="smartdiag.html">SmartDiag</a><a href="ai-factory.html">AI Factory</a><a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a></div>
+      <div class="foot-col"><h5 data-fr="Entreprise" data-en="Company">Entreprise</h5>
+        <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a><a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a><a href="index.html#contact">Contact</a></div>
+      <div class="foot-col"><h5>Contact</h5>
+        <a href="mailto:contact@arkeva.eu">contact@arkeva.eu</a><a href="https://arkeva.eu" target="_blank" rel="noopener">arkeva.eu</a><a href="https://www.linkedin.com/in/jean-baptistetachoires/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Arkeva — <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></span>
+      <span class="mono" style="font-size:11px;letter-spacing:.14em" data-fr="AI FOR MANUFACTURING" data-en="BUILT FOR THE INDUSTRIAL FIELD">CONÇU POUR LE TERRAIN INDUSTRIEL</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/arkeva.js"></script>
+<script>
+/* ---------- Console : rotation auto + clic ---------- */
+(function(){
+  const tabs = document.querySelectorAll('#sdtabs button');
+  const panels = [document.getElementById('p0'),document.getElementById('p1'),document.getElementById('p2')];
+  let cur = 0, auto = null;
+  function show(i){
+    cur = i;
+    tabs.forEach((t,k)=>t.classList.toggle('on', k===i));
+    panels.forEach((p,k)=>p.classList.toggle('on', k===i));
+    if(i===1){ const cb=document.getElementById('confbar'); cb.style.width='0'; requestAnimationFrame(()=>requestAnimationFrame(()=>cb.style.width='96%')); }
+  }
+  tabs.forEach((t,i)=>t.addEventListener('click', ()=>{ show(i); restart(); }));
+  function restart(){ clearInterval(auto); auto = setInterval(()=>show((cur+1)%3), 4200); }
+  const cons = document.querySelector('.console');
+  if(cons){
+    new IntersectionObserver((es,obs)=>{
+      es.forEach(e=>{ if(e.isIntersecting){ restart(); obs.disconnect(); } });
+    },{threshold:.35}).observe(cons);
+  }
+  /* étapes workflow */
+  const sio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.5});
+  document.querySelectorAll('.step').forEach(el=>sio.observe(el));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPCR9PBT');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calculateur ROI — Combien vous coûte l'inaction ? | Arkeva</title>
+<meta name="description" content="Estimez en 30 secondes ce que vos arrêts non planifiés coûtent chaque année — et ce qu'un pilote SmartDiag pourrait rendre à la production." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/favicon.png" />
+<link rel="stylesheet" href="assets/arkeva.css">
+<style>
+.roi-hero{padding:180px 0 60px;text-align:center;position:relative;overflow:hidden}
+.roi-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(255,178,36,.08),transparent 60%)}
+.roi-hero .wrap{position:relative;z-index:2;max-width:840px}
+.roi-hero h1{font-size:clamp(36px,5.6vw,68px);font-weight:700;margin-bottom:20px}
+.roi-hero .lead{font-size:clamp(16.5px,2vw,19.5px);color:var(--muted);max-width:620px;margin:0 auto}
+/* ---------- CALC ---------- */
+.calc{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;margin:60px 0 0;position:relative;z-index:2;text-align:left}
+.calc-panel{background:var(--surface);border:1px solid var(--line2);border-radius:22px;padding:38px}
+.calc-panel h3{font-size:19px;margin-bottom:28px;display:flex;align-items:center;gap:10px}
+.ctrl{margin-bottom:30px}
+.ctrl:last-child{margin-bottom:0}
+.ctrl .lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;gap:12px}
+.ctrl .lab span{font-size:14px;color:var(--muted)}
+.ctrl .lab b{font-family:var(--font-m);font-size:16px;color:var(--text);white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--teal) var(--p,50%),rgba(255,255,255,.09) var(--p,50%));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--text);border:5px solid #0fc7a3;box-shadow:0 2px 12px rgba(43,240,201,.5);transition:transform .2s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--text);border:5px solid #0fc7a3;box-shadow:0 2px 12px rgba(43,240,201,.5)}
+.ctrl .hint{font-size:12px;color:var(--faint);margin-top:8px}
+/* results */
+.res{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid rgba(255,178,36,.3);border-radius:22px;padding:38px;position:relative;overflow:hidden}
+.res::before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:var(--amber);filter:blur(150px);opacity:.08;top:-130px;right:-80px;pointer-events:none}
+.res .rl{font-family:var(--font-m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.res .big{font-family:var(--font-m);font-weight:600;font-size:clamp(38px,4.6vw,58px);line-height:1.05;color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.res .big.green{color:var(--teal)}
+.res .sub{font-size:13.5px;color:var(--muted);margin-top:6px}
+.res hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+.res-row{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.res-row .big{font-size:clamp(24px,2.6vw,34px)}
+/* bars */
+.bars{margin-top:30px}
+.bars .brow{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:14px;margin-bottom:14px}
+.bars .bl{font-family:var(--font-m);font-size:11px;color:var(--muted);text-align:right;letter-spacing:.04em}
+.bars .btrack{height:30px;border-radius:8px;background:rgba(255,255,255,.05);overflow:hidden;position:relative}
+.bars .bfill{height:100%;border-radius:8px;display:flex;align-items:center;padding:0 12px;font-family:var(--font-m);font-size:11px;font-weight:600;color:#1a0d02;white-space:nowrap;transition:width .7s var(--ease);min-width:fit-content}
+.bars .bfill.now{background:linear-gradient(90deg,#FF7A45,#FFB224)}
+.bars .bfill.after{background:linear-gradient(90deg,#0fc7a3,#2BF0C9);color:#03141c}
+.res .pay{margin-top:26px;background:rgba(43,240,201,.06);border:1px solid rgba(43,240,201,.22);border-radius:14px;padding:18px 20px;font-size:14px;color:var(--muted)}
+.res .pay b{color:var(--teal)}
+.assump{max-width:1240px;margin:26px auto 0;text-align:left}
+.assump p{font-size:12.5px;color:var(--faint);max-width:760px}
+/* CTA below */
+.roi-cta{display:flex;gap:14px;justify-content:center;margin-top:54px;flex-wrap:wrap}
+@media(max-width:980px){.calc{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPCR9PBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="pgbar"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img class="mark" src="assets/logo.png" alt="Arkeva" />
+      
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="smartdiag.html">SmartDiag</a>
+      <a href="ai-factory.html">AI Factory</a>
+      <a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a>
+      <a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a>
+      <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button data-lang="fr" class="active">FR</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <a href="index.html#contact" class="btn btn-primary" data-fr="Demander une démo" data-en="Request a demo">Demander une démo</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO + CALC ============ -->
+<section class="roi-hero gridbg">
+  <div class="wrap">
+    <div class="hero-badge"><span class="dot" style="background:var(--amber);box-shadow:0 0 0 4px rgba(255,178,36,.18)"></span><span data-fr="Estimation en 30 secondes · sans email" data-en="30-second estimate · no email required">Estimation en 30 secondes · sans email</span></div>
+    <h1><span data-fr="Combien vous coûte " data-en="What is ">Combien vous coûte </span><span class="grad-text" style="background:linear-gradient(115deg,#FFB224,#FF7A45);-webkit-background-clip:text;background-clip:text" data-fr="l'inaction ?" data-en="inaction costing you?">l'inaction ?</span></h1>
+    <p class="lead" data-fr="Trois curseurs. Vos chiffres. Le coût annuel de vos arrêts non planifiés — et ce qu'un déploiement SmartDiag pourrait rendre à la production." data-en="Three sliders. Your numbers. The annual cost of your unplanned downtime — and what a SmartDiag deployment could give back to production.">Trois curseurs. Vos chiffres. Le coût annuel de vos arrêts non planifiés — et ce qu'un déploiement SmartDiag pourrait rendre à la production.</p>
+  </div>
+
+  <div class="wrap" style="max-width:1240px">
+    <div class="calc">
+      <!-- INPUTS -->
+      <div class="calc-panel reveal">
+        <h3>⚙ <span data-fr="Votre situation" data-en="Your situation">Votre situation</span></h3>
+        <div class="ctrl">
+          <div class="lab"><span data-fr="Lignes de production critiques" data-en="Critical production lines">Lignes de production critiques</span><b id="v-lines">3</b></div>
+          <input type="range" id="r-lines" min="1" max="20" step="1" value="3">
+        </div>
+        <div class="ctrl">
+          <div class="lab"><span data-fr="Heures d'arrêt non planifié / ligne / mois" data-en="Unplanned downtime hours / line / month">Heures d'arrêt non planifié / ligne / mois</span><b id="v-hours">27 h</b></div>
+          <input type="range" id="r-hours" min="2" max="60" step="1" value="27">
+          <div class="hint" data-fr="Moyenne constatée dans l'industrie : 27 h/mois" data-en="Industry average: 27h/month">Moyenne constatée dans l'industrie : 27 h/mois</div>
+        </div>
+        <div class="ctrl">
+          <div class="lab"><span data-fr="Coût d'une heure d'arrêt" data-en="Cost of one downtime hour">Coût d'une heure d'arrêt</span><b id="v-cost">150 k€</b></div>
+          <input type="range" id="r-cost" min="10" max="500" step="10" value="150">
+          <div class="hint" data-fr="Jusqu'à 450 k€/h sur une ligne pharma ou automobile" data-en="Up to €450k/h on a pharma or automotive line">Jusqu'à 450 k€/h sur une ligne pharma ou automobile</div>
+        </div>
+      </div>
+      <!-- RESULTS -->
+      <div class="res reveal d1">
+        <div class="rl" data-fr="Coût annuel de vos arrêts non planifiés" data-en="Annual cost of your unplanned downtime">Coût annuel de vos arrêts non planifiés</div>
+        <div class="big" id="o-loss">—</div>
+        <div class="sub" id="o-hours">—</div>
+        <hr>
+        <div class="res-row">
+          <div>
+            <div class="rl" data-fr="Rendu à la production (−40%)" data-en="Given back to production (−40%)">Rendu à la production (−40%)</div>
+            <div class="big green" id="o-saved">—</div>
+          </div>
+          <div>
+            <div class="rl" data-fr="Heures machines récupérées / an" data-en="Machine hours recovered / year">Heures machines récupérées / an</div>
+            <div class="big green" id="o-savedh">—</div>
+          </div>
+        </div>
+        <div class="bars">
+          <div class="brow"><div class="bl" data-fr="AUJOURD'HUI" data-en="TODAY">AUJOURD'HUI</div><div class="btrack"><div class="bfill now" id="b-now" style="width:100%"><span id="b-now-t">—</span></div></div></div>
+          <div class="brow"><div class="bl" data-fr="AVEC SMARTDIAG" data-en="WITH SMARTDIAG">AVEC SMARTDIAG</div><div class="btrack"><div class="bfill after" id="b-after" style="width:60%"><span id="b-after-t">—</span></div></div></div>
+        </div>
+        <div class="pay" id="o-pay" data-fr-template data-en-template></div>
+      </div>
+    </div>
+    <div class="assump">
+      <p data-fr="Hypothèses : réduction de 40% du temps d'arrêt non planifié, validée lors d'un pilote sur ligne de packaging. Estimation indicative, hors gains additionnels (rapports automatisés, durée de vie équipements +40%, énergie −20%). Le cadrage Arkeva établit votre baseline réelle." data-en="Assumptions: 40% reduction in unplanned downtime, validated during a packaging line pilot. Indicative estimate, excluding additional gains (automated reports, +40% equipment lifespan, −20% energy). The Arkeva scoping phase establishes your real baseline.">Hypothèses : réduction de 40% du temps d'arrêt non planifié, validée lors d'un pilote sur ligne de packaging. Estimation indicative, hors gains additionnels (rapports automatisés, durée de vie équipements +40%, énergie −20%). Le cadrage Arkeva établit votre baseline réelle.</p>
+    </div>
+    <div class="roi-cta">
+      <a href="index.html#contact" class="btn btn-amber" data-fr="Transformer ce chiffre en pilote →" data-en="Turn this number into a pilot →">Transformer ce chiffre en pilote →</a>
+      <a href="smartdiag.html" class="btn btn-ghost" data-fr="Voir comment SmartDiag s'y prend" data-en="See how SmartDiag does it">Voir comment SmartDiag s'y prend</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer style="margin-top:90px">
+  <div class="bigword">ROI</div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo"><img class="mark" src="assets/logo.png" alt="Arkeva" /></a>
+        <p data-fr="IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel." data-en="Sovereign AI for Industry 4.0. We turn your workshops' memory into an operational asset.">IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel.</p>
+      </div>
+      <div class="foot-col"><h5 data-fr="Produits" data-en="Products">Produits</h5>
+        <a href="smartdiag.html">SmartDiag</a><a href="ai-factory.html">AI Factory</a><a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a></div>
+      <div class="foot-col"><h5 data-fr="Entreprise" data-en="Company">Entreprise</h5>
+        <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a><a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a><a href="index.html#contact">Contact</a></div>
+      <div class="foot-col"><h5>Contact</h5>
+        <a href="mailto:contact@arkeva.eu">contact@arkeva.eu</a><a href="https://arkeva.eu" target="_blank" rel="noopener">arkeva.eu</a><a href="https://www.linkedin.com/in/jean-baptistetachoires/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Arkeva — <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></span>
+      <span class="mono" style="font-size:11px;letter-spacing:.14em" data-fr="AI FOR MANUFACTURING" data-en="BUILT FOR THE INDUSTRIAL FIELD">CONÇU POUR LE TERRAIN INDUSTRIEL</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/arkeva.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const rl = $('r-lines'), rh = $('r-hours'), rc = $('r-cost');
+  const REDUCTION = .40;
+  let displayed = {loss:0, saved:0, savedh:0};
+
+  function fmtEUR(v){
+    const loc = window.lang==='fr' ? 'fr-FR' : 'en-US';
+    if(v >= 1e6) return (v/1e6).toLocaleString(loc,{maximumFractionDigits:1}) + ' M€';
+    return Math.round(v/1000).toLocaleString(loc) + ' k€';
+  }
+  function setRangeBg(r){
+    const p = (r.value - r.min) / (r.max - r.min) * 100;
+    r.style.setProperty('--p', p + '%');
+  }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  function calc(){
+    const lines = +rl.value, hours = +rh.value, cost = +rc.value*1000;
+    $('v-lines').textContent = lines;
+    $('v-hours').textContent = hours + ' h';
+    $('v-cost').textContent = (+rc.value) + ' k€';
+    [rl,rh,rc].forEach(setRangeBg);
+
+    const annualH = lines*hours*12;
+    const loss = annualH*cost;
+    const saved = loss*REDUCTION;
+    const savedH = Math.round(annualH*REDUCTION);
+
+    /* animation douce vers la cible */
+    const t0 = {...displayed};
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now-start)/450, 1);
+      const e = 1-Math.pow(1-p,3);
+      displayed.loss = lerp(t0.loss, loss, e);
+      displayed.saved = lerp(t0.saved, saved, e);
+      displayed.savedh = lerp(t0.savedh, savedH, e);
+      $('o-loss').textContent = fmtEUR(displayed.loss);
+      $('o-saved').textContent = fmtEUR(displayed.saved);
+      $('o-savedh').textContent = Math.round(displayed.savedh).toLocaleString(window.lang==='fr'?'fr-FR':'en-US') + ' h';
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    $('o-hours').textContent = (window.lang==='fr')
+      ? annualH.toLocaleString('fr-FR') + ' heures d’arrêt non planifié par an'
+      : annualH.toLocaleString('en-US') + ' hours of unplanned downtime per year';
+
+    $('b-now').style.width = '100%';
+    $('b-now-t').textContent = fmtEUR(loss);
+    $('b-after').style.width = (100*(1-REDUCTION)) + '%';
+    $('b-after-t').textContent = fmtEUR(loss*(1-REDUCTION));
+
+    /* payback : un incident moyen ≈ 4 h d'arrêt */
+    const incident = 4*cost;
+    $('o-pay').innerHTML = (window.lang==='fr')
+      ? 'Un seul incident évité représente <b>≈ '+fmtEUR(incident)+'</b>. À ce rythme, le pilote SmartDiag est <b>remboursé dès le premier mois</b> de déploiement.'
+      : 'A single avoided incident represents <b>≈ '+fmtEUR(incident)+'</b>. At this rate, the SmartDiag pilot is <b>paid back within the first month</b> of deployment.';
+  }
+
+  [rl,rh,rc].forEach(r=>r.addEventListener('input', calc));
+  document.addEventListener('langchange', calc);
+  calc();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPCR9PBT');</script>
+<!-- End Google Tag Manager -->
+
+<title>AI Factory — Trois modèles propriétaires, un terrain industriel | Arkeva</title>
+<meta name="description" content="SPIDER, FOX, EAGLE : l'infrastructure R&D propriétaire d'Arkeva transforme vos défis terrain en produits IA souverains, déployés on-prem en quelques semaines." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/favicon.png" />
+<link rel="stylesheet" href="assets/arkeva.css">
+<style>
+/* ---------- HERO ---------- */
+.af-hero{padding:180px 0 90px;position:relative;overflow:hidden;text-align:center}
+.af-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 10%,rgba(156,124,255,.1),transparent 60%),radial-gradient(ellipse 50% 40% at 85% 80%,rgba(43,240,201,.07),transparent 60%)}
+.af-hero .wrap{position:relative;z-index:2;max-width:900px}
+.af-hero h1{font-size:clamp(38px,6vw,76px);font-weight:700;margin-bottom:24px}
+.af-hero .lead{font-size:clamp(16.5px,2vw,20px);color:var(--muted);max-width:680px;margin:0 auto 38px}
+.af-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+/* ---------- PIPELINE SVG ---------- */
+.pipeline{margin:70px auto 0;max-width:960px;position:relative;z-index:2}
+.pipeline svg{width:100%;height:auto;display:block}
+.pl-label{font-family:var(--font-m);font-size:10px;letter-spacing:.14em;fill:var(--faint);text-transform:uppercase}
+.pl-name{font-family:var(--font-d);font-weight:700;font-size:15px;fill:#EDF2FC}
+.pl-sub{font-family:var(--font-m);font-size:8.5px;fill:#5A6886}
+.pl-box{fill:#0D1424;stroke:rgba(148,170,220,.2);rx:10}
+.pl-box.dashed{fill:transparent;stroke-dasharray:4 4}
+.pl-flow{stroke-dasharray:6 8;animation:flowdash 1.2s linear infinite}
+@keyframes flowdash{to{stroke-dashoffset:-14}}
+/* ---------- STATS ---------- */
+.afstats{padding:70px 0;background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.afstats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;text-align:center}
+.afstat .n{font-family:var(--font-d);font-weight:700;font-size:clamp(32px,4vw,50px);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.afstat .l{color:var(--muted);font-size:13.5px;margin-top:10px}
+/* ---------- MODEL DEEP DIVE ---------- */
+.deep{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:70px 0}
+.deep + .deep{border-top:1px solid var(--line)}
+.deep .mtag{font-family:var(--font-m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+.deep .mtag::before{content:"";width:26px;height:1px;background:currentColor;opacity:.7}
+.deep h3{font-size:clamp(26px,3.4vw,40px);margin-bottom:16px}
+.deep > div > p{color:var(--muted);font-size:16px;margin-bottom:24px}
+.deep ul{list-style:none;display:grid;gap:12px}
+.deep ul li{font-size:14.5px;color:var(--muted);padding-left:22px;position:relative;line-height:1.55}
+.deep ul li b{color:var(--text);font-weight:600}
+.deep.spider .mtag{color:var(--teal)} .deep.spider ul li::before{content:"→";position:absolute;left:0;color:var(--teal)}
+.deep.fox .mtag{color:var(--violet)} .deep.fox ul li::before{content:"→";position:absolute;left:0;color:var(--violet)}
+.deep.eagle .mtag{color:var(--blue)} .deep.eagle ul li::before{content:"→";position:absolute;left:0;color:var(--blue)}
+.deep .viz{background:#080E1B;border:1px solid var(--line2);border-radius:18px;padding:26px;box-shadow:0 30px 80px -34px rgba(0,0,0,.8)}
+.deep .viz .vt{font-family:var(--font-m);font-size:11px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.deep .viz .vt::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}
+.deep.spider .viz .vt{color:var(--teal)}.deep.fox .viz .vt{color:var(--violet)}.deep.eagle .viz .vt{color:var(--blue)}
+.deep .viz svg{width:100%;height:auto;display:block}
+.vz-line{stroke-dasharray:5 7;animation:flowdash 1.4s linear infinite}
+.vz-node{animation:vzpulse 2.4s ease-in-out infinite}
+@keyframes vzpulse{50%{opacity:.45}}
+.vz-wave{stroke-dasharray:600;stroke-dashoffset:600;animation:wavedraw 3.2s var(--ease) infinite}
+@keyframes wavedraw{40%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+.deep .mprod{display:flex;gap:7px;flex-wrap:wrap;margin-top:22px}
+.mprod-tag{font-family:var(--font-m);font-size:10.5px;padding:4px 11px;border-radius:20px;font-weight:500;background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--faint);letter-spacing:.04em}
+/* ---------- DOMAINES ---------- */
+.dom-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.dom{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;transition:.45s var(--ease);position:relative;overflow:hidden}
+.dom::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:.45s}
+.dom:hover::before{transform:scaleX(1)}
+.dom:hover{transform:translateY(-5px);border-color:var(--line2);background:var(--surface2)}
+.dom .di{font-size:24px;margin-bottom:14px;display:block}
+.dom h4{font-size:16.5px;margin-bottom:8px}
+.dom p{font-size:13.5px;color:var(--muted)}
+/* ---------- SOUVERAINETÉ STRIP ---------- */
+.sovstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:10px}
+@media(max-width:980px){
+  .afstats-grid{grid-template-columns:repeat(2,1fr)}
+  .deep{grid-template-columns:1fr;gap:36px}
+  .deep.rev .viz{order:-1}
+  .dom-grid{grid-template-columns:1fr 1fr}
+  .sovstrip{grid-template-columns:1fr}
+}
+@media(max-width:560px){.dom-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPCR9PBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+
+<div id="pgbar"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img class="mark" src="assets/logo.png" alt="Arkeva" />
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="smartdiag.html">SmartDiag</a>
+      <a href="ai-factory.html">AI Factory</a>
+      <a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a>
+      <a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a>
+      <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button data-lang="fr" class="active">FR</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <a href="#contact" class="btn btn-primary" data-fr="Soumettre un cas d'usage" data-en="Submit a use case">Soumettre un cas d'usage</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO + PIPELINE ============ -->
+<section class="af-hero gridbg">
+  <div class="wrap">
+    <div class="hero-badge"><span class="dot"></span><span data-fr="Notre plateforme de R&D en IA industrielle " data-en="Our industrial AI R&D platform">Plateforme R&D industrielle · on-prem</span></div>
+    <h1><span data-fr="Une recherche de pointe" data-en="Cutting-edge research">Trois intelligences,</span><br><span class="grad-text" data-fr="Pour une transformation en profondeur" data-en="For a deep transformation">Une expertise.</span></h1>
+    <p class="lead" data-fr="L'AI Factory est l'infrastructure propriétaire d'Arkeva : trois modèles cœur qui transforment vos défis terrain en solutions opérationnelles. Robustes et adaptés au milieu industriel par construction."
+       data-en="AI Factory is Arkeva's proprietary infrastructure: three core models that turn your field challenges into operational solutions. Robust and built for the industrial environment by design.">L'AI Factory est l'infrastructure propriétaire d'Arkeva : trois modèles cœur — SPIDER, FOX, EAGLE — qui transforment vos défis terrain en solutions opérationnelles. Déployés en semaines, robustes et adaptés au milieu industriel par construction.</p>
+    <div class="af-cta">
+      <a href="#models" class="btn btn-primary" data-fr="Découvrir les modèles" data-en="Discover the models">Découvrir les modèles</a>
+      <a href="#contact" class="btn btn-ghost" data-fr="Soumettre un cas d'usage" data-en="Submit a use case">Soumettre un cas d'usage</a>
+    </div>
+
+    <!-- Pipeline animé -->
+    <div class="pipeline reveal">
+      <svg viewBox="0 0 960 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- sources -->
+        <text x="80" y="24" text-anchor="middle" class="pl-label">SOURCES</text>
+        <g>
+          <rect x="20" y="46" width="120" height="40" class="pl-box dashed"/><text x="80" y="71" text-anchor="middle" class="pl-name" style="font-size:12px">SCADA · IoT</text>
+          <rect x="20" y="100" width="120" height="40" class="pl-box dashed"/><text x="80" y="125" text-anchor="middle" class="pl-name" style="font-size:12px">GMAO · MES</text>
+          <rect x="20" y="154" width="120" height="40" class="pl-box dashed"/><text x="80" y="179" text-anchor="middle" class="pl-name" style="font-size:12px">ERP · Docs</text>
+          <rect x="20" y="208" width="120" height="40" class="pl-box dashed"/><text x="80" y="233" text-anchor="middle" class="pl-name" style="font-size:12px">Experts</text>
+        </g>
+        <!-- flows to models -->
+        <path d="M140 66 C 220 66 220 110 290 118" fill="none" stroke="#2BF0C9" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <path d="M140 120 C 210 120 220 130 290 140" fill="none" stroke="#5B8CFF" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <path d="M140 174 C 210 174 220 160 290 160" fill="none" stroke="#9C7CFF" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <path d="M140 228 C 220 228 220 190 290 180" fill="none" stroke="#FFB224" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <!-- core models -->
+        <text x="480" y="24" text-anchor="middle" class="pl-label" data-fr="MODÈLES CŒUR — ON-PREM" data-en="CORE MODELS — ON-PREM">MODÈLES CŒUR — ON-PREM</text>
+        <rect x="290" y="46" width="380" height="208" rx="14" fill="rgba(43,240,201,.025)" stroke="rgba(43,240,201,.25)"/>
+        <g>
+          <rect x="320" y="68" width="150" height="50" rx="10" fill="rgba(43,240,201,.07)" stroke="#2BF0C9" stroke-opacity=".55"/>
+          <text x="395" y="89" text-anchor="middle" class="pl-name" fill="#2BF0C9" style="fill:#2BF0C9">SPIDER</text>
+          <text x="395" y="106" text-anchor="middle" class="pl-sub" data-fr="RÉSEAU DYNAMIQUE" data-en="DYNAMIC NETWORK">RÉSEAU DYNAMIQUE</text>
+        </g>
+        <g>
+          <rect x="490" y="68" width="150" height="50" rx="10" fill="rgba(156,124,255,.07)" stroke="#9C7CFF" stroke-opacity=".55"/>
+          <text x="565" y="89" text-anchor="middle" class="pl-name" style="fill:#9C7CFF">FOX</text>
+          <text x="565" y="106" text-anchor="middle" class="pl-sub" data-fr="SIMULATION LIVE" data-en="LIVE SIMULATION">SIMULATION LIVE</text>
+        </g>
+        <g>
+          <rect x="405" y="146" width="150" height="50" rx="10" fill="rgba(91,140,255,.07)" stroke="#5B8CFF" stroke-opacity=".55"/>
+          <text x="480" y="167" text-anchor="middle" class="pl-name" style="fill:#5B8CFF">EAGLE</text>
+          <text x="480" y="184" text-anchor="middle" class="pl-sub">MULTI-INTELLIGENCE</text>
+        </g>
+        <text x="480" y="232" text-anchor="middle" class="pl-sub" style="font-size:10px" data-fr="ZÉRO DÉPENDANCE CLOUD — LA DONNÉE RESTE DANS L'USINE" data-en="ZERO CLOUD DEPENDENCY — DATA STAYS IN THE PLANT">ZÉRO DÉPENDANCE CLOUD — LA DONNÉE RESTE DANS L'USINE</text>
+        <!-- flows to products -->
+        <path d="M670 90 C 740 90 740 70 810 66" fill="none" stroke="#2BF0C9" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <path d="M670 130 C 740 130 740 120 810 120" fill="none" stroke="#5B8CFF" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <path d="M670 170 C 740 170 740 174 810 174" fill="none" stroke="#9C7CFF" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <path d="M670 200 C 740 200 740 228 810 228" fill="none" stroke="#FFB224" stroke-opacity=".5" stroke-width="1.5" class="pl-flow"/>
+        <!-- products -->
+        <text x="875" y="24" text-anchor="middle" class="pl-label" data-fr="PRODUITS AGENTIQUES" data-en="AGENTIC PRODUCTS">PRODUITS AGENTIQUES</text>
+        <g>
+          <rect x="810" y="46" width="130" height="40" class="pl-box"/><text x="875" y="71" text-anchor="middle" class="pl-name" style="font-size:12px">SmartDiag</text>
+          <rect x="810" y="100" width="130" height="40" class="pl-box"/><text x="875" y="125" text-anchor="middle" class="pl-name" style="font-size:12px" data-fr="Inspection visuelle" data-en="Visual inspection">Inspection visuelle</text>
+          <rect x="810" y="154" width="130" height="40" class="pl-box"/><text x="875" y="179" text-anchor="middle" class="pl-name" style="font-size:12px">Simulation WMS</text>
+          <rect x="810" y="208" width="130" height="40" class="pl-box"/><text x="875" y="233" text-anchor="middle" class="pl-name" style="font-size:12px" data-fr="Formation AR/VR" data-en="AR/VR Training">AR Formation</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="afstats">
+  <div class="wrap afstats-grid">
+    <div class="afstat reveal"><div class="n" data-count="7" data-suffix="×">0</div><div class="l" data-fr="plus vite qu'un développement IA interne classique" data-en="faster than a classic in-house AI development">plus vite qu'un développement IA interne classique</div></div>
+    <div class="afstat reveal d1"><div class="n" data-count="12" data-suffix="">0</div><div class="l" data-fr="semaines de pilote pour valider un cas d'usage en production" data-en="pilot weeks to validate a use case in production">semaines de pilote pour valider un cas d'usage en production</div></div>
+    <div class="afstat reveal d2"><div class="n" data-count="4" data-suffix="">0</div><div class="l" data-fr="domaines IA industriels maîtrisés, de la R&D au déploiement" data-en="industrial AI domains mastered, from R&D to deployment">domaines IA industriels maîtrisés, de la R&D au déploiement</div></div>
+    <div class="afstat reveal d3"><div class="n" data-count="0">0</div><div class="l" data-fr="dépendance cloud pour faire tourner vos modèles" data-en="cloud dependency to run your models">dépendance cloud pour faire tourner vos modèles</div></div>
+  </div>
+</section>
+
+<!-- ============ MODELS DEEP DIVE ============ -->
+<section class="sec" id="models">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">01</span><span data-fr="Modèles cœur" data-en="Core models">Modèles cœur</span></span>
+      <h2 data-fr="Bénéficiez des dernières avancées technologiques." data-en="Benefit from the latest technological advances.">Bénéficiez des dernières avancées en intelligence artificielle.</h2>
+          <p class="lead" data-fr="Une R&D de pointe, garantissant les meilleurs résultats du marché"
+        data-en="Cutting-edge R&D, guaranteeing the best results on the market.">Une R&D de pointe, garantissant les meilleurs résultats du marché</p>
+    </div>
+
+    <!-- SPIDER -->
+    <div class="deep spider">
+      <div class="reveal">
+        <div class="mtag">SPIDER — <span data-fr="Réseau dynamique" data-en="Dynamic network">Réseau dynamique</span></div>
+        <h3 data-fr="Transformez votre process statique en réseau d'intelligence vivant." data-en="Turn your static process into a living intelligence network.">Transformez votre process statique en réseau d'intelligence vivant.</h3>
+        <p data-fr="SPIDER modélise les interdépendances entre équipements, systèmes et flux sous forme de graphe dynamique. Il identifie en temps réel les causes racines — même quand elles se propagent à travers des systèmes distants." data-en="SPIDER models the interdependencies between equipment, systems and flows as a dynamic graph. It identifies root causes in real time — even when they propagate across distant systems.">SPIDER modélise les interdépendances entre équipements, systèmes et flux sous forme de graphe dynamique. Il identifie en temps réel les causes racines — même quand elles se propagent à travers des systèmes distants.</p>
+        <ul>
+          <li><b data-fr="Graphe de dépendances :" data-en="Dependency graph:">Graphe de dépendances :</b> <span data-fr="topologie automatique de vos assets, des capteurs aux process métier." data-en="automatic topology of your assets, from sensors to business processes.">topologie automatique de vos assets, des capteurs aux process métier.</span></li>
+          <li><b data-fr="Root cause analysis :" data-en="Root cause analysis:">Root cause analysis :</b> <span data-fr="remontée de cause en cause pour isoler l'origine réelle de la panne." data-en="cause-by-cause traversal to isolate the failure's real origin.">remontée de cause en cause pour isoler l'origine réelle de la panne.</span></li>
+          <li><b data-fr="Propagation prédictive :" data-en="Predictive propagation:">Propagation prédictive :</b> <span data-fr="anticipe l'impact d'une défaillance sur l'aval avant qu'elle survienne." data-en="anticipates a failure's downstream impact before it happens.">anticipe l'impact d'une défaillance sur l'aval avant qu'elle survienne.</span></li>
+          <li><b data-fr="Mise à jour continue :" data-en="Continuous update:">Mise à jour continue :</b> <span data-fr="le graphe évolue avec votre ligne — nouvelles machines, nouveaux process." data-en="the graph evolves with your line — new machines, new processes.">le graphe évolue avec votre ligne — nouvelles machines, nouveaux process.</span></li>
+        </ul>
+        <div class="mprod"><span class="mprod-tag">SmartDiag</span><span class="mprod-tag">Monitoring</span></div>
+      </div>
+      <div class="viz reveal d1">
+        <div class="vt" data-fr="SPIDER — Graphe d'équipements · L3" data-en="SPIDER — Equipment graph · L3">SPIDER — Graphe d'équipements · L3</div>
+        <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
+          <path d="M210 60 L110 130 M210 60 L310 130 M110 130 L70 210 M110 130 L160 210 M310 130 L260 210 M310 130 L350 210 M110 130 L310 130" stroke="rgba(91,140,255,.35)" stroke-width="1.2" fill="none"/>
+          <path d="M210 60 L110 130 L160 210" stroke="#FF5C5C" stroke-width="1.8" fill="none" class="vz-line"/>
+          <circle cx="210" cy="60" r="16" fill="rgba(255,92,92,.15)" stroke="#FF5C5C" class="vz-node"/>
+          <text x="210" y="64" text-anchor="middle" style="font:600 9px 'IBM Plex Mono'" fill="#FF5C5C">MOT-04</text>
+          <circle cx="110" cy="130" r="14" fill="rgba(255,178,36,.12)" stroke="#FFB224"/>
+          <text x="110" y="134" text-anchor="middle" style="font:600 8.5px 'IBM Plex Mono'" fill="#FFB224">CMP-01</text>
+          <circle cx="310" cy="130" r="14" fill="rgba(91,140,255,.12)" stroke="#5B8CFF"/>
+          <text x="310" y="134" text-anchor="middle" style="font:600 8.5px 'IBM Plex Mono'" fill="#5B8CFF">PLC-02</text>
+          <circle cx="70" cy="210" r="12" fill="rgba(91,140,255,.1)" stroke="rgba(91,140,255,.5)"/>
+          <text x="70" y="214" text-anchor="middle" style="font:600 8px 'IBM Plex Mono'" fill="#8E9DBC">VLV-07</text>
+          <circle cx="160" cy="210" r="12" fill="rgba(255,178,36,.1)" stroke="#FFB224" class="vz-node"/>
+          <text x="160" y="214" text-anchor="middle" style="font:600 8px 'IBM Plex Mono'" fill="#FFB224">CNV-03</text>
+          <circle cx="260" cy="210" r="12" fill="rgba(91,140,255,.1)" stroke="rgba(91,140,255,.5)"/>
+          <text x="260" y="214" text-anchor="middle" style="font:600 8px 'IBM Plex Mono'" fill="#8E9DBC">SNS-11</text>
+          <circle cx="350" cy="210" r="12" fill="rgba(91,140,255,.1)" stroke="rgba(91,140,255,.5)"/>
+          <text x="350" y="214" text-anchor="middle" style="font:600 8px 'IBM Plex Mono'" fill="#8E9DBC">PMP-05</text>
+          <text x="14" y="248" style="font:500 9.5px 'IBM Plex Mono'" fill="#2BF0C9" data-fr="✓ CAUSE RACINE : MOT-04 → PROPAGATION CMP-01 · CNV-03" data-en="✓ ROOT CAUSE: MOT-04 → PROPAGATION CMP-01 · CNV-03">✓ CAUSE RACINE : MOT-04 → PROPAGATION CMP-01 · CNV-03</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- FOX -->
+    <div class="deep fox rev">
+      <div class="viz reveal">
+        <div class="vt" data-fr="FOX — Jumeau numérique · scénario what-if" data-en="FOX — Digital twin · what-if scenario">FOX — Jumeau numérique · scénario what-if</div>
+        <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="200" x2="400" y2="200" stroke="rgba(148,170,220,.25)"/>
+          <line x1="30" y1="40" x2="30" y2="200" stroke="rgba(148,170,220,.25)"/>
+          <path d="M30 160 C 80 150 110 165 150 140 C 190 115 220 150 260 120 C 300 95 340 110 400 70" fill="none" stroke="#9C7CFF" stroke-width="2" class="vz-wave"/>
+          <path d="M30 160 C 80 158 120 170 170 168 C 220 166 280 175 400 172" fill="none" stroke="rgba(148,170,220,.5)" stroke-width="1.5" stroke-dasharray="4 5"/>
+          <circle cx="260" cy="120" r="5" fill="#9C7CFF" class="vz-node"/>
+          <text x="268" y="112" style="font:500 9px 'IBM Plex Mono'" fill="#9C7CFF" data-fr="DÉCISION SIMULÉE" data-en="SIMULATED DECISION">DÉCISION SIMULÉE</text>
+          <text x="36" y="56" style="font:500 9px 'IBM Plex Mono'" fill="#8E9DBC" data-fr="DÉBIT LIGNE (SIMULÉ VS RÉEL)" data-en="LINE THROUGHPUT (SIM VS REAL)">DÉBIT LIGNE (SIMULÉ VS RÉEL)</text>
+          <text x="36" y="225" style="font:500 9px 'IBM Plex Mono'" fill="#5A6886">T+0</text>
+          <text x="380" y="225" style="font:500 9px 'IBM Plex Mono'" fill="#5A6886">T+8h</text>
+          <text x="14" y="248" style="font:500 9.5px 'IBM Plex Mono'" fill="#9C7CFF" data-fr="✓ SCÉNARIO VALIDÉ : +12% DE DÉBIT SANS RISQUE ÉQUIPEMENT" data-en="✓ SCENARIO VALIDATED: +12% THROUGHPUT, NO EQUIPMENT RISK">✓ SCÉNARIO VALIDÉ : +12% DE DÉBIT SANS RISQUE ÉQUIPEMENT</text>
+        </svg>
+      </div>
+      <div class="reveal d1">
+        <div class="mtag">FOX — <span data-fr="Simulation live" data-en="Live simulation">Simulation live</span></div>
+        <h3 data-fr="Simulez l'impact de chaque décision avant de l'appliquer en production." data-en="Simulate the impact of every decision before applying it in production.">Simulez l'impact de chaque décision avant de l'appliquer en production.</h3>
+        <p data-fr="FOX crée un jumeau numérique de vos lignes : rejouez le passé, simulez le futur, évaluez des scénarios en temps réel — sans risque sur l'équipement réel." data-en="FOX creates a digital twin of your lines: replay the past, simulate the future, evaluate scenarios in real time — with zero risk to real equipment.">FOX crée un jumeau numérique de vos lignes : rejouez le passé, simulez le futur, évaluez des scénarios en temps réel — sans risque sur l'équipement réel.</p>
+        <ul>
+          <li><b data-fr="Jumeau numérique temps réel :" data-en="Real-time digital twin:">Jumeau numérique temps réel :</b> <span data-fr="synchronisé avec vos capteurs SCADA et IoT." data-en="synced with your SCADA and IoT sensors.">synchronisé avec vos capteurs SCADA et IoT.</span></li>
+          <li><b data-fr="Scénarios what-if :" data-en="What-if scenarios:">Scénarios what-if :</b> <span data-fr="évaluez cadences, réglages et plans de maintenance avant application." data-en="evaluate speeds, settings and maintenance plans before applying.">évaluez cadences, réglages et plans de maintenance avant application.</span></li>
+          <li><b data-fr="Rejeu de pannes :" data-en="Failure replay:">Rejeu de pannes :</b> <span data-fr="formez vos opérateurs sur des incidents réels, sans arrêter la ligne." data-en="train operators on real incidents, without stopping the line.">formez vos opérateurs sur des incidents réels, sans arrêter la ligne.</span></li>
+        </ul>
+        <div class="mprod"><span class="mprod-tag">SmartDiag</span><span class="mprod-tag" data-fr="Formation AR" data-en="AR Training">Formation AR</span><span class="mprod-tag">WMS Sim</span></div>
+      </div>
+    </div>
+
+    <!-- EAGLE -->
+    <div class="deep eagle">
+      <div class="reveal">
+        <div class="mtag">EAGLE — Multi-intelligence</div>
+        <h3 data-fr="Une seule source de vérité, du capteur au KPI de direction." data-en="A single source of truth, from sensor to executive KPI.">Une seule source de vérité, du capteur au KPI de direction.</h3>
+        <p data-fr="EAGLE unifie MES, IoT, ERP et GMAO. Il corrèle les signaux de tous vos systèmes pour construire une intelligence sans silos — et faire circuler la donnée là où elle crée de la valeur." data-en="EAGLE unifies MES, IoT, ERP and CMMS. It correlates signals across all your systems to build silo-free intelligence — and moves data where it creates value.">EAGLE unifie MES, IoT, ERP et GMAO. Il corrèle les signaux de tous vos systèmes pour construire une intelligence sans silos — et faire circuler la donnée là où elle crée de la valeur.</p>
+        <ul>
+          <li><b data-fr="Connecteurs natifs :" data-en="Native connectors:">Connecteurs natifs :</b> <span>MES · SCADA · ERP · GMAO · IoT.</span></li>
+          <li><b data-fr="Alignement sémantique :" data-en="Semantic alignment:">Alignement sémantique :</b> <span data-fr="réconcilie les référentiels métier entre systèmes." data-en="reconciles business repositories across systems.">réconcilie les référentiels métier entre systèmes.</span></li>
+          <li><b data-fr="Vue consolidée :" data-en="Consolidated view:">Vue consolidée :</b> <span data-fr="du signal capteur au tableau de bord stratégique." data-en="from sensor signal to strategic dashboard.">du signal capteur au tableau de bord stratégique.</span></li>
+        </ul>
+        <div class="mprod"><span class="mprod-tag">SmartDiag</span><span class="mprod-tag" data-fr="Alertes cross-sources" data-en="Cross-source alerts">Alertes cross-sources</span></div>
+      </div>
+      <div class="viz reveal d1">
+        <div class="vt" data-fr="EAGLE — Fusion multi-sources" data-en="EAGLE — Multi-source fusion">EAGLE — Fusion multi-sources</div>
+        <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
+          <g style="font:600 10px 'IBM Plex Mono'">
+            <rect x="20" y="30" width="90" height="32" rx="8" fill="rgba(91,140,255,.08)" stroke="rgba(91,140,255,.45)"/><text x="65" y="50" text-anchor="middle" fill="#8E9DBC">MES</text>
+            <rect x="20" y="90" width="90" height="32" rx="8" fill="rgba(91,140,255,.08)" stroke="rgba(91,140,255,.45)"/><text x="65" y="110" text-anchor="middle" fill="#8E9DBC">IoT</text>
+            <rect x="20" y="150" width="90" height="32" rx="8" fill="rgba(91,140,255,.08)" stroke="rgba(91,140,255,.45)"/><text x="65" y="170" text-anchor="middle" fill="#8E9DBC">ERP</text>
+            <rect x="20" y="210" width="90" height="32" rx="8" fill="rgba(91,140,255,.08)" stroke="rgba(91,140,255,.45)"/><text x="65" y="230" text-anchor="middle" fill="#8E9DBC">GMAO</text>
+          </g>
+          <path d="M110 46 C 170 46 170 120 220 126" fill="none" stroke="#5B8CFF" stroke-opacity=".55" stroke-width="1.5" class="vz-line"/>
+          <path d="M110 106 C 165 106 170 125 220 130" fill="none" stroke="#5B8CFF" stroke-opacity=".55" stroke-width="1.5" class="vz-line"/>
+          <path d="M110 166 C 165 166 170 140 220 134" fill="none" stroke="#5B8CFF" stroke-opacity=".55" stroke-width="1.5" class="vz-line"/>
+          <path d="M110 226 C 170 226 170 145 220 138" fill="none" stroke="#5B8CFF" stroke-opacity=".55" stroke-width="1.5" class="vz-line"/>
+          <circle cx="252" cy="132" r="34" fill="rgba(91,140,255,.1)" stroke="#5B8CFF" class="vz-node"/>
+          <text x="252" y="136" text-anchor="middle" style="font:700 11px 'Space Grotesk'" fill="#5B8CFF">EAGLE</text>
+          <path d="M286 132 L 340 132" stroke="#2BF0C9" stroke-width="1.5" class="vz-line"/>
+          <rect x="340" y="106" width="68" height="52" rx="10" fill="rgba(43,240,201,.07)" stroke="#2BF0C9" stroke-opacity=".6"/>
+          <text x="374" y="128" text-anchor="middle" style="font:600 9px 'IBM Plex Mono'" fill="#2BF0C9">KPI</text>
+          <text x="374" y="142" text-anchor="middle" style="font:600 9px 'IBM Plex Mono'" fill="#2BF0C9" data-fr="DÉCISION" data-en="DECISION">DÉCISION</text>
+          <text x="14" y="252" style="font:500 9.5px 'IBM Plex Mono'" fill="#5B8CFF" data-fr="✓ 4 SYSTÈMES CORRÉLÉS — UNE SEULE VÉRITÉ OPÉRATIONNELLE" data-en="✓ 4 SYSTEMS CORRELATED — ONE OPERATIONAL TRUTH">✓ 4 SYSTÈMES CORRÉLÉS — UNE SEULE VÉRITÉ OPÉRATIONNELLE</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOMAINES ============ -->
+<section class="sec sec-alt gridbg" id="domains">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">02</span><span data-fr="Secteurs industriels" data-en="Industries served">Secteurs industriels</span></span>
+      <h2 data-fr="Conçu pour les environnements de production les plus exigeants." data-en="Built for the most demanding production environments.">Conçu pour les environnements de production les plus exigeants.</h2>
+      <p data-fr="L'AI Factory intervient là où les données sont complexes, la souveraineté est critique et la latence n'est pas tolérée." data-en="The AI Factory steps in where data is complex, sovereignty is critical and latency is not tolerated.">L'AI Factory intervient là où les données sont complexes, la souveraineté est critique et la latence n'est pas tolérée.</p>
+    </div>
+    <div class="dom-grid">
+      <div class="dom reveal"><span class="di">🏭</span><h4 data-fr="Industrie manufacturière" data-en="Manufacturing">Industrie manufacturière</h4><p data-fr="Maintenance, qualité, supervision de ligne, optimisation OEE." data-en="Maintenance, quality, line supervision, OEE optimization.">Maintenance, qualité, supervision de ligne, optimisation OEE.</p></div>
+      <div class="dom reveal d1"><span class="di">🧪</span><h4 data-fr="Chimie & Pharma" data-en="Chemicals & Pharma">Chimie & Pharma</h4><p data-fr="Traçabilité batch, conformité qualité, supervision procédés critiques." data-en="Batch traceability, quality compliance, critical process supervision.">Traçabilité batch, conformité qualité, supervision procédés critiques.</p></div>
+      <div class="dom reveal d2"><span class="di">⚡</span><h4 data-fr="Énergie & Utilities" data-en="Energy & Utilities">Énergie & Utilities</h4><p data-fr="Maintenance préventive d'actifs, optimisation énergétique, gestion de réseau." data-en="Preventive asset maintenance, energy optimization, network management.">Maintenance préventive d'actifs, optimisation énergétique, gestion de réseau.</p></div>
+      <div class="dom reveal d3"><span class="di">🚀</span><h4 data-fr="Aéronautique & Défense" data-en="Aerospace & Defense">Aéronautique & Défense</h4><p data-fr="Souveraineté des données, inspection automatisée, traçabilité pièces critiques." data-en="Data sovereignty, automated inspection, critical-part traceability.">Souveraineté des données, inspection automatisée, traçabilité pièces critiques.</p></div>
+      <div class="dom reveal"><span class="di">🚗</span><h4 data-fr="Automobile" data-en="Automotive">Automobile</h4><p data-fr="Contrôle qualité inline, robotique adaptative, gestion de variantes produit." data-en="In-line quality control, adaptive robotics, product-variant management.">Contrôle qualité inline, robotique adaptative, gestion de variantes produit.</p></div>
+      <div class="dom reveal d1"><span class="di">🌱</span><h4 data-fr="Agroalimentaire" data-en="Food & Beverage">Agroalimentaire</h4><p data-fr="Vision pour contrôle sanitaire, traçabilité chaîne du froid, optimisation conditionnement." data-en="Vision for sanitary control, cold-chain traceability, packaging optimization.">Vision pour contrôle sanitaire, traçabilité chaîne du froid, optimisation conditionnement.</p></div>
+      <div class="dom reveal d2"><span class="di">🛰</span><h4 data-fr="Équipementiers" data-en="Equipment makers (OEM)">Équipementiers</h4><p data-fr="Intelligence embarquée dans les équipements, services prédictifs pour clients OEM." data-en="Embedded intelligence in equipment, predictive services for OEM clients.">Intelligence embarquée dans les équipements, services prédictifs pour clients OEM.</p></div>
+      <div class="dom reveal d3"><span class="di">📦</span><h4 data-fr="Logistique & Supply Chain" data-en="Logistics & Supply Chain">Logistique & Supply Chain</h4><p data-fr="WMS intelligent, simulation d'entrepôt, optimisation du picking et des flux." data-en="Smart WMS, warehouse simulation, picking and flow optimization.">WMS intelligent, simulation d'entrepôt, optimisation du picking et des flux.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="cta-grid">
+        <div>
+          <h2 data-fr="Un cas d'usage en tête ?" data-en="A use case in mind?">Un cas d'usage en tête ?</h2>
+          <p data-fr="Vision, simulation, robotique, diagnostic — décrivez votre défi terrain. Nous répondons sous 48 h avec une première lecture de faisabilité." data-en="Vision, simulation, robotics, diagnostics — describe your field challenge. We reply within 48h with a first feasibility read.">Vision, simulation, robotique, diagnostic — décrivez votre défi terrain. Nous répondons sous 48 h avec une première lecture de faisabilité.</p>
+          <div class="cta-points">
+            <div data-fr="Faisabilité évaluée sous 48 h" data-en="Feasibility assessed within 48h">Faisabilité évaluée sous 48 h</div>
+            <div data-fr="Pilote mesuré en ~12 semaines" data-en="Measured pilot in ~12 weeks">Pilote mesuré en ~12 semaines</div>
+            <div data-fr="Modèles déployés dans votre usine" data-en="Models deployed inside your plant">Modèles déployés dans votre usine</div>
+          </div>
+        </div>
+        <form data-demo data-subject="Site Arkeva — Soumission cas d'usage (AI Factory)">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <div class="row">
+            <input type="text" name="Nom" required placeholder="Nom" data-fr-ph="Nom" data-en-ph="Name" />
+            <input type="text" name="Entreprise" required placeholder="Entreprise" data-fr-ph="Entreprise" data-en-ph="Company" />
+          </div>
+          <input type="email" name="Email" required placeholder="Email professionnel" data-fr-ph="Email professionnel" data-en-ph="Work email" />
+          <select name="Domaine">
+            <option data-fr="Domaine — Vision & défauts" data-en="Domain — Vision & defects">Domaine — Vision & défauts</option>
+            <option data-fr="Logistique / WMS" data-en="Logistics / WMS">Logistique / WMS</option>
+            <option data-fr="Formation AR" data-en="AR Training">Formation AR</option>
+            <option data-fr="RL & Robotique" data-en="RL & Robotics">RL & Robotique</option>
+            <option data-fr="Diagnostic & maintenance" data-en="Diagnostics & maintenance">Diagnostic & maintenance</option>
+          </select>
+          <textarea name="Message" placeholder="Décrivez votre cas d'usage…" data-fr-ph="Décrivez votre cas d'usage…" data-en-ph="Describe your use case…"></textarea>
+          <button type="submit" class="btn btn-primary" data-fr="Soumettre mon cas d'usage" data-en="Submit my use case">Soumettre mon cas d'usage</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="bigword">AI FACTORY</div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo"><img class="mark" src="assets/logo.png" alt="Arkeva" /></a>
+        <p data-fr="IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel." data-en="Sovereign AI for Industry 4.0. We turn your workshops' memory into an operational asset.">IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel.</p>
+      </div>
+      <div class="foot-col"><h5 data-fr="Produits" data-en="Products">Produits</h5>
+        <a href="smartdiag.html">SmartDiag</a><a href="ai-factory.html">AI Factory</a><a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a></div>
+      <div class="foot-col"><h5 data-fr="Entreprise" data-en="Company">Entreprise</h5>
+        <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a><a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a><a href="index.html#contact">Contact</a></div>
+      <div class="foot-col"><h5>Contact</h5>
+        <a href="mailto:contact@arkeva.eu">contact@arkeva.eu</a><a href="https://arkeva.eu" target="_blank" rel="noopener">arkeva.eu</a><a href="https://www.linkedin.com/in/jean-baptistetachoires/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Arkeva — <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></span>
+      <span class="mono" style="font-size:11px;letter-spacing:.14em" data-fr="AI FOR MANUFACTURING" data-en="BUILT FOR THE INDUSTRIAL FIELD">CONÇU POUR LE TERRAIN INDUSTRIEL</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/arkeva.js"></script>
+</body>
+</html>

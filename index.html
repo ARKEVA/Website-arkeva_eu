@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPCR9PBT');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arkeva — Bridging AI & 4.0 Industry</title>
+<meta name="description" content="At Arkeva, we develop pioneering technology to enhance operational decision-making and drive industrial excellence through AI-driven innovations. Our state-of-the-art AI products merge information from multi-intelligence sources to provide industries with strategic insights, ensuring a more efficient operating environment.​" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/favicon.png" />
+<link rel="stylesheet" href="assets/arkeva.css">
+<style>
+/* ---------- HERO ---------- */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:150px 0 80px}
+#net{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 72% 30%,rgba(43,240,201,.08),transparent 60%),radial-gradient(ellipse 60% 50% at 12% 85%,rgba(156,124,255,.09),transparent 60%),linear-gradient(180deg,transparent 70%,var(--bg) 100%);z-index:1;pointer-events:none}
+.hero .wrap{position:relative;z-index:2;max-width:1000px}
+.hero h1{font-size:clamp(42px,7.4vw,92px);font-weight:700;margin-bottom:28px}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hero h1 .line span{display:inline-block;transform:translateY(110%);animation:rise 1s var(--ease) forwards}
+.hero h1 .line:nth-child(2) span{animation-delay:.12s}
+.hero h1 .line:nth-child(3) span{animation-delay:.24s}
+@keyframes rise{to{transform:translateY(0)}}
+.hero p.lead{font-size:clamp(17px,2vw,21px);color:var(--muted);max-width:660px;margin-bottom:40px;opacity:0;animation:fadeUp 1s .5s var(--ease) forwards}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s .65s var(--ease) forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+/* live loss ticker */
+.loss{margin-top:54px;display:inline-flex;align-items:center;gap:18px;background:rgba(255,178,36,.05);border:1px solid rgba(255,178,36,.22);border-radius:14px;padding:14px 22px;opacity:0;animation:fadeUp 1s .85s var(--ease) forwards;flex-wrap:wrap}
+.loss .pulse{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(255,178,36,.18);animation:pulse 1.6s infinite;flex:0 0 auto}
+.loss .lt{font-size:13px;color:var(--muted);max-width:330px;line-height:1.45}
+.loss .lv{font-family:var(--font-m);font-weight:600;font-size:clamp(20px,2.6vw,30px);color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.trust{margin-top:56px;opacity:0;animation:fadeUp 1s 1s var(--ease) forwards}
+.trust .label{font-family:var(--font-m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px}
+/* ---------- STATS ---------- */
+.stats{padding:74px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.stat{position:relative;padding-left:22px}
+.stat::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:var(--grad);opacity:.5;border-radius:2px}
+.stat .num{font-family:var(--font-d);font-weight:700;font-size:clamp(34px,4.5vw,54px);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .lbl{color:var(--muted);font-size:14px;margin-top:12px;max-width:240px}
+/* ---------- CONSTAT ---------- */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prob .big{font-family:var(--font-d);font-weight:700;font-size:34px;color:var(--amber);margin-top:18px;line-height:1}
+.prob .src{font-size:12.5px;color:var(--faint);margin-top:6px}
+/* ---------- MANIFESTO ---------- */
+.manifesto{padding:140px 0;text-align:center}
+.manifesto p{font-family:var(--font-d);font-weight:600;font-size:clamp(26px,4vw,48px);line-height:1.3;letter-spacing:-.02em;max-width:1000px;margin:0 auto}
+.manifesto .w{opacity:.22;transition:opacity .5s var(--ease), color .5s}
+.manifesto .w.on{opacity:1}
+.manifesto .hl.on{color:var(--teal)}
+.manifesto .hl2.on{color:var(--amber)}
+/* ---------- SMARTDIAG FLAGSHIP ---------- */
+.flag-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:64px;align-items:center}
+.flag-badge{display:inline-flex;align-items:center;gap:9px;background:var(--grad-soft);border:1px solid var(--line2);border-radius:30px;padding:7px 16px;font-size:12.5px;font-weight:600;color:var(--teal);margin-bottom:24px;font-family:var(--font-m);letter-spacing:.06em}
+.flag-grid h2{font-size:clamp(30px,4.4vw,50px);margin-bottom:22px}
+.flag-grid > div > p{color:var(--muted);font-size:17px;margin-bottom:30px}
+.flag-feats{display:grid;gap:15px;margin-bottom:34px}
+.flag-feats .ff{display:flex;gap:14px;align-items:flex-start}
+.flag-feats .ff .chk{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#04121a;font-weight:700;font-size:13px;margin-top:2px}
+.flag-feats .ff b{font-weight:600}
+.flag-feats .ff span{color:var(--muted);font-size:14.5px}
+.mock{background:#080E1B;border:1px solid var(--line2);border-radius:18px;overflow:hidden;box-shadow:0 40px 100px -36px rgba(0,0,0,.85), 0 0 0 1px rgba(43,240,201,.05);position:relative}
+.mock::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(43,240,201,.04),transparent 40%);pointer-events:none}
+.mock-top{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.mock-top i{width:11px;height:11px;border-radius:50%;display:block}
+.mock-top i:nth-child(1){background:#ff5f57}.mock-top i:nth-child(2){background:#febc2e}.mock-top i:nth-child(3){background:#28c840}
+.mock-top .t{margin-left:10px;font-size:12px;color:var(--faint);font-family:var(--font-m)}
+.mock-top .live{margin-left:auto;font-family:var(--font-m);font-size:10px;letter-spacing:.14em;color:var(--teal);display:flex;align-items:center;gap:6px}
+.mock-top .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 1.6s infinite}
+.mock-body{padding:22px;min-height:320px}
+.chat-line{display:flex;gap:10px;margin-bottom:16px;opacity:0;transform:translateY(8px)}
+.chat-line.show{opacity:1;transform:none;transition:.5s var(--ease)}
+.chat-line .av{flex:0 0 auto;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--font-m)}
+.chat-line.user .av{background:rgba(255,255,255,.08);color:var(--muted)}
+.chat-line.ai .av{background:var(--grad);color:#04121a}
+.chat-line .bubble{font-size:13.5px;line-height:1.55;padding:11px 15px;border-radius:12px;max-width:86%}
+.chat-line.user .bubble{background:rgba(255,255,255,.05)}
+.chat-line.ai .bubble{background:rgba(43,240,201,.07);border:1px solid rgba(43,240,201,.18)}
+.chat-line .bubble .src{display:block;margin-top:8px;font-size:11px;color:var(--teal);font-family:var(--font-m)}
+/* ---------- FACTORY ---------- */
+.models{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.model{background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:var(--r);padding:34px 30px;position:relative;overflow:hidden;transition:.45s var(--ease)}
+.model:hover{transform:translateY(-6px);border-color:var(--line2)}
+.model .glow{position:absolute;width:230px;height:230px;border-radius:50%;filter:blur(85px);opacity:.28;top:-70px;right:-60px;transition:.5s}
+.model:hover .glow{opacity:.5}
+.model.spider{border-top:2px solid var(--teal)}.model.spider .glow{background:var(--teal)}
+.model.fox{border-top:2px solid var(--violet)}.model.fox .glow{background:var(--violet)}
+.model.eagle{border-top:2px solid var(--blue)}.model.eagle .glow{background:var(--blue)}
+.model .tag{font-family:var(--font-d);font-weight:700;font-size:28px;margin-bottom:4px;position:relative}
+.model.spider .tag{color:var(--teal)}.model.fox .tag{color:var(--violet)}.model.eagle .tag{color:var(--blue)}
+.model .role{font-family:var(--font-m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;position:relative;opacity:.75}
+.model.spider .role{color:var(--teal)}.model.fox .role{color:var(--violet)}.model.eagle .role{color:var(--blue)}
+.model .mdesc{font-size:14px;color:var(--muted);line-height:1.6;position:relative;border-top:1px solid var(--line);padding-top:16px}
+.factory-cta{display:flex;gap:14px;justify-content:center;margin-top:50px;flex-wrap:wrap}
+/* ---------- MÉTHODE : parcours ---------- */
+.journey{position:relative;max-width:1020px;margin:0 auto}
+.jline{position:absolute;left:50%;top:24px;bottom:24px;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,var(--teal),var(--blue) 50%,var(--violet));opacity:.3;border-radius:2px}
+.jstep{position:relative;display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;margin-bottom:30px}
+.jstep:last-child{margin-bottom:0}
+.jnode{grid-column:2;grid-row:1;justify-self:center;width:48px;height:48px;border-radius:50%;background:var(--bg);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-weight:700;font-size:18px;position:relative;z-index:2;transition:.6s var(--ease)}
+.jnode span{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.jstep.in .jnode{border-color:rgba(43,240,201,.55);box-shadow:0 0 0 7px rgba(43,240,201,.06),0 0 28px -6px rgba(43,240,201,.45)}
+.jcard{grid-column:1;grid-row:1;background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;position:relative;transition:.45s var(--ease)}
+.jcard:hover{transform:translateY(-4px);border-color:var(--line2)}
+.jcard::after{content:"";position:absolute;top:50%;right:-31px;width:31px;height:1px;background:linear-gradient(90deg,transparent,rgba(43,240,201,.5))}
+.jstep.alt .jcard{grid-column:3}
+.jstep.alt .jcard::after{right:auto;left:-31px;background:linear-gradient(270deg,transparent,rgba(43,240,201,.5))}
+.jcard h3{font-size:21px;margin-bottom:8px}
+.jcard p{font-size:14.5px;color:var(--muted)}
+.jkick{display:none;font-family:var(--font-m);font-size:11px;letter-spacing:.22em;color:var(--teal);margin-bottom:10px}
+.jtag{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(43,240,201,.06);border:1px solid rgba(43,240,201,.2);border-radius:20px;padding:5px 13px}
+.jtag::before{content:"✓";font-weight:700}
+.jverb{grid-column:3;grid-row:1;font-family:var(--font-m);font-size:12.5px;letter-spacing:.3em;color:var(--faint);display:flex;align-items:center;gap:16px;transition:color .5s}
+.jverb::before{content:"";width:36px;height:1px;background:var(--line3);flex:0 0 auto}
+.jstep.alt .jverb{grid-column:1;justify-self:end;flex-direction:row-reverse}
+.jstep:hover .jverb{color:var(--teal)}
+.jend{display:flex;justify-content:center;margin-top:36px;position:relative;z-index:2}
+.jend span{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);background:rgba(43,240,201,.05);border:1px dashed rgba(43,240,201,.35);border-radius:30px;padding:10px 22px}
+/* ---------- ROI TEASER ---------- */
+.roiteaser{background:linear-gradient(135deg,rgba(255,178,36,.07),rgba(255,122,69,.04));border:1px solid rgba(255,178,36,.25);border-radius:26px;padding:54px;display:grid;grid-template-columns:1.2fr .8fr;gap:44px;align-items:center;position:relative;overflow:hidden}
+.roiteaser::before{content:"";position:absolute;width:400px;height:400px;border-radius:50%;background:var(--amber);filter:blur(150px);opacity:.1;top:-150px;right:-80px}
+.roiteaser h3{font-size:clamp(24px,3.2vw,38px);margin-bottom:14px}
+.roiteaser p{color:var(--muted);font-size:16px}
+.roiteaser .rt-num{font-family:var(--font-m);font-size:clamp(34px,4.5vw,54px);font-weight:600;color:var(--amber);text-align:right;font-variant-numeric:tabular-nums;line-height:1.1}
+.roiteaser .rt-cap{font-family:var(--font-m);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-align:right;margin-top:10px}
+.roiteaser .btn{margin-top:26px}
+/* ---------- TEAM ---------- */
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.member{text-align:center;transition:.4s}
+.member .ph{width:100%;aspect-ratio:1;border-radius:16px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-weight:700;font-size:34px;margin-bottom:16px;position:relative;overflow:hidden;transition:.4s var(--ease)}
+.member .ph::after{content:"";position:absolute;inset:0;background:var(--grad);opacity:0;transition:.4s}
+.member .ph span{position:relative;z-index:2;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.member:hover .ph{transform:translateY(-5px) rotate(-1.5deg);border-color:var(--line2)}
+.member:hover .ph::after{opacity:.12}
+.member h4{font-size:16px;margin-bottom:3px}
+.member .rl{font-size:13px;color:var(--teal);margin-bottom:6px;font-family:var(--font-m)}
+.member .bio{font-size:12px;color:var(--faint);line-height:1.4}
+@media(max-width:980px){
+  .hero{display:block;min-height:auto;padding:120px 0 64px}
+  .hero .wrap{max-width:100%}
+  .hero h1{font-size:clamp(32px,8vw,56px)}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{width:100%;justify-content:center}
+  .loss{width:100%;align-items:flex-start}
+  .loss .lt{max-width:none}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:34px}
+  .prob-grid,.models{grid-template-columns:1fr}
+  .jline{left:23px;transform:none;top:10px;bottom:10px}
+  .jstep{grid-template-columns:46px 1fr;gap:16px;margin-bottom:20px;align-items:start}
+  .jnode{grid-column:1;width:46px;height:46px;margin-top:24px}
+  .jcard,.jstep.alt .jcard{grid-column:2}
+  .jcard::after,.jstep.alt .jcard::after{display:none}
+  .jverb{display:none}
+  .jkick{display:block}
+  .flag-grid{grid-template-columns:1fr;gap:40px}
+  .roiteaser{grid-template-columns:1fr;padding:36px 26px}
+  .roiteaser .rt-num,.roiteaser .rt-cap{text-align:left}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px){.team-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPCR9PBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="pgbar"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img class="mark" src="assets/logo.png" alt="Arkeva" />
+      
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="smartdiag.html">SmartDiag</a>
+      <a href="ai-factory.html">AI Factory</a>
+      <a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a>
+      <a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a>
+      <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button data-lang="fr" class="active">FR</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <a href="#contact" class="btn btn-primary" data-fr="Demander une démo" data-en="Request a demo">Demander une démo</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <canvas id="net"></canvas>
+  <div class="wrap">
+    <div class="hero-badge"><span class="dot"></span><span data-fr="Bridging AI & 4.0 Industry" data-en="Bridging AI & 4.0 Industry">Bridging AI & 4.0 Industry</span></div>
+    <h1>
+      <span class="line"><span data-fr="Votre savoir-faire" data-en="Your know-how">Votre connaissance terrain</span></span>
+      <span class="line"><span class="grad-text" data-fr="vaut des millions." data-en="is worth millions.">vaut des millions.</span></span>
+      <span class="line"><span data-fr="Capitalisez-le." data-en="Capture it.">Capitalisez-la.</span></span>
+    </h1>
+    <p class="lead" data-fr="Avec chaque processus, réflexe d'expert ou donnée capteur : Arkeva en fait une intelligence opérationnelle qui surveille, diagnostique, assiste et forme en continu — sans que vos données ne quittent l'usine."
+       data-en="Every process, every expert reflex, every sensor data: Arkeva turns them into operational intelligence that monitors, diagnoses, assists and trains continuously — without your data ever leaving the plant.">
+       Chaque panne résolue, chaque réflexe d'expert, chaque donnée capteur : Arkeva en fait une intelligence opérationnelle qui surveille etdiagnostique en continu — sans que vos données ne quittent l'usine.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary" data-fr="Réserver un pilote" data-en="Book a pilot">Réserver un pilote</a>
+      <a href="smartdiag.html" class="btn btn-ghost" data-fr="Découvrir SmartDiag →" data-en="Discover SmartDiag →">Découvrir SmartDiag →</a>
+    </div>
+    <div class="loss">
+      <span class="pulse"></span>
+      <div class="lt" data-fr="Coût potentiel des arrêts non planifiés sur une ligne critique depuis votre arrivée sur cette page&nbsp;:" data-en="Potential cost of unplanned downtime on one critical line since you opened this page:">Coût estimé des arrêts non planifiés sur une ligne critique depuis votre arrivée sur cette page&nbsp;:</div>
+      <div class="lv" id="lossval">0 €</div>
+    </div>
+    <div class="trust">
+      <div class="label" data-fr="Ils nous font confiance" data-en="Trusted by">Ils nous font confiance</div>
+      <div class="marquee">
+        <div class="marquee-track">
+          <img src="https://upload.wikimedia.org/wikipedia/fr/2/29/Logo_Orano.svg" alt="Orano" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Logo_Arts_et_M%C3%A9tiers.svg" alt="Arts &amp; Métiers" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Eli_Lilly_and_Company.svg" alt="Eli Lilly" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/PwC_Company_Logo.svg" alt="PwC" />
+          <img src="https://www.wilco-ambitions.com/wp-content/uploads/2023/08/logo-wilco-white-change.png" alt="Wilco" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Bpifrance_logo.svg" alt="Bpifrance" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Alstom_logo.svg" alt="Alstom" />
+          <img src="assets/france-deeptech.svg" alt="France Deeptech" />
+          <img src="https://upload.wikimedia.org/wikipedia/fr/2/29/Logo_Orano.svg" alt="" aria-hidden="true" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Logo_Arts_et_M%C3%A9tiers.svg" alt="" aria-hidden="true" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Eli_Lilly_and_Company.svg" alt="" aria-hidden="true" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/PwC_Company_Logo.svg" alt="" aria-hidden="true" />
+          <img src="https://www.wilco-ambitions.com/wp-content/uploads/2023/08/logo-wilco-white-change.png" alt="" aria-hidden="true" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Bpifrance_logo.svg" alt="" aria-hidden="true" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Alstom_logo.svg" alt="" aria-hidden="true" />
+          <img src="assets/france-deeptech.svg" alt="" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat reveal"><div class="num" data-count="450" data-suffix=" k€/h">0</div><div class="lbl" data-fr="Coût moyen d'une heure d'arrêt de production non planifié" data-en="Average cost of one hour of unplanned downtime">Coût moyen d'une heure d'arrêt de production non planifié</div></div>
+    <div class="stat reveal d1"><div class="num" data-count="40" data-prefix="+" data-suffix="%">0</div><div class="lbl" data-fr="d'efficacité sur vos processus critiques - testé sur le terrain" data-en="efficiency on your critical processes — field-tested">De réduction sur le temps d'arrêt machine</div></div>
+    <div class="stat reveal d2"><div class="num" data-count="9" data-suffix=" s">0</div><div class="lbl" data-fr="Pour obtenir un diagnostic sourcé, en corrélant votre SI complet" data-en="To get a sourced diagnosis, correlating your entire IS">Pour obtenir un diagnostic sourcé, au poste de travail</div></div>
+    <div class="stat reveal d3"><div class="num" data-count="100" data-suffix="%">0</div><div class="lbl" data-fr="De la donnée traitée dans l'usine — zéro dépendance cloud" data-en="Of data processed in-plant — zero cloud dependency">De la donnée traitée dans l'usine — zéro dépendance cloud</div></div>
+  </div>
+</section>
+
+<!-- ============ CONSTAT ============ -->
+<section class="sec gridbg" id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="idx">01</span><span data-fr="L'hémorragie silencieuse" data-en="The silent hemorrhage">L'hémorragie silencieuse</span></span>
+      <h2 data-fr="Chaque jour, votre usine oublie ce qu'elle a appris." data-en="Every day, your factory forgets what it learned.">Chaque jour, votre usine oublie ce qu'elle a appris.</h2>
+      <p data-fr="80% des causes de panne sont récurrentes — mais le réflexe et la démarche de résolution vit dans la tête d'un senior, pas dans vos systèmes. Quand il part, vous repayez l'apprentissage. En heures d'arrêt." data-en="80% of failure causes are recurring — but the reflex and the resolution method live in a senior's head, not in your systems. When they leave, you pay for the learning again. In downtime hours.">80% des causes de panne sont récurrentes — mais le réflexe et la démarche de résolution vit dans la tête d'un senior, pas dans vos systèmes. Quand il part, vous repayez l'apprentissage. En heures d'arrêt.</p>
+    </div>
+    <div class="prob-grid">
+      <div class="card ticks prob reveal">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M16 3l5 5-13 13H3v-5L16 3z" stroke="#2BF0C9" stroke-width="1.7" stroke-linejoin="round"/></svg></div>
+        <h3 data-fr="Le savoir part avec les experts" data-en="Knowledge leaves with the experts">Le savoir part avec les experts</h3>
+        <p data-fr="Départs non remplacés, rotation rapide. Vingt ans de réflexes terrain s'effacent en un préavis." data-en="Unfilled departures, fast rotation. Twenty years of field reflexes erased within one notice period.">Départs non remplacés, rotation rapide. Vingt ans de réflexes terrain s'effacent en un préavis.</p>
+        <div class="big">77%</div>
+        <p class="src" data-fr="des industriels peinent à recruter en maintenance — France Travail, 2025" data-en="of manufacturers struggle to recruit maintenance staff — France Travail, 2025">des industriels peinent à recruter en maintenance — France Travail, 2025</p>
+      </div>
+      <div class="card ticks prob reveal d1">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#2BF0C9" stroke-width="1.7" stroke-linejoin="round"/></svg></div>
+        <h3 data-fr="L'information est éclatée" data-en="Information is scattered">L'information est éclatée</h3>
+        <p data-fr="GMAO, Excel, PDF, capteurs, mémoire d'équipe : le technicien cherche au lieu de réparer." data-en="CMMS, Excel, PDFs, sensors, team memory: technicians search instead of fixing.">GMAO, Excel, PDF, capteurs, mémoire d'équipe : le technicien cherche au lieu de réparer.</p>
+        <div class="big">27 h/mois</div>
+        <p class="src" data-fr="d'arrêts non planifiés par ligne, en moyenne" data-en="of unplanned downtime per line, on average">d'arrêts non planifiés par ligne, en moyenne</p>
+      </div>
+      <div class="card ticks prob reveal d2">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 8v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#2BF0C9" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <h3 data-fr="Chaque minute se paie cash" data-en="Every minute is paid in cash">Chaque minute se paie cash</h3>
+        <p data-fr="La maintenance pèse sur l'OPEX. Vos lignes nécessitent une surveillance de chaque instant." data-en="Maintenance weighs on OPEX and every downtime hour costs hundreds of thousands of euros.">La maintenance pèse sur l'OPEX et chaque heure d'arrêt se chiffre en centaines de milliers d'euros.</p>
+        <div class="big">60%</div>
+        <p class="src" data-fr="des coûts opérationnels sont alloués à la maintenance" data-en="of operational costs allocated to maintenance">des coûts opérationnels alloués à la maintenance</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto sec-alt">
+  <div class="wrap">
+    <p id="manif"
+       data-fr="Le savoir-faire industriel n'est pas un coût caché. C'est <span class='hl'>l'actif le plus rentable</span> de votre usine — à condition de le <span class='hl'>capitaliser</span> avant qu'il ne <span class='hl2'>disparaisse</span>."
+       data-en="Industrial know-how is not a hidden cost. It is your factory's <span class='hl'>most profitable asset</span> — provided you <span class='hl'>capture it</span> before it <span class='hl2'>disappears</span>.">
+       Le savoir-faire industriel n'est pas un coût caché. C'est <span class="hl">l'actif le plus rentable</span> de votre usine — à condition de le <span class="hl">capitaliser</span> avant qu'il ne <span class="hl2">disparaisse</span>.</p>
+  </div>
+</section>
+
+<!-- ============ SMARTDIAG ============ -->
+<section class="sec" id="smartdiag">
+  <div class="wrap">
+    <div class="flag-grid">
+      <div class="reveal">
+        <div class="flag-badge">★ <span data-fr="NOTRE PRODUIT PHARE" data-en="OUR FLAGSHIP PRODUCT">PRODUIT PHARE</span></div>
+        <h2><span class="grad-text">SmartDiag</span><span data-fr=" — le copilote qui réduit la charge mentale opérationnelle" data-en=" — the copilot that reduces operational mental load."> — le copilote qui rend les heures d'arrêt à la production.</span></h2>
+        <p data-fr="Connecté à vos capteurs, votre GMAO et vos documents, SmartDiag identifie la cause racine, guide la résolution et capitalise chaque intervention. Le savoir reste — même quand les experts partent."
+           data-en="Connected to your sensors, CMMS and documents, SmartDiag identifies the root cause, guides resolution and captures every intervention. Knowledge stays — even when experts leave.">Connecté à vos capteurs, votre GMAO et vos documents, SmartDiag identifie la cause racine, guide la résolution et capitalise chaque intervention. Le savoir reste — même quand les experts partent.</p>
+        <div class="flag-feats">
+          <div class="ff"><div class="chk">✓</div><div><b data-fr="Surveillance continue et diagnostic sourcé en quelques secondes." data-en="Continuous monitoring and sourced diagnosis in seconds.">Diagnostic sourcé en 9 secondes.</b> <span data-fr="" data-en="">Cause, procédure et références — vérifiables, jamais inventées.</span></div></div>
+          <div class="ff"><div class="chk">✓</div><div><b data-fr="Une plateforme pour l'ensemble du processus" data-en="One platform for the entire process.">Anti-hallucination par construction.</b> <span data-fr="" data-en="">Si la réponse n'existe pas dans vos données, l'outil le dit.</span></div></div>
+          <div class="ff"><div class="chk">✓</div><div><b data-fr="Vos données restent dans l'usine." data-en="Your data stays inside the plant.">Vos données restent dans l'usine.</b> <span data-fr="" data-en="">Base de connaissance enrichie, hébergée dans l'usine. Point final.</span></div></div>
+        </div>
+        <a href="smartdiag.html" class="btn btn-primary" data-fr="Découvrir SmartDiag →" data-en="Explore SmartDiag →">Découvrir SmartDiag →</a>
+      </div>
+      <div class="reveal d1">
+        <div class="mock">
+          <div class="mock-top"><i></i><i></i><i></i><span class="t">SmartDiag · Ligne 3 — Packaging</span><span class="live">LIVE</span></div>
+          <div class="mock-body" id="chat"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI FACTORY ============ -->
+<section class="sec sec-alt gridbg" id="factory">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">02</span><span data-fr="AI Factory" data-en="AI Factory">AI Factory</span></span>
+      <h2 data-fr="Sous le capot : trois modèles propriétaires." data-en="Under the hood: three proprietary models.">Sous le capot : trois modèles propriétaires.</h2>
+      <p data-fr="SmartDiag est notre produit public phare. L'AI Factory est notre infrastructure R&D propriétaire : trois modèles cœur, déployés on-prem, qui transforment vos défis terrain en solutions opérationnelles et fiables." data-en="SmartDiag is our flagship public product. The AI Factory is our proprietary R&D infrastructure: three core models, deployed on-prem, that transform your field challenges into operational and reliable AI solutions.">SmartDiag est notre produit public phare. L'AI Factory est notre infrastructure R&D propriétaire : trois modèles cœur, déployés on-prem, qui transforment vos défis terrain en solutions opérationnelles et fiables.</p>
+    </div>
+    <div class="models">
+      <div class="model spider reveal"><div class="glow"></div>
+        <div class="tag">SPIDER</div>
+        <div class="role" data-fr="Réseau dynamique" data-en="Dynamic network">Réseau dynamique</div>
+        <p class="mdesc" data-fr="Cartographie vivante de vos équipements et processus. Remonte les causes racines et anticipe la propagation des défaillances — avant qu'elles n'arrêtent la ligne." data-en="A living map of your equipment and processes. Traces root causes and anticipates failure propagation — before it stops the line.">Cartographie vivante de vos équipements et processus. Remonte les causes racines et anticipe la propagation des défaillances — avant qu'elles n'arrêtent la ligne.</p>
+      </div>
+      <div class="model fox reveal d1"><div class="glow"></div>
+        <div class="tag">FOX</div>
+        <div class="role" data-fr="Simulation live" data-en="Live simulation">Simulation live</div>
+        <p class="mdesc" data-fr="Jumeau numérique synchronisé à vos lignes. Simulez chaque décision avant de l'appliquer, rejouez chaque panne pour former vos équipes." data-en="A digital twin synced to your lines. Simulate every decision before applying it, replay every failure to train your teams.">Jumeau numérique synchronisé à vos lignes. Simulez chaque décision avant de l'appliquer, rejouez chaque panne pour former vos équipes.</p>
+      </div>
+      <div class="model eagle reveal d2"><div class="glow"></div>
+        <div class="tag">EAGLE</div>
+        <div class="role" data-fr="Multi-intelligence" data-en="Multi-intelligence">Multi-intelligence</div>
+        <p class="mdesc" data-fr="Unifie MES, IoT, ERP et GMAO en une source de vérité unique. Du signal capteur au KPI de direction, sans silos." data-en="Unifies MES, IoT, ERP and CMMS into a single source of truth. From sensor signal to executive KPI, without silos.">Unifie MES, IoT, ERP et GMAO en une source de vérité unique. Du signal capteur au KPI de direction, sans silos.</p>
+      </div>
+    </div>
+    <div class="factory-cta reveal">
+      <a href="ai-factory.html" class="btn btn-primary" data-fr="Explorer l’AI Factory →" data-en="Explore the AI Factory →">Explorer l’AI Factory →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MÉTHODE ============ -->
+<section class="sec" id="approach">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">03</span><span data-fr="Notre méthode" data-en="Our method">Notre méthode</span></span>
+      <h2 data-fr="Vous n'achetez pas un logiciel, mais une preuve de valeur." data-en="You don't buy software. You buy proof of value.">Vous n'achetez pas un logiciel. Vous achetez une preuve de valeur.</h2>
+      <p data-fr="Une méthodologie projet robuste et éprouvée. Chaque étape dé-risque la suivante — et le pilote se rembourse dès le premier incident évité." data-en="A robust and proven project methodology. Each step de-risks the next — and the pilot pays for itself with the first avoided incident.">Une méthodologie projet robuste et éprouvée. Chaque étape dé-risque la suivante — et le pilote se rembourse au premier incident évité.</p>
+    </div>
+    <div class="journey">
+      <div class="jline" aria-hidden="true"></div>
+
+      <div class="jstep reveal">
+        <div class="jcard ticks">
+          <div class="jkick" data-fr="ÉCOUTER" data-en="LISTEN">ÉCOUTER</div>
+          <h3 data-fr="Rencontre" data-en="First meeting">Rencontre</h3>
+          <p data-fr="Nous échangeons autour de vos problématiques et de vos enjeux. Une visite sur site nous permet de comprendre en détail votre contexte terrain." data-en="We discuss your problems and challenges. An on-site visit lets us understand your field context in detail.">Nous échangeons autour de vos problématiques et de vos enjeux. Une visite sur site nous permet de comprendre en détail votre contexte terrain.</p>
+          <div class="jtag" data-fr="Visite sur site" data-en="On-site visit">Visite sur site</div>
+        </div>
+        <div class="jnode"><span>1</span></div>
+        <div class="jverb" data-fr="COMPRENDRE" data-en="UNDERSTAND">COMPRENDRE</div>
+      </div>
+
+      <div class="jstep alt reveal">
+        <div class="jcard ticks">
+          <div class="jkick" data-fr="CONCEVOIR" data-en="DESIGN">CONCEVOIR</div>
+          <h3>Design</h3>
+          <p data-fr="Nous tenons compte de vos infrastructures et de vos process afin de préciser ensemble la solution qui répond à vos attentes." data-en="We take your infrastructure and processes into account to define together the solution that meets your expectations.">Nous tenons compte de vos infrastructures et de vos process afin de préciser ensemble la solution qui répond à vos attentes.</p>
+          <div class="jtag" data-fr="Solution sur mesure" data-en="Tailored solution">Solution sur mesure</div>
+        </div>
+        <div class="jnode"><span>2</span></div>
+        <div class="jverb" data-fr="CONCEVOIR" data-en="DESIGN">CONCEVOIR</div>
+      </div>
+
+      <div class="jstep reveal">
+        <div class="jcard ticks">
+          <div class="jkick" data-fr="CONSTRUIRE" data-en="BUILD">CONSTRUIRE</div>
+          <h3 data-fr="Production & Tests" data-en="Production & Testing">Production & Tests</h3>
+          <p data-fr="Nous ajustons nos modules, avant de les tester afin d'obtenir des premiers ROI mesurables." data-en="We fine-tune our modules, then test them to obtain the first measurable ROI.">Nous ajustons nos modules, avant de les tester afin d'obtenir des premiers ROI mesurables.</p>
+          <div class="jtag" data-fr="Premiers ROI mesurables" data-en="First measurable ROI">Premiers ROI mesurables</div>
+        </div>
+        <div class="jnode"><span>3</span></div>
+        <div class="jverb" data-fr="CONSTRUIRE" data-en="BUILD">CONSTRUIRE</div>
+      </div>
+
+      <div class="jstep alt reveal">
+        <div class="jcard ticks">
+          <div class="jkick" data-fr="DÉPLOYER" data-en="DEPLOY">DÉPLOYER</div>
+          <h3 data-fr="Implémentation" data-en="Implementation">Implémentation</h3>
+          <p data-fr="Nous délivrons et implémentons votre solution en collaboration avec votre structure IT." data-en="We deliver and implement your solution in collaboration with your IT organization.">Nous délivrons et implémentons votre solution en collaboration avec votre structure IT.</p>
+          <div class="jtag" data-fr="Intégré à votre SI" data-en="Integrated with your IT">Intégré à votre SI</div>
+        </div>
+        <div class="jnode"><span>4</span></div>
+        <div class="jverb" data-fr="DÉPLOYER" data-en="DEPLOY">DÉPLOYER</div>
+      </div>
+
+      <div class="jstep reveal">
+        <div class="jcard ticks">
+          <div class="jkick" data-fr="ACCOMPAGNER" data-en="SUPPORT">ACCOMPAGNER</div>
+          <h3 data-fr="Pilotage" data-en="Adoption">Pilotage</h3>
+          <p data-fr="Nous vous aidons à prendre en main la solution et nous vous accompagnons dans la conduite du changement opérationnelle." data-en="We help you take ownership of the solution and support you through operational change management.">Nous vous aidons à prendre en main la solution et nous vous accompagnons dans la conduite du changement opérationnelle.</p>
+          <div class="jtag" data-fr="Conduite du changement" data-en="Change management">Conduite du changement</div>
+        </div>
+        <div class="jnode"><span>5</span></div>
+        <div class="jverb" data-fr="ACCOMPAGNER" data-en="SUPPORT">ACCOMPAGNER</div>
+      </div>
+
+      <div class="jstep alt reveal">
+        <div class="jcard ticks">
+          <div class="jkick" data-fr="AMÉLIORER" data-en="IMPROVE">AMÉLIORER</div>
+          <h3 data-fr="Amélioration" data-en="Improvement">Amélioration</h3>
+          <p data-fr="Nous capitalisons sur vos retours pour améliorer continuellement notre solution et vous garantir la plus forte valeur ajoutée." data-en="We build on your feedback to continuously improve our solution and guarantee you the highest added value.">Nous capitalisons sur vos retours pour améliorer continuellement notre solution et vous garantir la plus forte valeur ajoutée.</p>
+          <div class="jtag" data-fr="Valeur ajoutée durable" data-en="Lasting added value">Valeur ajoutée durable</div>
+        </div>
+        <div class="jnode"><span>6</span></div>
+        <div class="jverb" data-fr="AMÉLIORER" data-en="IMPROVE">AMÉLIORER</div>
+      </div>
+
+      <div class="jend reveal"><span>↻ <span data-fr="Itération par module garantissant un passage à l'échelle réussi" data-en="Module-by-module iteration ensuring a successful scale-up">La valeur croît à chaque cycle</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROI TEASER ============ -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="roiteaser reveal">
+      <div>
+        <h3 data-fr="Combien vous coûte l'inaction ?" data-en="What is inaction costing you?">Combien vous coûte l'inaction ?</h3>
+        <p data-fr="Les calculs sont simples et le retour sur investissement sans appel - estimez ce qu'un pilote SmartDiag pourrait vous rapporter." data-en="The math is simple and the return on investment undeniable — estimate what a SmartDiag pilot could bring you.">Trois curseurs, trente secondes : estimez ce que vos arrêts non planifiés coûtent chaque année — et ce qu'un pilote SmartDiag pourrait vous rapporter.</p>
+        <a href="roi.html" class="btn btn-amber" data-fr="Lancer le calculateur ROI →" data-en="Launch the ROI calculator →">Lancer le calculateur ROI →</a>
+      </div>
+      <div>
+        <div class="rt-num" data-count="4860" data-prefix="−" data-suffix=" k€/an">−0 k€/an</div>
+        <div class="rt-cap" data-fr="Pertes annuelles types · 3 lignes critiques" data-en="Typical annual losses · 3 critical lines">Pertes annuelles types · 3 lignes critiques</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM (masqué) ============ -->
+<section class="sec sec-alt" id="team" style="display:none">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="idx">04</span><span data-fr="L'équipe" data-en="The team">L'équipe</span></span>
+      <h2 data-fr="Une équipe qui connaît l'odeur de l'atelier." data-en="Engineers who know what a workshop smells like.">Une équipe qui connaît l'odeur de l'atelier.</h2>
+      <p data-fr="Parce que la transformation en profondeur vient avant tout du terrain." data-en="Because deep transformation starts with the ground reality.">Parce que la transformation en profondeur vient avant tout du terrain.</p>
+    </div>
+    <div class="team-grid">
+      <div class="member reveal"><div class="ph"><span>JB</span></div><h4>Jean-Baptiste Tachoires</h4><div class="rl">CEO</div><p class="bio" data-fr="Fondateur d'une société de conseil. 19 missions industrielles. Ingénieur Arts & Métiers." data-en="Founded a consulting firm. 19 industrial missions. Arts & Métiers engineer.">Fondateur d'une société de conseil. 19 missions industrielles. Ingénieur Arts & Métiers.</p></div>
+      <div class="member reveal d1"><div class="ph"><span>AB</span></div><h4>Adam Ben-Hellal</h4><div class="rl">Head of Product</div><p class="bio" data-fr="Analyste industriel sur les enjeux de maintenance chez Lilly France." data-en="Industrial analyst on maintenance issues at Lilly France.">Analyste industriel sur les enjeux de maintenance chez Lilly France.</p></div>
+      <div class="member reveal d2"><div class="ph"><span>AB</span></div><h4>Allan Boillaud</h4><div class="rl">Head of Sales</div><p class="bio" data-fr="Développement d'activités techniques chez Innovateam." data-en="Technical business development at Innovateam.">Développement d'activités techniques chez Innovateam.</p></div>
+      <div class="member reveal d3"><div class="ph"><span>PV</span></div><h4>Paul Vialard</h4><div class="rl">Data & AI Engineer</div><p class="bio" data-fr="Ex-JustAI. Spécialiste des modèles terrain." data-en="Ex-JustAI. Field-model specialist.">Ex-JustAI. Spécialiste des modèles terrain.</p></div>
+      <div class="member reveal d4"><div class="ph"><span>MM</span></div><h4>Mathis Mouawad</h4><div class="rl">Dev. UI/UX</div><p class="bio" data-fr="Développement d'outils numériques, ex-SAFRAN." data-en="Digital tools development, ex-SAFRAN.">Développement d'outils numériques, ex-SAFRAN.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="cta-grid">
+        <div>
+          <h2 data-fr="Discutons de votre ligne critique." data-en="Let's talk about your critical line.">Discutons de votre ligne critique.</h2>
+          <p data-fr="Un cadrage qualifie votre cas en quelques semaines. À 450 k€ l'heure d'arrêt, un seul incident évité rembourse le pilote entier." data-en="A scoping phase qualifies your case in weeks. At €450k per downtime hour, one avoided incident pays back the entire pilot.">Un cadrage qualifie votre cas en quelques semaines. À 450 k€ l'heure d'arrêt, un seul incident évité rembourse le pilote entier.</p>
+          <div class="cta-points">
+            <div data-fr="Réponse sous 48 h" data-en="Reply within 48h">Réponse sous 48 h</div>
+            <div data-fr="Expertise et premiers conseils offerts" data-en="Free expertise and first advice">Expertise et premiers conseils offerts</div>
+            <div data-fr="Architecture souveraine — EU ou 100% locale" data-en="Sovereign architecture — EU or 100% local">Architecture souveraine — EU ou 100% locale</div>
+          </div>
+        </div>
+        <form data-demo data-subject="Site Arkeva — Demande de démo (accueil)">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <div class="row">
+            <input type="text" name="Nom" required placeholder="Nom" data-fr-ph="Nom" data-en-ph="Name" />
+            <input type="text" name="Entreprise" required placeholder="Entreprise" data-fr-ph="Entreprise" data-en-ph="Company" />
+          </div>
+          <input type="email" name="Email" required placeholder="Email professionnel" data-fr-ph="Email professionnel" data-en-ph="Work email" />
+          <select name="Sujet">
+            <option data-fr="Sujet — Diagnostic & maintenance" data-en="Topic — Diagnostics & maintenance">Sujet — Diagnostic & maintenance</option>
+            <option data-fr="Vision & détection de défauts" data-en="Vision & defect detection">Vision & détection de défauts</option>
+            <option data-fr="Optimisation logistique / WMS" data-en="Logistics / WMS optimization">Optimisation logistique / WMS</option>
+            <option data-fr="Autre cas d'usage IA" data-en="Other AI use case">Autre cas d'usage IA</option>
+          </select>
+          <textarea name="Message" placeholder="Décrivez votre ligne ou votre enjeu…" data-fr-ph="Décrivez votre ligne ou votre enjeu…" data-en-ph="Describe your line or challenge…"></textarea>
+          <button type="submit" class="btn btn-primary" data-fr="Réserver mon créneau" data-en="Book my slot">Réserver mon créneau</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="bigword">ARKEVA</div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo"><img class="mark" src="assets/logo.png" alt="Arkeva" /></a>
+        <p data-fr="IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel." data-en="Sovereign AI for Industry 4.0. We turn your workshops' memory into an operational asset.">IA souveraine pour l'industrie 4.0. Nous transformons la mémoire de vos ateliers en actif opérationnel.</p>
+      </div>
+      <div class="foot-col"><h5 data-fr="Produits" data-en="Products">Produits</h5>
+        <a href="smartdiag.html">SmartDiag</a><a href="ai-factory.html">AI Factory</a><a href="roi.html" data-fr="Calculateur ROI" data-en="ROI Calculator">Calculateur ROI</a></div>
+      <div class="foot-col"><h5 data-fr="Entreprise" data-en="Company">Entreprise</h5>
+        <a href="index.html#team" data-fr="Équipe" data-en="Team" style="display:none">Équipe</a><a href="index.html#approach" data-fr="Méthode" data-en="Method">Méthode</a><a href="index.html#contact">Contact</a></div>
+      <div class="foot-col"><h5>Contact</h5>
+        <a href="mailto:contact@arkeva.eu">contact@arkeva.eu</a><a href="https://arkeva.eu" target="_blank" rel="noopener">arkeva.eu</a><a href="https://www.linkedin.com/in/jean-baptistetachoires/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Arkeva — <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></span>
+      <span class="mono" style="font-size:11px;letter-spacing:.14em" data-fr="AI for manufacturing" data-en="BUILT FOR THE INDUSTRIAL FIELD">CONÇU POUR LE TERRAIN INDUSTRIEL</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/arkeva.js"></script>
+<script>
+/* ---------- HERO : graphe de connaissance vivant ---------- */
+(function(){
+  const canvas = document.getElementById('net');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W,H,nodes=[],pulses=[],mouse={x:-999,y:-999};
+  function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; init(); }
+  function init(){
+    const count = Math.min(90, Math.floor(W*H/15000));
+    nodes=[]; pulses=[];
+    for(let i=0;i<count;i++){
+      nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.7+.8});
+    }
+  }
+  function spawnPulse(){
+    if(nodes.length<2 || pulses.length>14) return;
+    const a = nodes[Math.floor(Math.random()*nodes.length)];
+    let best=null,bd=1e9;
+    for(const n of nodes){ if(n===a) continue; const d=Math.hypot(a.x-n.x,a.y-n.y); if(d<160 && d<bd){bd=d;best=n;} }
+    if(best) pulses.push({a,b:best,t:0,sp:.012+Math.random()*.02});
+  }
+  setInterval(spawnPulse, 260);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<nodes.length;i++){
+      const n=nodes[i];
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W)n.vx*=-1;
+      if(n.y<0||n.y>H)n.vy*=-1;
+      const dx=mouse.x-n.x, dy=mouse.y-n.y, md=Math.hypot(dx,dy);
+      if(md<150){ n.x+=dx*.007; n.y+=dy*.007; }
+      for(let j=i+1;j<nodes.length;j++){
+        const m=nodes[j];
+        const d=Math.hypot(n.x-m.x,n.y-m.y);
+        if(d<125){
+          ctx.strokeStyle='rgba(91,140,255,'+((1-d/125)*.45)+')';
+          ctx.lineWidth=.7;
+          ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke();
+        }
+      }
+      const near = md<150;
+      ctx.fillStyle = near ? 'rgba(43,240,201,.95)' : 'rgba(43,240,201,.5)';
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,7);ctx.fill();
+    }
+    /* data pulses traveling edges */
+    for(let k=pulses.length-1;k>=0;k--){
+      const p=pulses[k];
+      p.t+=p.sp;
+      if(p.t>=1){ pulses.splice(k,1); continue; }
+      const x=p.a.x+(p.b.x-p.a.x)*p.t, y=p.a.y+(p.b.y-p.a.y)*p.t;
+      const g=ctx.createRadialGradient(x,y,0,x,y,7);
+      g.addColorStop(0,'rgba(43,240,201,.9)'); g.addColorStop(1,'rgba(43,240,201,0)');
+      ctx.fillStyle=g;
+      ctx.beginPath();ctx.arc(x,y,7,0,7);ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+  document.addEventListener('mouseleave',()=>{mouse.x=-999;mouse.y=-999;});
+  window.addEventListener('resize',resize);
+  resize(); draw();
+})();
+
+/* ---------- TICKER coût de l'inaction ----------
+   Base : 450 k€/h × 27 h/mois ≈ 4,69 €/seconde sur une ligne critique */
+(function(){
+  const el = document.getElementById('lossval');
+  if(!el) return;
+  const RATE = 450000*27/(30*24*3600); // €/s
+  const t0 = performance.now();
+  function tick(){
+    const s = (performance.now()-t0)/1000;
+    const v = s*RATE;
+    el.textContent = v.toLocaleString(window.lang==='fr'?'fr-FR':'en-US',{maximumFractionDigits:2}) + ' €';
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+/* ---------- MANIFESTO : mots qui s'allument au scroll ---------- */
+(function(){
+  const manif = document.getElementById('manif');
+  if(!manif) return;
+  let words=[];
+  function split(){
+    const walk = (node)=>{
+      [...node.childNodes].forEach(ch=>{
+        if(ch.nodeType===3){
+          const frag=document.createDocumentFragment();
+          ch.textContent.split(/(\s+)/).forEach(tok=>{
+            if(/^\s+$/.test(tok)||tok===''){ frag.appendChild(document.createTextNode(tok)); }
+            else{ const s=document.createElement('span'); s.className='w'; s.textContent=tok; frag.appendChild(s); }
+          });
+          node.replaceChild(frag,ch);
+        } else if(ch.nodeType===1){ ch.classList.add('w'); }
+      });
+    };
+    walk(manif);
+    words=[...manif.querySelectorAll('.w')];
+  }
+  split();
+  document.addEventListener('langchange', ()=>{ requestAnimationFrame(split); });
+  window.addEventListener('scroll', ()=>{
+    const r = manif.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (window.innerHeight*.82 - r.top) / (r.height + window.innerHeight*.25)));
+    const n = Math.floor(p*words.length);
+    words.forEach((w,i)=>w.classList.toggle('on', i<n));
+  }, {passive:true});
+})();
+
+/* ---------- CHAT MOCK ---------- */
+(function(){
+  const chatData = {
+    fr:[
+      {who:'user',t:"Capteur vibration L3 en alerte — palier moteur convoyeur. Cause probable ?"},
+      {who:'ai',t:"Signature identique à 3 interventions passées : désalignement d'accouplement. Vérifiez le serrage des 4 vis, contrôlez l'alignement laser (tolérance 0,05 mm).",src:"Source : OT-2024-118 · manuel SKF p.42"},
+      {who:'user',t:"Procédure de résolution + rapport ?"},
+      {who:'ai',t:"Rapport pré-rédigé généré ✓ — mesures de sécurité (LOTO) incluses, pièces référencées, capitalisé dans la base atelier.",src:"Temps de diagnostic : 9 s"}
+    ],
+    en:[
+      {who:'user',t:"Vibration sensor L3 alert — conveyor motor bearing. Likely cause?"},
+      {who:'ai',t:"Signature matches 3 past interventions: coupling misalignment. Check the 4 bolts' torque, run a laser alignment (tolerance 0.05 mm).",src:"Source: WO-2024-118 · SKF manual p.42"},
+      {who:'user',t:"Resolution procedure + report?"},
+      {who:'ai',t:"Pre-drafted report generated ✓ — safety measures (LOTO) included, parts referenced, captured in the workshop base.",src:"Diagnosis time: 9 s"}
+    ]
+  };
+  let timers=[];
+  function buildChat(){
+    const box=document.getElementById('chat');
+    if(!box) return;
+    timers.forEach(t=>clearTimeout(t)); timers=[];
+    box.innerHTML='';
+    (chatData[window.lang]||chatData.fr).forEach((m,i)=>{
+      const line=document.createElement('div');
+      line.className='chat-line '+m.who;
+      line.innerHTML='<div class="av">'+(m.who==='ai'?'AI':'T')+'</div><div class="bubble">'+m.t+(m.src?'<span class="src">'+m.src+'</span>':'')+'</div>';
+      box.appendChild(line);
+      timers.push(setTimeout(()=>line.classList.add('show'), 500+i*900));
+    });
+  }
+  let started=false;
+  const chatBox=document.getElementById('chat');
+  if(chatBox){
+    new IntersectionObserver((entries,obs)=>{
+      entries.forEach(e=>{ if(e.isIntersecting && !started){ started=true; buildChat(); obs.disconnect(); } });
+    },{threshold:.3}).observe(chatBox);
+  }
+  document.addEventListener('langchange', ()=>{ if(started) buildChat(); });
+})();
+</script>
+</body>
+</html>

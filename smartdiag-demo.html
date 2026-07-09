@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPCR9PBT');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartDiag — Assistant de diagnostic maintenance (local-first)</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/favicon.png" />
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --border:#2a3242;
+    --txt:#e6edf3; --muted:#8b97a7; --accent:#3fb6ff; --accent2:#1f6feb;
+    --ok:#3fb950; --warn:#d29922; --crit:#f85149; --purple:#bc8cff;
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--font);font-size:14px;line-height:1.5}
+  a{color:var(--accent);text-decoration:none}
+  .app{display:flex;min-height:100vh}
+  /* Sidebar */
+  .side{width:240px;background:#0a0e14;border-right:1px solid var(--border);padding:16px 12px;position:sticky;top:0;height:100vh;flex-shrink:0;display:flex;flex-direction:column}
+  .logo{display:flex;align-items:center;gap:10px;padding:6px 8px 18px}
+  .logo .mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:800;color:#fff;font-size:16px}
+  .logo b{font-size:16px;letter-spacing:.3px}
+  .logo small{display:block;color:var(--muted);font-size:11px;font-weight:400}
+  .nav{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+  .nav button{display:flex;align-items:center;gap:10px;background:none;border:none;color:var(--muted);padding:10px 12px;border-radius:8px;cursor:pointer;font-size:13.5px;text-align:left;width:100%;font-family:var(--font)}
+  .nav button .ic{width:18px;text-align:center;font-size:15px}
+  .nav button:hover{background:var(--panel);color:var(--txt)}
+  .nav button.active{background:var(--accent2);color:#fff}
+  .side .foot{margin-top:auto;font-size:11px;color:var(--muted);padding:10px 8px;border-top:1px solid var(--border)}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:#0f2417;border:1px solid #1c4029;color:var(--ok);padding:3px 8px;border-radius:20px;font-size:11px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  /* Main */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:rgba(13,17,23,.6);backdrop-filter:blur(6px);position:sticky;top:0;z-index:5}
+  .topbar h1{font-size:17px;margin:0}
+  .topbar .sub{color:var(--muted);font-size:12px}
+  .content{padding:22px 24px;max-width:1180px;width:100%}
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .card h3{margin:0 0 4px;font-size:14px}
+  .card .lbl{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  .kpi{font-size:26px;font-weight:700;margin-top:6px}
+  .kpi small{font-size:13px;font-weight:500;color:var(--muted)}
+  .trend-up{color:var(--crit)} .trend-dn{color:var(--ok)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}
+  .b-ok{background:#0f2417;color:var(--ok)} .b-warn{background:#2b2210;color:var(--warn)} .b-crit{background:#2d1212;color:var(--crit)} .b-info{background:#10243a;color:var(--accent)}
+  canvas{display:block;width:100%}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border)}
+  th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+  tr:hover td{background:var(--panel2)}
+  .btn{background:var(--accent2);color:#fff;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font)}
+  .btn:hover{filter:brightness(1.1)}
+  .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--txt)}
+  .btn.ok{background:var(--ok)} .btn.warn{background:var(--warn);color:#1a1300}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .src{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;background:var(--panel2)}
+  .src .tag{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 7px;border-radius:5px;text-transform:uppercase}
+  .t-gmao{background:#10243a;color:var(--accent)} .t-scada{background:#2b2210;color:var(--warn)} .t-kb{background:#1a2913;color:var(--ok)} .t-doc{background:#251a33;color:var(--purple)} .t-web{background:#2d1212;color:var(--crit)}
+  .src .body{flex:1;min-width:0}
+  .src .body b{font-size:13px} .src .body p{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+  .src .score{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .step{display:flex;gap:12px;margin-bottom:14px}
+  .step .num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--accent2);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+  .step .num.done{background:var(--ok)}
+  .step .txt{flex:1}
+  .step .txt b{display:block}
+  .chat{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+  .msg{max-width:85%;padding:11px 14px;border-radius:12px;font-size:13.5px}
+  .msg.u{align-self:flex-end;background:var(--accent2);color:#fff;border-bottom-right-radius:3px}
+  .msg.a{align-self:flex-start;background:var(--panel2);border:1px solid var(--border);border-bottom-left-radius:3px}
+  .inputrow{display:flex;gap:8px}
+  .inputrow input,textarea,select{flex:1;background:var(--panel2);border:1px solid var(--border);color:var(--txt);padding:10px 12px;border-radius:8px;font-family:var(--font);font-size:13.5px}
+  textarea{width:100%;resize:vertical;min-height:90px}
+  .alertbar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;margin-bottom:16px;border:1px solid}
+  .alertbar.crit{background:#2d1212;border-color:#5c1f1f;color:#ffb3ad}
+  .alertbar.warn{background:#2b2210;border-color:#574411;color:#ffd98a}
+  .muted{color:var(--muted)}
+  .mono{font-family:var(--mono)}
+  .twin{position:relative;background:var(--panel2);border:1px solid var(--border);border-radius:12px;height:360px;overflow:hidden}
+  .node{position:absolute;width:78px;height:48px;border-radius:8px;border:2px solid var(--border);background:#0e1420;display:grid;place-items:center;font-size:11px;text-align:center;cursor:pointer;transition:.2s;line-height:1.2}
+  .node:hover{border-color:var(--accent)}
+  .node.ok{border-color:#1c4029} .node.warn{border-color:#574411;box-shadow:0 0 14px rgba(210,153,34,.4)} .node.crit{border-color:#5c1f1f;box-shadow:0 0 16px rgba(248,81,73,.5);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(248,81,73,.4)}50%{box-shadow:0 0 22px rgba(248,81,73,.8)}}
+  .node .st{position:absolute;top:-7px;right:-7px;width:14px;height:14px;border-radius:50%;border:2px solid var(--panel2)}
+  .node .st.ok{background:var(--ok)} .node .st.warn{background:var(--warn)} .node .st.crit{background:var(--crit)}
+  svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .tabs button{background:none;border:none;color:var(--muted);padding:8px 14px;cursor:pointer;font-size:13px;border-bottom:2px solid transparent;font-family:var(--font)}
+  .tabs button.active{color:var(--txt);border-bottom-color:var(--accent)}
+  .scn{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;background:var(--panel2)}
+  .scn .lvl{font-size:11px;padding:2px 8px;border-radius:5px}
+  .progress{height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+  .progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--ok))}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .hidden{display:none}
+  .typing{display:inline-block}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--panel);border:1px solid var(--ok);color:var(--txt);padding:14px 18px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:50;max-width:320px}
+  .fieldlabel{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:12px 0 4px;display:block}
+  code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:12px}
+</style>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPCR9PBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="logo">
+      <div class="mark">SD</div>
+      <div><b>SmartDiag</b><small>Maintenance Copilot</small></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-v="dash" class="active"><span class="ic">▦</span> Tableau de bord</button>
+      <button data-v="detect"><span class="ic">∿</span> Détection temps réel</button>
+      <button data-v="diag"><span class="ic">⌕</span> Diagnostic &amp; sources</button>
+      <button data-v="report"><span class="ic">▤</span> Rapport de panne</button>
+      <button data-v="train"><span class="ic">◉</span> Formation</button>
+      <button data-v="twin"><span class="ic">⬡</span> Jumeau numérique</button>
+    </nav>
+    <div class="foot">
+      <span class="pill"><span class="dot"></span> 100% local — aucune donnée sortante</span>
+      <div style="margin-top:8px">Modèle : <span class="mono">mistral-7b-instruct</span><br>Embeddings : <span class="mono">bge-m3</span><br>Edge GPU : <span class="mono">on-prem</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div><h1 id="vtitle">Tableau de bord</h1><div class="sub" id="vsub">Vue d'ensemble de l'atelier — Ligne d'assemblage 3</div></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="muted mono" id="clock"></span>
+        <span class="pill"><span class="dot"></span> En ligne</span>
+      </div>
+    </div>
+    <div class="content" id="content"><!-- views injected --></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ============================ ÉTAT & DONNÉES SIMULÉES ============================ */
+const STATE = {
+  view:'dash',
+  // équipements de l'atelier (ligne d'assemblage manufacturière)
+  assets:[
+    {id:'MOT-04', name:'Motoréducteur convoyeur', status:'crit', x:300,y:60},
+    {id:'PMP-02', name:'Pompe hydraulique', status:'ok', x:90,y:60},
+    {id:'CMP-01', name:'Compresseur air', status:'warn', x:520,y:60},
+    {id:'ROB-07', name:'Robot soudure', status:'ok', x:300,y:230},
+    {id:'CNV-03', name:'Convoyeur principal', status:'warn', x:90,y:230},
+    {id:'ARM-05', name:'Armoire électrique', status:'ok', x:520,y:230},
+  ],
+  // signaux temps réel du MOT-04 (motoréducteur en défaut)
+  signals:{
+    vibration:{label:'Vibration RMS', unit:'mm/s', base:2.4, color:'#f85149', warn:4.5, crit:7.1, data:[]},
+    temperature:{label:'Température paliers', unit:'°C', base:58, color:'#d29922', warn:75, crit:90, data:[]},
+    courant:{label:'Courant moteur', unit:'A', base:11.5, color:'#3fb6ff', warn:14, crit:16, data:[]},
+    pression:{label:'Pression huile', unit:'bar', base:3.2, color:'#3fb950', warn:2.2, crit:1.6, data:[], invert:true},
+  },
+  detected:false,
+  reportSteps:[],
+};
+
+// Génère une fenêtre historique avec une dérive progressive (signature de défaillance)
+function seedSignals(){
+  const N=60;
+  for(const k in STATE.signals){
+    const s=STATE.signals[k]; s.data=[];
+    for(let i=0;i<N;i++){
+      let drift=0;
+      // dérive sur les 20 derniers points pour vibration & température (roulement dégradé)
+      if((k==='vibration'||k==='temperature') && i>40) drift=(i-40)*( k==='vibration'?0.22:0.95);
+      const noise=(Math.random()-0.5)*(s.base*0.06);
+      let v=s.base+drift+noise;
+      if(k==='pression' && i>40) v=s.base-(i-40)*0.05; // chute pression huile
+      s.data.push(Math.max(0,+v.toFixed(2)));
+    }
+  }
+}
+seedSignals();
+
+/* ============================ CHART CANVAS (vanilla, offline) ============================ */
+function lineChart(canvas, series, opts={}){
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.clientWidth, H=opts.h||180;
+  canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const pad={l:38,r:10,t:12,b:20};
+  const allvals=series.flatMap(s=>s.data);
+  let min=Math.min(...allvals), max=Math.max(...allvals);
+  if(opts.min!=null)min=opts.min; if(opts.max!=null)max=opts.max;
+  const rng=(max-min)||1; min-=rng*0.1; max+=rng*0.1;
+  const px=i=>pad.l+(i/(series[0].data.length-1))*(W-pad.l-pad.r);
+  const py=v=>pad.t+(1-(v-min)/(max-min))*(H-pad.t-pad.b);
+  // grid
+  ctx.strokeStyle='#2a3242'; ctx.lineWidth=1; ctx.fillStyle='#8b97a7'; ctx.font='10px monospace';
+  for(let g=0;g<=3;g++){
+    const y=pad.t+g/3*(H-pad.t-pad.b); ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+    ctx.fillText((max-(g/3)*(max-min)).toFixed(1),4,y+3);
+  }
+  // threshold lines
+  if(opts.warn!=null){ctx.strokeStyle='#574411';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(pad.l,py(opts.warn));ctx.lineTo(W-pad.r,py(opts.warn));ctx.stroke();}
+  if(opts.crit!=null){ctx.strokeStyle='#5c1f1f';ctx.beginPath();ctx.moveTo(pad.l,py(opts.crit));ctx.lineTo(W-pad.r,py(opts.crit));ctx.stroke();}
+  ctx.setLineDash([]);
+  // series
+  series.forEach(s=>{
+    ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.beginPath();
+    s.data.forEach((v,i)=>{i?ctx.lineTo(px(i),py(v)):ctx.moveTo(px(i),py(v));});
+    ctx.stroke();
+    // fill
+    if(opts.fill){ctx.lineTo(px(s.data.length-1),H-pad.b);ctx.lineTo(px(0),H-pad.b);ctx.closePath();
+      ctx.fillStyle=s.color+'18';ctx.fill();}
+  });
+}
+
+/* ============================ NAVIGATION ============================ */
+const TITLES={dash:['Tableau de bord',"Vue d'ensemble de l'atelier — Ligne d'assemblage 3"],
+  detect:['Détection temps réel','Analyse des signaux capteurs & reconnaissance de patterns'],
+  diag:['Diagnostic & sources','Corrélation multi-bases & aide à la résolution'],
+  report:['Rapport de panne','Génération automatique du rapport pour la GMAO'],
+  train:['Formation','Entraînement sur scénarios de panne'],
+  twin:['Jumeau numérique','Représentation virtuelle de la ligne en temps réel']};
+
+document.getElementById('nav').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  STATE.view=b.dataset.v;
+  [...document.querySelectorAll('#nav button')].forEach(x=>x.classList.toggle('active',x===b));
+  document.getElementById('vtitle').textContent=TITLES[STATE.view][0];
+  document.getElementById('vsub').textContent=TITLES[STATE.view][1];
+  render();
+});
+
+function toast(msg){const t=document.getElementById('toast');t.innerHTML=`<div class="toast">✓ ${msg}</div>`;setTimeout(()=>t.innerHTML='',3500);}
+
+/* ============================ RENDU DES VUES ============================ */
+function render(){
+  /* annule l'animation du jumeau si on quitte la vue */
+  if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
+  const c=document.getElementById('content');
+  c.innerHTML=({dash:viewDash,detect:viewDetect,diag:viewDiag,report:viewReport,train:viewTrain,twin:viewTwin}[STATE.view])();
+  if(STATE.view==='dash')drawDash();
+  if(STATE.view==='detect')drawDetect();
+  if(STATE.view==='twin')drawTwin();
+}
+
+/* ---------- DASHBOARD ---------- */
+function viewDash(){
+  return `
+  <div class="alertbar crit">
+    <span style="font-size:20px">⚠</span>
+    <div style="flex:1"><b>Anomalie critique détectée — MOT-04 (Motoréducteur convoyeur)</b><br>
+    <span class="muted">Pattern « dégradation roulement » identifié — concordance 91% avec l'incident #2024-0417. Intervention recommandée sous 4 h.</span></div>
+    <button class="btn" onclick="goDiag()">Diagnostiquer →</button>
+  </div>
+  <div class="grid g4">
+    <div class="card"><div class="lbl">Équipements surveillés</div><div class="kpi">42 <small>/ 47</small></div><span class="badge b-info">5 hors-ligne</span></div>
+    <div class="card"><div class="lbl">Alertes actives</div><div class="kpi">3</div><span class="badge b-crit">1 critique</span> <span class="badge b-warn">2 mineures</span></div>
+    <div class="card"><div class="lbl">MTBF (30 j)</div><div class="kpi">186 h <small class="trend-dn">▲ 4%</small></div><span class="muted" style="font-size:12px">Moyenne ligne 3</span></div>
+    <div class="card"><div class="lbl">Patterns en base</div><div class="kpi">1 284</div><span class="muted" style="font-size:12px">347 rapports liés</span></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <h3>Vibration RMS — MOT-04</h3><div class="muted" style="font-size:12px;margin-bottom:8px">Dérive nette sur la dernière heure</div>
+      <canvas id="dashChart1"></canvas>
+      <div class="legend" style="margin-top:8px"><span><span class="swatch" style="background:#f85149"></span>Vibration mm/s</span><span><span class="swatch" style="background:#574411"></span>Seuil alerte</span><span><span class="swatch" style="background:#5c1f1f"></span>Seuil critique</span></div>
+    </div>
+    <div class="card">
+      <h3>État de la ligne d'assemblage 3</h3><div class="muted" style="font-size:12px;margin-bottom:8px">Synthèse temps réel des équipements</div>
+      <table><thead><tr><th>Équipement</th><th>État</th><th>Indicateur clé</th></tr></thead><tbody>
+      ${STATE.assets.map(a=>`<tr><td><b>${a.id}</b><br><span class="muted" style="font-size:12px">${a.name}</span></td>
+        <td><span class="badge ${a.status==='ok'?'b-ok':a.status==='warn'?'b-warn':'b-crit'}">${a.status==='ok'?'Nominal':a.status==='warn'?'À surveiller':'Critique'}</span></td>
+        <td class="mono">${a.id==='MOT-04'?'7.1 mm/s ▲':a.id==='CMP-01'?'Débit -12%':a.id==='CNV-03'?'Jeu chaîne':'—'}</td></tr>`).join('')}
+      </tbody></table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>Activité récente de l'assistant</h3>
+    <table><tbody>
+      <tr><td class="muted mono" style="width:120px">09:42</td><td>Détection pattern « dégradation roulement » sur MOT-04</td><td><span class="badge b-crit">auto</span></td></tr>
+      <tr><td class="muted mono">08:15</td><td>Rapport #2026-0312 validé et poussé en GMAO (CMP-01)</td><td><span class="badge b-ok">clôturé</span></td></tr>
+      <tr><td class="muted mono">Hier</td><td>Formation « Diagnostic surchauffe palier » complétée — opérateur M. Diallo</td><td><span class="badge b-info">formation</span></td></tr>
+    </tbody></table>
+  </div>`;
+}
+function drawDash(){lineChart(document.getElementById('dashChart1'),[STATE.signals.vibration],{warn:4.5,crit:7.1,fill:true,h:190});}
+function goDiag(){document.querySelector('#nav button[data-v="diag"]').click();}
+
+/* ---------- DÉTECTION TEMPS RÉEL ---------- */
+function viewDetect(){
+  const s=STATE.signals;
+  return `
+  <div class="grid g4">
+    ${Object.entries(s).map(([k,v])=>{
+      const last=v.data[v.data.length-1];
+      const status=v.invert?(last<v.crit?'crit':last<v.warn?'warn':'ok'):(last>v.crit?'crit':last>v.warn?'warn':'ok');
+      return `<div class="card"><div class="lbl">${v.label}</div><div class="kpi" style="color:${v.color}">${last}<small> ${v.unit}</small></div>
+      <span class="badge ${status==='ok'?'b-ok':status==='warn'?'b-warn':'b-crit'}">${status==='ok'?'Nominal':status==='warn'?'Alerte':'Critique'}</span></div>`;
+    }).join('')}
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>Signaux capteurs MOT-04 — flux temps réel</h3>
+      <button class="btn ghost" id="liveBtn" onclick="toggleLive()">⏸ Figer le flux</button>
+    </div>
+    <canvas id="detChart" style="margin-top:8px"></canvas>
+    <div class="legend" style="margin-top:10px">${Object.values(s).map(v=>`<span><span class="swatch" style="background:${v.color}"></span>${v.label}</span>`).join('')}</div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <h3>🧠 Caractérisation du pattern</h3>
+      <p class="muted" style="font-size:12.5px">Le moteur d'analyse extrait les caractéristiques (features) de la fenêtre glissante et compare la signature à la bibliothèque de patterns historiques.</p>
+      <table style="margin-top:8px"><tbody>
+        <tr><td>Type de signature</td><td><b>Dérive monotone + harmonique 2×</b></td></tr>
+        <tr><td>Features dominantes</td><td class="mono">RMS↑, kurtosis↑, crête-facteur↑</td></tr>
+        <tr><td>Fréquence caractéristique</td><td class="mono">BPFO ≈ 162 Hz (bague ext.)</td></tr>
+        <tr><td>Vitesse de dérive</td><td>+0.22 mm/s / cycle</td></tr>
+        <tr><td>Fenêtre d'analyse</td><td>60 cycles (≈ 60 min)</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <h3>🔗 Patterns passés concordants</h3>
+      <p class="muted" style="font-size:12.5px">Mise en correspondance par similarité (DTW + distance cosinus sur embeddings de signal).</p>
+      <div class="src"><span class="tag t-scada">match 91%</span><div class="body"><b>Incident #2024-0417 — MOT-04</b><p>Dégradation roulement côté accouplement. Remplacement roulement 6208-2RS. Arrêt 3h20.</p></div></div>
+      <div class="src"><span class="tag t-scada">match 84%</span><div class="body"><b>Incident #2023-1102 — MOT-09</b><p>Défaut alignement + balourd. Réalignement laser + équilibrage.</p></div></div>
+      <div class="src"><span class="tag t-scada">match 76%</span><div class="body"><b>Incident #2025-0233 — MOT-04</b><p>Manque de lubrification palier. Regraissage + ajustement plan de lubrification.</p></div></div>
+      <button class="btn" style="margin-top:6px" onclick="goDiag()">Lancer le diagnostic guidé →</button>
+    </div>
+  </div>`;
+}
+let liveTimer=null, liveOn=true;
+function drawDetect(){
+  lineChart(document.getElementById('detChart'),Object.values(STATE.signals),{h:240});
+}
+function toggleLive(){liveOn=!liveOn;document.getElementById('liveBtn').textContent=liveOn?'⏸ Figer le flux':'▶ Reprendre le flux';}
+function tickLive(){
+  if(STATE.view!=='detect'||!liveOn)return;
+  for(const k in STATE.signals){const s=STATE.signals[k];s.data.shift();
+    const prev=s.data[s.data.length-1];const noise=(Math.random()-0.5)*(s.base*0.05);
+    let v=prev+noise+((k==='vibration')?0.05:(k==='temperature')?0.15:(k==='pression')?-0.01:0);
+    s.data.push(+Math.max(0,v).toFixed(2));}
+  drawDetect();
+  // update KPI cards
+  const cards=document.querySelectorAll('#content .g4 .card');
+  Object.values(STATE.signals).forEach((v,i)=>{if(cards[i])cards[i].querySelector('.kpi').firstChild.textContent=v.data[v.data.length-1];});
+}
+
+/* ---------- DIAGNOSTIC & SOURCES (RAG) ---------- */
+const DIAG_SOURCES=[
+  {t:'gmao',tag:'GMAO',title:'Historique MOT-04 — Ordre de travail OT-2024-0417',desc:'Remplacement roulement côté accouplement. Pièce 6208-2RS, couple serrage 35 Nm, durée 3h20. Technicien : R. Martin.',score:0.91,link:'gmao://ot/2024-0417'},
+  {t:'scada',tag:'SCADA',title:'Tendance vibratoire 60 min — voie AI-12',desc:'Dérive RMS 2.4→7.1 mm/s, pic harmonique 2× vitesse rotation. Corrélé température palier +18°C.',score:0.89,link:'scada://trend/AI-12'},
+  {t:'kb',tag:'Knowledge base',title:'Procédure PRO-MEC-014 — Diagnostic roulement dégradé',desc:'Arbre de décision : isoler/consigner → mesure vibratoire ciblée → endoscopie → remplacement. Critères BPFO/BPFI.',score:0.86,link:'kb://pro-mec-014'},
+  {t:'doc',tag:'Doc fournisseur',title:'SEW Eurodrive — Manuel R57 DRN90, §7.3 Roulements',desc:'Référence roulement, jeu interne C3, plan de graissage, couples de serrage flasque.',score:0.78,link:'doc://sew/R57-DRN90'},
+  {t:'web',tag:'Notice en ligne',title:'Catalogue SKF 6208-2RS — fiche technique',desc:'Dimensions 40×80×18, charge dynamique 30.7 kN, vitesse limite. Disponibilité magasin : 4 u.',score:0.71,link:'cache://skf/6208-2rs'},
+];
+function viewDiag(){
+  return `
+  <div class="grid g2"><div>
+    <div class="card">
+      <h3>💬 Assistant de diagnostic</h3>
+      <div class="muted" style="font-size:12px;margin-bottom:10px">Déclenché par le pattern détecté, ou posez une question si la panne n'est pas détectée automatiquement.</div>
+      <div class="chat" id="chat">
+        <div class="msg a"><b>SmartDiag</b><br>J'ai détecté une <b>dégradation de roulement</b> sur <b>MOT-04</b> (concordance 91% avec l'incident #2024-0417). J'ai corrélé GMAO, SCADA, la knowledge base et les docs fournisseur. Voici le processus de résolution recommandé. Souhaitez-vous le dérouler ?</div>
+      </div>
+      <div class="inputrow">
+        <input id="diagInput" placeholder="Ex : le moteur chauffe et vibre, que faire ?" onkeydown="if(event.key==='Enter')askDiag()">
+        <button class="btn" onclick="askDiag()">Envoyer</button>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn ghost" style="font-size:12px" onclick="quickAsk('Quel roulement et quel couple de serrage ?')">Pièce &amp; couple ?</button>
+        <button class="btn ghost" style="font-size:12px" onclick="quickAsk('Quelles consignes de sécurité avant intervention ?')">Sécurité ?</button>
+        <button class="btn ghost" style="font-size:12px" onclick="quickAsk('La pièce est-elle en stock ?')">Stock ?</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>🛠 Processus de résolution guidé</h3>
+      <div id="procSteps">
+        ${proc().map((s,i)=>`<div class="step"><div class="num" id="step${i}">${i+1}</div><div class="txt"><b>${s.t}</b><span class="muted" style="font-size:12.5px">${s.d}</span></div></div>`).join('')}
+      </div>
+      <button class="btn ok" onclick="nextStep()">✓ Valider l'étape courante</button>
+      <button class="btn ghost" onclick="document.querySelector('#nav button[data-v=report]').click()">Générer le rapport →</button>
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <h3>📚 Sources corrélées</h3>
+      <div class="muted" style="font-size:12px;margin-bottom:10px">Recherche sémantique sur l'ensemble des bases. Chaque réponse est tracée vers sa source (citations vérifiables).</div>
+      ${DIAG_SOURCES.map(s=>`<div class="src"><span class="tag t-${s.t}">${s.tag}</span><div class="body"><b>${s.title}</b><p>${s.desc}</p>
+        <a href="#" onclick="toast('Ouverture source : ${s.link}');return false" class="mono" style="font-size:11px">↗ ${s.link}</a></div>
+        <span class="score">${(s.score*100).toFixed(0)}%</span></div>`).join('')}
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>⚙ Configuration RAG (local)</h3>
+      <table><tbody>
+        <tr><td>LLM</td><td class="mono">mistral-7b-instruct Q4</td></tr>
+        <tr><td>Embeddings</td><td class="mono">bge-m3 (multilingue)</td></tr>
+        <tr><td>Vector store</td><td class="mono">Qdrant on-prem</td></tr>
+        <tr><td>Reranker</td><td class="mono">bge-reranker-v2</td></tr>
+        <tr><td>Sources indexées</td><td>GMAO, SCADA, KB, docs PDF, notices</td></tr>
+      </tbody></table>
+    </div>
+  </div></div>`;
+}
+function proc(){return [
+  {t:'Consigner & sécuriser (LOTO)',d:' — Arrêt, consignation électrique armoire ARM-05, cadenassage, VAT. Réf : PRO-SEC-002.'},
+  {t:'Mesure vibratoire ciblée',d:' — Confirmer BPFO bague extérieure à 162 Hz avec l\'analyseur portable. Comparer à la signature de référence.'},
+  {t:'Inspection visuelle / endoscopie',d:' — Vérifier jeu, traces d\'échauffement, état graisse côté accouplement.'},
+  {t:'Remplacement roulement 6208-2RS',d:' — Extraction, montage à chaud (induction 110°C), couple flasque 35 Nm. Stock magasin : 4 u.'},
+  {t:'Regraissage & contrôle',d:' — Graisse SKF LGHP 2, requalification vibratoire à vide puis en charge.'},
+  {t:'Clôture & rapport',d:' — Déconsignation, essai, rédaction du rapport de panne pour la GMAO.'},
+];}
+let curStep=0;
+function nextStep(){
+  if(curStep>=proc().length){toast('Toutes les étapes sont validées');return;}
+  const el=document.getElementById('step'+curStep);if(el){el.classList.add('done');el.textContent='✓';}
+  STATE.reportSteps.push(proc()[curStep].t);
+  curStep++;
+  if(curStep>=proc().length)toast('Processus terminé — prêt pour le rapport');
+}
+const QA={
+  'pièce':"D'après le manuel SEW R57 DRN90 (§7.3) et le catalogue SKF : roulement <b>6208-2RS</b> (40×80×18, jeu C3). Couple de serrage flasque <b>35 Nm</b>. Montage à chaud par induction à 110°C recommandé. <span class='muted'>Sources : doc://sew/R57-DRN90, cache://skf/6208-2rs</span>",
+  'sécurité':"Avant toute intervention : <b>consignation LOTO</b> (PRO-SEC-002) — arrêt, consignation électrique sur ARM-05, cadenassage individuel, vérification d'absence de tension (VAT), dissipation énergie résiduelle. EPI : gants anti-coupure, lunettes. <span class='muted'>Source : kb://pro-sec-002</span>",
+  'stock':"La pièce <b>6208-2RS est en stock</b> : 4 unités au magasin (emplacement R-12-3). Aucune commande nécessaire. Le roulement de rechange du palier opposé est également disponible. <span class='muted'>Source : gmao://stock/6208-2rs</span>",
+  'default':"En corrélant les signaux SCADA, l'historique GMAO et la knowledge base, le scénario le plus probable est une <b>dégradation de roulement côté accouplement</b> sur MOT-04. Je recommande de suivre le processus guidé ci-contre. Je peux préciser la pièce, les consignes de sécurité ou le stock — demandez-moi.",
+};
+function pushMsg(t,who){const c=document.getElementById('chat');const d=document.createElement('div');d.className='msg '+who;d.innerHTML=who==='a'?'<b>SmartDiag</b><br>'+t:t;c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function askDiag(){const i=document.getElementById('diagInput');if(!i.value.trim())return;const q=i.value;pushMsg(q,'u');i.value='';answer(q);}
+function quickAsk(q){pushMsg(q,'u');answer(q);}
+function answer(q){
+  const l=q.toLowerCase();let a=QA.default;
+  if(l.includes('couple')||l.includes('pièce')||l.includes('roulement')||l.includes('serrage'))a=QA['pièce'];
+  else if(l.includes('sécur')||l.includes('consign')||l.includes('loto'))a=QA['sécurité'];
+  else if(l.includes('stock')||l.includes('magasin')||l.includes('comman'))a=QA['stock'];
+  setTimeout(()=>pushMsg(a,'a'),500);
+}
+
+/* ---------- RAPPORT ---------- */
+function viewReport(){
+  const steps=STATE.reportSteps.length?STATE.reportSteps:proc().map(p=>p.t);
+  return `
+  <div class="grid g2"><div class="card">
+    <h3>📝 Brouillon de rapport — généré automatiquement</h3>
+    <p class="muted" style="font-size:12px">Rédigé à partir des signaux, du diagnostic et des actions validées. À relire et valider avant envoi en GMAO.</p>
+    <label class="fieldlabel">Équipement</label><input value="MOT-04 — Motoréducteur convoyeur (Ligne 3)">
+    <label class="fieldlabel">Type de défaillance</label><input value="Dégradation roulement côté accouplement (BPFO)">
+    <label class="fieldlabel">Criticité</label>
+    <select><option>Critique</option><option selected>Majeure</option><option>Mineure</option></select>
+    <label class="fieldlabel">Diagnostic (synthèse auto)</label>
+    <textarea>Détection automatique d'une dérive vibratoire (RMS 2.4→7.1 mm/s) avec apparition d'une harmonique 2× et fréquence BPFO ≈162 Hz, corrélée à une hausse de température palier (+18°C) et une baisse de pression huile. Signature à 91% concordante avec l'incident #2024-0417. Diagnostic confirmé par mesure vibratoire ciblée et endoscopie : roulement 6208-2RS dégradé côté accouplement.</textarea>
+    <label class="fieldlabel">Actions réalisées</label>
+    <textarea>${steps.map((s,i)=>`${i+1}. ${s}`).join('\n')}</textarea>
+    <label class="fieldlabel">Pièces consommées</label><input value="1× roulement SKF 6208-2RS ; graisse SKF LGHP 2">
+    <label class="fieldlabel">Temps d'intervention</label><input value="3 h 10 (estimation)">
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <button class="btn ok" onclick="validateReport()">✓ Valider &amp; envoyer en GMAO</button>
+      <button class="btn ghost" onclick="toast('Brouillon enregistré')">Enregistrer le brouillon</button>
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <h3>🔁 Réutilisation future</h3>
+      <p class="muted" style="font-size:12.5px">Une fois validé, le rapport est indexé (texte + signature de signal) et devient un pattern réutilisable. Lors d'une panne similaire, il remontera automatiquement dans le diagnostic.</p>
+      <div class="step"><div class="num done">✓</div><div class="txt"><b>Indexation sémantique</b><span class="muted" style="font-size:12.5px"> — embeddings du texte + signature vibratoire</span></div></div>
+      <div class="step"><div class="num done">✓</div><div class="txt"><b>Liaison au pattern</b><span class="muted" style="font-size:12.5px"> — rattachement à la famille « dégradation roulement »</span></div></div>
+      <div class="step"><div class="num">3</div><div class="txt"><b>Push GMAO</b><span class="muted" style="font-size:12.5px"> — création de l'OT clôturé + pièces jointes</span></div></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>📎 Traçabilité &amp; sources</h3>
+      <p class="muted" style="font-size:12px">Le rapport conserve les liens vers toutes les sources utilisées :</p>
+      ${DIAG_SOURCES.slice(0,4).map(s=>`<a href="#" onclick="toast('${s.link}');return false" class="src" style="text-decoration:none"><span class="tag t-${s.t}">${s.tag}</span><div class="body"><b style="font-size:12px">${s.title}</b></div></a>`).join('')}
+    </div>
+  </div></div>`;
+}
+function validateReport(){toast('Rapport validé et envoyé en GMAO (OT-2026-0318 créé)');}
+
+/* ---------- FORMATION ---------- */
+const SCENARIOS=[
+  {t:'Dégradation roulement motoréducteur',lvl:'Intermédiaire',c:'b-warn',d:'Diagnostiquer une signature vibratoire BPFO, isoler l\'équipement et conduire le remplacement.',dur:'25 min',prog:100},
+  {t:'Surchauffe palier — défaut lubrification',lvl:'Débutant',c:'b-ok',d:'Reconnaître les signes de manque de graisse, appliquer le plan de lubrification.',dur:'15 min',prog:60},
+  {t:'Défaut variateur — code F07 surtension',lvl:'Avancé',c:'b-crit',d:'Analyser un code défaut variateur, vérifier le bus DC, le freinage et le câblage.',dur:'40 min',prog:0},
+  {t:'Fuite circuit hydraulique PMP-02',lvl:'Intermédiaire',c:'b-warn',d:'Localiser une chute de pression, tester les vérins, identifier le joint défaillant.',dur:'30 min',prog:0},
+];
+function viewTrain(){
+  return `
+  <div class="grid g3">
+    <div class="card"><div class="lbl">Scénarios disponibles</div><div class="kpi">12</div></div>
+    <div class="card"><div class="lbl">Complétés</div><div class="kpi">7 <small>/ 12</small></div></div>
+    <div class="card"><div class="lbl">Score moyen</div><div class="kpi">84%</div></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>🎓 Scénarios d'entraînement</h3>
+    <p class="muted" style="font-size:12.5px">Les scénarios sont générés à partir des pannes réelles de la GMAO : l'opérateur s'entraîne sur des cas vécus, sans risque sur l'équipement réel. Le jumeau numérique rejoue la dérive des signaux.</p>
+    ${SCENARIOS.map((s,i)=>`<div class="scn">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><b>${s.t}</b> <span class="badge ${s.c} lvl">${s.lvl}</span></div>
+        <span class="muted mono" style="font-size:12px">${s.dur}</span>
+      </div>
+      <p class="muted" style="font-size:12.5px;margin:6px 0">${s.d}</p>
+      <div class="progress" style="margin-bottom:8px"><div style="width:${s.prog}%"></div></div>
+      <button class="btn ${s.prog===100?'ghost':''}" onclick="startScenario(${i})">${s.prog===100?'↻ Refaire':s.prog>0?'▶ Reprendre':'▶ Démarrer'}</button>
+    </div>`).join('')}
+  </div>
+  <div class="card" id="scnRun" style="margin-top:16px;display:none">
+    <h3 id="scnTitle"></h3>
+    <div id="scnBody"></div>
+  </div>`;
+}
+function startScenario(i){
+  const s=SCENARIOS[i];const box=document.getElementById('scnRun');box.style.display='block';
+  document.getElementById('scnTitle').textContent='Scénario en cours — '+s.t;
+  document.getElementById('scnBody').innerHTML=`
+    <div class="alertbar warn"><span>▶</span><div>Simulation lancée sur le jumeau numérique. Les signaux capteurs sont rejoués à partir d'un cas réel. Analysez et répondez.</div></div>
+    <p><b>Situation :</b> ${s.d}</p>
+    <p><b>Question 1/3 :</b> Quelle est la première action obligatoire avant toute intervention mécanique ?</p>
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:480px">
+      <button class="btn ghost" onclick="scnAnswer(true)">A. Consigner et sécuriser l'équipement (LOTO)</button>
+      <button class="btn ghost" onclick="scnAnswer(false)">B. Démonter directement le carter</button>
+      <button class="btn ghost" onclick="scnAnswer(false)">C. Augmenter la lubrification en marche</button>
+    </div>
+    <div id="scnFb" style="margin-top:12px"></div>`;
+  box.scrollIntoView({behavior:'smooth'});
+}
+function scnAnswer(ok){
+  document.getElementById('scnFb').innerHTML=ok
+    ?`<div class="alertbar warn" style="background:#0f2417;border-color:#1c4029;color:#7ee787"><span>✓</span><div><b>Correct !</b> La consignation LOTO est obligatoire (PRO-SEC-002). +1 point. Question suivante débloquée.</div></div>`
+    :`<div class="alertbar crit"><span>✗</span><div><b>Incorrect.</b> Toute intervention doit être précédée d'une consignation/sécurisation (LOTO). C'est un prérequis sécurité absolu.</div></div>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   JUMEAU NUMÉRIQUE — plan 2D animé, zones, convoyeurs, alertes
+   ══════════════════════════════════════════════════════════ */
+let _tRaf=null, _tPhase=0;
+window._tSel='MOT-04';
+window._tMode='plan';
+
+/* Zones d'usine — coordonnées normalisées (0-1) par rapport au canvas */
+const _ZONES=[
+  {label:'Assemblage A',    x:.010,y:.020,w:.295,h:.455, col:'rgba(31,111,235,.11)', bdr:'rgba(31,111,235,.38)'},
+  {label:'Assemblage B',    x:.338,y:.020,w:.295,h:.455, col:'rgba(31,111,235,.07)', bdr:'rgba(31,111,235,.28)'},
+  {label:'Contrôle Qualité',x:.666,y:.020,w:.325,h:.455, col:'rgba(63,185,80,.08)',  bdr:'rgba(63,185,80,.30)'},
+  {label:'Emballage',       x:.010,y:.545,w:.295,h:.435, col:'rgba(188,140,255,.09)',bdr:'rgba(188,140,255,.30)'},
+  {label:'Stockage',        x:.338,y:.545,w:.295,h:.435, col:'rgba(255,194,75,.06)', bdr:'rgba(255,194,75,.28)'},
+  {label:'Maintenance',     x:.666,y:.545,w:.325,h:.435, col:'rgba(248,81,73,.08)',  bdr:'rgba(248,81,73,.28)'},
+];
+
+/* Positions normalisées des équipements (cx, cy) */
+const _MPOS={
+  'PMP-02':{nx:.158,ny:.245},
+  'MOT-04':{nx:.485,ny:.245},
+  'CMP-01':{nx:.829,ny:.245},
+  'CNV-03':{nx:.158,ny:.762},
+  'ARM-05':{nx:.485,ny:.762},
+  'ROB-07':{nx:.829,ny:.762},
+};
+
+/* Flux matière entre équipements */
+const _CONVS=[
+  {from:'PMP-02',to:'MOT-04',st:'crit', off:0.00},
+  {from:'MOT-04',to:'CMP-01',st:'warn', off:0.33},
+  {from:'MOT-04',to:'ARM-05',st:'warn', off:0.66},
+  {from:'CNV-03',to:'ARM-05',st:'warn', off:0.20},
+  {from:'ARM-05',to:'ROB-07',st:'ok',   off:0.50},
+  {from:'CMP-01',to:'ROB-07',st:'ok',   off:0.75},
+];
+
+/* Données capteurs par équipement */
+const _SD={
+  'MOT-04':[['Vibration RMS','7.1 mm/s ▲','crit'],['Temp. palier','76 °C ▲','warn'],['Courant moteur','12.3 A','ok'],['H. service','18 420 h','ok'],['Prochaine maint.','dans 240 h','warn']],
+  'PMP-02':[['Débit','3.4 m³/h','ok'],['Pression sortie','3.2 bar','ok'],['Temp. carter','42 °C','ok'],['H. service','9 110 h','ok'],['Prochaine maint.','dans 900 h','ok']],
+  'CMP-01':[['Débit','-12 % ↓','warn'],['Temp. corps','61 °C','warn'],['Pression sortie','6.8 bar','ok'],['H. service','22 300 h','ok'],['Prochaine maint.','dans 80 h','warn']],
+  'ROB-07':[['Vibration','1.1 mm/s','ok'],['Temp. moteur','38 °C','ok'],['Précision','±0.02 mm','ok'],['H. service','6 540 h','ok'],['Prochaine maint.','dans 1 200 h','ok']],
+  'CNV-03':[['Jeu chaîne','1.8 mm ↑','warn'],['Tension courroie','42 N','ok'],['Vitesse','1.2 m/s','ok'],['H. service','31 200 h','ok'],['Prochaine maint.','dans 150 h','warn']],
+  'ARM-05':[['Temp. armoire','29 °C','ok'],['Tension 400 V','401 V','ok'],['Courant total','28 A','ok'],['H. service','—','ok'],['Prochaine maint.','dans 600 h','ok']],
+};
+
+/* Alertes actives */
+const _ALERTS=[
+  {id:'MOT-04',msg:'Vibration RMS critique — 7.1 mm/s (seuil 7.1)',sev:'crit',age:'il y a 4 min'},
+  {id:'CMP-01',msg:'Débit compresseur -12 % — risque d\'arrêt ligne',sev:'warn',age:'il y a 12 min'},
+  {id:'CNV-03',msg:'Jeu chaîne convoyeur 1.8 mm — retension requise',sev:'warn',age:'il y a 31 min'},
+];
+
+/* Ordres de travail recommandés */
+const _OTS=[
+  {ot:'OT-2847',eq:'MOT-04',task:'Remplacement roulements palier avant',dur:'4 h',  prio:'crit',tech:'M. Dupont'},
+  {ot:'OT-2848',eq:'CMP-01',task:'Remplacement filtre air + contrôle soupape',dur:'1 h 30',prio:'warn',tech:'L. Martin'},
+  {ot:'OT-2849',eq:'CNV-03',task:'Retension chaîne + graissage roulements',dur:'2 h',  prio:'warn',tech:'M. Dupont'},
+  {ot:'OT-2851',eq:'PMP-02',task:'Inspection pompe hydraulique (préventif)',dur:'1 h',  prio:'ok',  tech:'L. Martin'},
+  {ot:'OT-2852',eq:'ARM-05',task:'Vérification tableau électrique (préventif)',dur:'30 min',prio:'ok',tech:'N. Bernard'},
+];
+
+/* ── helper : roundRect polyfill ── */
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+}
+
+/* ── Génère un signal pseudo-aléatoire pour sparklines ── */
+function _fakeSignal(base,len=60,drift=0,noise=.06){
+  const d=[];for(let i=0;i<len;i++){
+    const dr=i>40?drift*(i-40):0;
+    d.push(Math.max(0,+(base+dr+(Math.random()-.5)*base*noise).toFixed(2)));
+  }return d;
+}
+const _sparkData={
+  'MOT-04':STATE.signals.vibration.data,
+  'CMP-01':_fakeSignal(100,60,-0.6,.04),
+  'CNV-03':_fakeSignal(0.8,60,.05,.08),
+  'PMP-02':_fakeSignal(3.4,60,0,.05),
+  'ROB-07':_fakeSignal(1.1,60,0,.04),
+  'ARM-05':_fakeSignal(29,60,0,.03),
+};
+
+/* ── HTML de la vue ── */
+function viewTwin(){
+  return `<div>
+  <!-- topbar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <h3 style="margin:0;font-size:15px">⬡ Jumeau numérique — Ligne d'assemblage 3</h3>
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+      <span class="pill"><span class="dot"></span> Sync SCADA · temps réel</span>
+      <button id="tb-plan" class="btn" style="padding:5px 12px;font-size:12px" onclick="twinMode('plan')">🏭 Plan 2D</button>
+      <button id="tb-live" class="btn ghost" style="padding:5px 12px;font-size:12px" onclick="twinMode('live')">📊 Signaux live</button>
+      <button id="tb-alerts" class="btn ghost" style="padding:5px 12px;font-size:12px" onclick="twinMode('alerts')">⚠ Alertes&nbsp;<span style="background:var(--crit);color:#fff;border-radius:10px;padding:1px 5px;font-size:10px">3</span></button>
+    </div>
+  </div>
+
+  <!-- PLAN 2D -->
+  <div id="twinPlanP" style="display:grid;grid-template-columns:1fr 280px;gap:14px;align-items:start">
+    <div class="card" style="padding:10px">
+      <canvas id="twinCanvas" style="border-radius:8px;cursor:pointer;display:block;width:100%;height:360px"></canvas>
+      <div class="legend" style="margin-top:10px">
+        <span><span class="swatch" style="background:var(--ok)"></span>Nominal</span>
+        <span><span class="swatch" style="background:var(--warn)"></span>À surveiller</span>
+        <span><span class="swatch" style="background:var(--crit)"></span>Critique</span>
+        <span><span class="swatch" style="background:rgba(63,132,255,.75)"></span>Flux matière actif</span>
+      </div>
+    </div>
+    <div id="twinDetailP"></div>
+  </div>
+
+  <!-- SIGNAUX LIVE (caché par défaut) -->
+  <div id="twinLiveP" style="display:none">
+    <div class="grid g2" style="gap:12px">${_livePanelHtml()}</div>
+  </div>
+
+  <!-- ALERTES FULL (caché par défaut) -->
+  <div id="twinAlertsP" style="display:none">${_alertsFullHtml()}</div>
+
+  <!-- Alertes strip (toujours visible sous le plan) -->
+  <div id="twinAlertStrip" style="margin-top:14px">
+    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Alertes actives · ${_ALERTS.length} en cours</div>
+    <div style="display:flex;flex-direction:column;gap:7px">${_alertStripHtml()}</div>
+  </div>
+
+  <!-- Recommandations maintenance (toujours visible) -->
+  <div style="margin-top:14px">
+    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Recommandations maintenance · ${_OTS.length} ordres de travail</div>
+    ${_maintHtml()}
+  </div>
+</div>`;
+}
+
+/* ── Panneaux HTML ── */
+function _alertStripHtml(){
+  return _ALERTS.map(a=>`
+  <div style="display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid ${a.sev==='crit'?'#5c1f1f':'#574411'};border-radius:10px;padding:10px 12px">
+    <span class="badge ${a.sev==='crit'?'b-crit':'b-warn'}" style="flex-shrink:0">${a.sev==='crit'?'● Critique':'● Élevée'}</span>
+    <div style="flex:1;min-width:0">
+      <b>${a.id}</b> — <span style="font-size:13px">${a.msg}</span>
+      <div style="font-size:11px;color:var(--muted);margin-top:1px">${a.age}</div>
+    </div>
+    <button class="btn ghost" style="padding:4px 10px;font-size:12px;flex-shrink:0" onclick="_tSel='${a.id}';drawTwin();setTimeout(()=>{STATE.view='diag';render();},0)">Diagnostiquer</button>
+    <button class="btn ghost" style="padding:4px 10px;font-size:12px;flex-shrink:0">Procédure</button>
+  </div>`).join('');
+}
+
+function _maintHtml(){
+  const pc={crit:'b-crit',warn:'b-warn',ok:'b-ok'};
+  const lbl={crit:'Urgent',warn:'Élevée',ok:'Planifié'};
+  return `<table><thead><tr><th>OT</th><th>Équipement</th><th>Intervention</th><th>Durée</th><th>Technicien</th><th>Priorité</th><th></th></tr></thead>
+  <tbody>${_OTS.map(t=>`<tr>
+    <td class="mono" style="color:var(--accent);font-size:12px">${t.ot}</td>
+    <td><b>${t.eq}</b></td>
+    <td style="font-size:13px">${t.task}</td>
+    <td class="mono" style="font-size:12px">${t.dur}</td>
+    <td style="font-size:12px;color:var(--muted)">${t.tech}</td>
+    <td><span class="badge ${pc[t.prio]}">${lbl[t.prio]}</span></td>
+    <td><button class="btn ghost" style="padding:3px 9px;font-size:12px">Ouvrir</button></td>
+  </tr>`).join('')}</tbody></table>`;
+}
+
+function _livePanelHtml(){
+  return STATE.assets.map(a=>{
+    const d=_SD[a.id]||[];
+    const bc={crit:'b-crit',warn:'b-warn',ok:'b-ok'};
+    const bl={crit:'Critique',warn:'Surveillance',ok:'Nominal'};
+    return `<div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <h3 style="margin:0;font-size:13.5px">${a.id} <span style="font-weight:400;color:var(--muted);font-size:12px">— ${a.name}</span></h3>
+        <span class="badge ${bc[a.status]}">${bl[a.status]}</span>
+      </div>
+      ${d.map(([k,v,sev])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12.5px">
+        <span style="color:var(--muted)">${k}</span>
+        <span class="mono" style="color:${sev==='crit'?'var(--crit)':sev==='warn'?'var(--warn)':'var(--txt)'}">${v}</span>
+      </div>`).join('')}
+      <canvas id="ls_${a.id}" style="margin-top:8px;width:100%;height:72px;display:block"></canvas>
+    </div>`;
+  }).join('');
+}
+
+function _alertsFullHtml(){
+  return `<div style="display:flex;flex-direction:column;gap:14px">
+    ${_ALERTS.map(a=>`<div class="card" style="border-color:${a.sev==='crit'?'#5c1f1f':'#574411'}">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span class="badge ${a.sev==='crit'?'b-crit':'b-warn'}" style="flex-shrink:0;margin-top:2px">${a.sev==='crit'?'Critique':'Élevée'}</span>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">${a.id} — ${(_SD[a.id]||[[a.msg]])[0][0]}</div>
+          <div style="font-size:13px;color:var(--txt)">${a.msg}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">${a.age}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="btn" style="padding:6px 12px;font-size:12px" onclick="STATE.view='diag';render()">Diagnostiquer</button>
+          <button class="btn ghost" style="padding:6px 12px;font-size:12px">Voir procédure</button>
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/* ── Contrôle des onglets ── */
+function twinMode(m){
+  window._tMode=m;
+  ['plan','live','alerts'].forEach(k=>{
+    document.getElementById('twinPlanP').style.display=k==='plan'&&m==='plan'?'grid':'none';
+    const strip=document.getElementById('twinAlertStrip');
+    if(strip)strip.style.display=m==='alerts'?'none':'block';
+  });
+  if(document.getElementById('twinLiveP'))document.getElementById('twinLiveP').style.display=m==='live'?'block':'none';
+  if(document.getElementById('twinAlertsP'))document.getElementById('twinAlertsP').style.display=m==='alerts'?'block':'none';
+  // style boutons
+  ['plan','live','alerts'].forEach(k=>{
+    const b=document.getElementById('tb-'+k);
+    if(!b)return;
+    b.className=k===m?'btn':'btn ghost';
+    b.style.padding='5px 12px';b.style.fontSize='12px';
+  });
+  if(m==='plan'){drawTwin();}
+  if(m==='live'){
+    // dessine les sparklines live
+    requestAnimationFrame(()=>{
+      STATE.assets.forEach(a=>{
+        const cv=document.getElementById('ls_'+a.id);
+        if(!cv)return;
+        const sd=_sparkData[a.id]||[];
+        const col={crit:'#f85149',warn:'#d29922',ok:'#3fb950'}[a.status]||'#3fb6ff';
+        lineChart(cv,[{data:sd,color:col}],{h:72,fill:true});
+      });
+    });
+  }
+}
+
+/* ── Rendu canvas ── */
+function drawTwin(){
+  if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
+  const cv=document.getElementById('twinCanvas');
+  if(!cv)return;
+
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.clientWidth||660, H=cv.clientHeight||360;
+  cv.width=W*dpr; cv.height=H*dpr;
+  cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');
+  ctx.scale(dpr,dpr);
+
+  /* ── P&ID layout (positions normalisées 0-1) ── */
+  const PID_EQ={
+    'PMP-02':{nx:.095,ny:.285,type:'pump'},
+    'MOT-04':{nx:.360,ny:.285,type:'motor'},
+    'CMP-01':{nx:.720,ny:.215,type:'compressor'},
+    'CNV-03':{nx:.095,ny:.720,type:'conveyor'},
+    'ARM-05':{nx:.480,ny:.720,type:'cabinet'},
+    'ROB-07':{nx:.830,ny:.720,type:'robot'},
+  };
+
+  /* Tuyauteries : tableaux de waypoints normalisés + statut */
+  const PID_PIPES=[
+    {pts:[[.095,.285],[.360,.285]],         st:'crit', id:0},
+    {pts:[[.360,.285],[.360,.215],[.720,.215]], st:'warn', id:1},
+    {pts:[[.360,.285],[.360,.500],[.480,.500],[.480,.720]], st:'warn', id:2},
+    {pts:[[.095,.720],[.480,.720]],         st:'warn', id:3},
+    {pts:[[.480,.720],[.830,.720]],         st:'ok',   id:4},
+    {pts:[[.720,.215],[.830,.215],[.830,.720]], st:'ok', id:5},
+  ];
+
+  /* Vannes (position normalisée, type) */
+  const PID_VALVES=[
+    {nx:.225,ny:.285,type:'gate'},
+    {nx:.530,ny:.215,type:'control'},
+    {nx:.360,ny:.400,type:'gate'},
+    {nx:.285,ny:.720,type:'gate'},
+    {nx:.655,ny:.720,type:'control'},
+    {nx:.830,ny:.470,type:'gate'},
+  ];
+
+  /* Tags instruments (position normalisée, code, couleur) */
+  const PID_INSTR=[
+    {nx:.165,ny:.215,tag:'FT',num:'101',col:'#3fb6ff'},
+    {nx:.310,ny:.215,tag:'VT',num:'401',col:'#f85149'},  // vibration critique
+    {nx:.415,ny:.215,tag:'TT',num:'301',col:'#d29922'},  // temp. warning
+    {nx:.780,ny:.140,tag:'PT',num:'201',col:'#d29922'},  // pression CMP
+    {nx:.175,ny:.790,tag:'FT',num:'501',col:'#d29922'},  // flux CNV warn
+    {nx:.620,ny:.790,tag:'PT',num:'601',col:'#3fb950'},  // pression ARM ok
+  ];
+
+  /* ── Palettes P&ID ── */
+  const PIPE_C ={ok:'#1e4d30',warn:'#4a3a10',crit:'#4a1a1a'};
+  const FLOW_C ={ok:'#3fb950',warn:'#d29922',crit:'#f85149'};
+  const BADGE_C={ok:{fill:'#1d5c34',txt:'#6ee89a',lbl:'High Confidence'},
+                 warn:{fill:'#5c3d10',txt:'#ffd068',lbl:'Medium Confidence'},
+                 crit:{fill:'#5c1c1c',txt:'#ff9090',lbl:'Low Confidence'}};
+
+  /* ── Utilitaire : longueur totale d'un chemin multi-segment ── */
+  function pathLen(pts){
+    let l=0;
+    for(let i=1;i<pts.length;i++){
+      const dx=(pts[i][0]-pts[i-1][0])*W, dy=(pts[i][1]-pts[i-1][1])*H;
+      l+=Math.sqrt(dx*dx+dy*dy);
+    }
+    return l;
+  }
+
+  /* ── Utilitaire : point à l'abscisse curviligne t (0-1) ── */
+  function ptOnPath(pts,t){
+    const total=pathLen(pts);
+    let target=t*total, acc=0;
+    for(let i=1;i<pts.length;i++){
+      const dx=(pts[i][0]-pts[i-1][0])*W, dy=(pts[i][1]-pts[i-1][1])*H;
+      const seg=Math.sqrt(dx*dx+dy*dy);
+      if(acc+seg>=target){
+        const f=(target-acc)/seg;
+        return [pts[i-1][0]*W+dx*f, pts[i-1][1]*H+dy*f];
+      }
+      acc+=seg;
+    }
+    return [pts[pts.length-1][0]*W, pts[pts.length-1][1]*H];
+  }
+
+  /* ── Symbole vanne ── */
+  function drawValve(vx,vy,type){
+    const s=7;
+    ctx.fillStyle='#061220'; ctx.strokeStyle='#4a90c8'; ctx.lineWidth=1.4;
+    if(type==='gate'){
+      // bow-tie (gate valve standard P&ID)
+      ctx.beginPath();
+      ctx.moveTo(vx-s,vy-s); ctx.lineTo(vx+s,vy+s);
+      ctx.lineTo(vx+s,vy-s); ctx.lineTo(vx-s,vy+s);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+    } else {
+      // control valve : triangle + cercle actionneur
+      ctx.beginPath();
+      ctx.moveTo(vx-s,vy-s); ctx.lineTo(vx+s,vy-s); ctx.lineTo(vx,vy+s);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.arc(vx,vy-s-5,4,0,Math.PI*2);
+      ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(vx,vy-s); ctx.lineTo(vx,vy-s-6); ctx.stroke();
+    }
+  }
+
+  /* ── Symbole équipement P&ID ── */
+  function drawEquip(cx,cy,type,status,id,name,isSel){
+    const sc=FLOW_C[status]||'#4a90c8';
+    const pulse=status==='crit'?(.35+.65*Math.abs(Math.sin(_tPhase*Math.PI*5))):1;
+
+    /* halo sélection */
+    if(isSel){
+      ctx.strokeStyle='rgba(255,255,255,.22)';
+      ctx.lineWidth=6; ctx.setLineDash([]);
+      ctx.beginPath();ctx.arc(cx,cy,26,0,Math.PI*2);ctx.stroke();
+    }
+    /* halo statut pulsant */
+    if(status!=='ok'){
+      ctx.strokeStyle=sc.replace(')',`,${pulse*.5})`).replace('rgb','rgba');
+      ctx.lineWidth=1.5; ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.arc(cx,cy,24,0,Math.PI*2);ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    ctx.fillStyle='#061220';
+    ctx.strokeStyle=isSel?'#ffffff':sc;
+    ctx.lineWidth=isSel?2:1.6;
+
+    switch(type){
+      case 'pump':
+        // Cercle centrifuge
+        ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);ctx.fill();ctx.stroke();
+        // Impulseur (ligne de refoulement 45°)
+        ctx.strokeStyle=sc+'bb';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+12,cy-12);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+12,cy+4);ctx.stroke();
+        // Stub entrée gauche
+        ctx.strokeStyle='#2a5a82';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx-18,cy);ctx.lineTo(cx-28,cy);ctx.stroke();
+        break;
+
+      case 'motor':
+        // Cercle moteur
+        ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);ctx.fill();ctx.stroke();
+        // Lettre M en sc
+        ctx.fillStyle=sc; ctx.font=`700 13px sans-serif`; ctx.textAlign='center';
+        ctx.fillText('M',cx,cy+5); ctx.textAlign='left';
+        // Stubs
+        ctx.strokeStyle='#2a5a82';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx-18,cy);ctx.lineTo(cx-28,cy);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(cx+18,cy);ctx.lineTo(cx+28,cy);ctx.stroke();
+        break;
+
+      case 'compressor':
+        // Cercle compresseur
+        ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);ctx.fill();ctx.stroke();
+        // Triangle intérieur (sens refoulement)
+        ctx.fillStyle=sc+'55';ctx.strokeStyle=sc;ctx.lineWidth=1.2;
+        ctx.beginPath();
+        ctx.moveTo(cx-8,cy+7);ctx.lineTo(cx+11,cy);ctx.lineTo(cx-8,cy-7);
+        ctx.closePath();ctx.fill();ctx.stroke();
+        // Stubs
+        ctx.strokeStyle='#2a5a82';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx-18,cy);ctx.lineTo(cx-28,cy);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(cx+18,cy);ctx.lineTo(cx+28,cy);ctx.stroke();
+        break;
+
+      case 'conveyor':
+        // Rectangle allongé avec rouleaux
+        ctx.fillStyle='#061220';ctx.strokeStyle=isSel?'#fff':sc;ctx.lineWidth=1.6;
+        rrect(ctx,cx-22,cy-11,44,22,5);ctx.fill();ctx.stroke();
+        ctx.strokeStyle=sc+'66';ctx.lineWidth=1;
+        [-12,-4,4,12].forEach(dx=>{
+          ctx.beginPath();ctx.moveTo(cx+dx,cy-9);ctx.lineTo(cx+dx,cy+9);ctx.stroke();
+        });
+        // Stubs
+        ctx.strokeStyle='#2a5a82';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx-22,cy);ctx.lineTo(cx-32,cy);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(cx+22,cy);ctx.lineTo(cx+32,cy);ctx.stroke();
+        break;
+
+      case 'cabinet':
+        // Carré armoire électrique
+        ctx.fillStyle='#061220';ctx.strokeStyle=isSel?'#fff':sc;ctx.lineWidth=1.6;
+        rrect(ctx,cx-16,cy-16,32,32,4);ctx.fill();ctx.stroke();
+        // Éclair intérieur
+        ctx.strokeStyle=sc;ctx.lineWidth=1.4;ctx.lineCap='round';
+        ctx.beginPath();
+        ctx.moveTo(cx+3,cy-9);ctx.lineTo(cx-3,cy);ctx.lineTo(cx+3,cy);ctx.lineTo(cx-3,cy+9);
+        ctx.stroke();ctx.lineCap='butt';
+        break;
+
+      case 'robot':
+        // Carré robot
+        ctx.fillStyle='#061220';ctx.strokeStyle=isSel?'#fff':sc;ctx.lineWidth=1.6;
+        rrect(ctx,cx-16,cy-16,32,32,4);ctx.fill();ctx.stroke();
+        // Bras articulé simplifié
+        ctx.strokeStyle=sc;ctx.lineWidth=2;ctx.lineCap='round';
+        ctx.beginPath();
+        ctx.moveTo(cx-4,cy+9);ctx.lineTo(cx-1,cy+1);
+        ctx.lineTo(cx+7,cy-4);ctx.lineTo(cx+12,cy-11);
+        ctx.stroke();
+        ctx.beginPath();ctx.arc(cx-1,cy+1,2.5,0,Math.PI*2);
+        ctx.fillStyle=sc;ctx.fill();
+        ctx.fillStyle='#061220';ctx.lineCap='butt';
+        break;
+    }
+
+    /* Badge statut (carré coloré en haut à droite — style P&ID référence) */
+    const b=BADGE_C[status]||{fill:'#333',txt:'#888',lbl:'N/A'};
+    const bw=70, bh=14, bx=cx+12, by=cy-36;
+    rrect(ctx,bx,by,bw,bh,3);
+    ctx.fillStyle=b.fill;ctx.fill();
+    ctx.strokeStyle=b.txt+'66';ctx.lineWidth=.8;ctx.stroke();
+    ctx.fillStyle=b.txt;ctx.font=`600 8px -apple-system,sans-serif`;
+    ctx.textAlign='left';
+    ctx.fillText(b.lbl,bx+5,by+10);
+
+    /* Tag équipement sous le symbole */
+    ctx.fillStyle=isSel?'#ffffff':'#a8c4dc';
+    ctx.font=`700 11px 'SFMono-Regular',Consolas,monospace`;
+    ctx.textAlign='center';
+    ctx.fillText(id,cx,cy+33);
+    const sn=name.split(' ').slice(0,2).join(' ');
+    ctx.fillStyle='rgba(120,150,175,.65)';
+    ctx.font=`400 9px -apple-system,sans-serif`;
+    ctx.fillText(sn,cx,cy+44);
+    ctx.textAlign='left';
+  }
+
+  /* ── click handler ── */
+  cv.onclick=e=>{
+    const r=cv.getBoundingClientRect();
+    const mx=(e.clientX-r.left)*(W/r.width);
+    const my=(e.clientY-r.top)*(H/r.height);
+    for(const a of STATE.assets){
+      const m=PID_EQ[a.id];if(!m)continue;
+      if(Math.hypot(mx-m.nx*W,my-m.ny*H)<26){window._tSel=a.id;return;}
+    }
+  };
+
+  /* ══ Boucle d'animation ══ */
+  function frame(){
+    if(STATE.view!=='twin'){_tRaf=null;return;}
+    _tPhase=(_tPhase+.006)%1;
+    ctx.clearRect(0,0,W,H);
+
+    /* Fond blueprint */
+    ctx.fillStyle='#060e1a';ctx.fillRect(0,0,W,H);
+
+    /* Grille de points fine */
+    ctx.fillStyle='rgba(30,60,90,.5)';
+    const gs=22;
+    for(let x=gs;x<W;x+=gs)for(let y=gs;y<H;y+=gs){
+      ctx.beginPath();ctx.arc(x,y,.9,0,Math.PI*2);ctx.fill();
+    }
+
+    /* Zone labels (légers, en fond) */
+    const ZONE_LABELS=[
+      {text:'Alimentation hydraulique',  x:.010,y:.055},
+      {text:'Motorisation / Drive',       x:.295,y:.055},
+      {text:'Air comprimé',               x:.625,y:.055},
+      {text:'Convoyage',                  x:.010,y:.840},
+      {text:'Distribution / Armoire',     x:.360,y:.840},
+      {text:'Assemblage robotique',       x:.695,y:.840},
+    ];
+    ctx.fillStyle='rgba(70,110,150,.35)';
+    ctx.font=`400 9px -apple-system,sans-serif`;
+    for(const z of ZONE_LABELS) ctx.fillText(z.text,z.x*W,z.y*H);
+
+    /* ── Tuyauteries ── */
+    for(const p of PID_PIPES){
+      // Ligne de tuyau
+      ctx.strokeStyle=PIPE_C[p.st]||'#1e3555';
+      ctx.lineWidth=2.2; ctx.setLineDash([]);
+      ctx.beginPath();
+      p.pts.forEach(([nx,ny],i)=>i?ctx.lineTo(nx*W,ny*H):ctx.moveTo(nx*W,ny*H));
+      ctx.stroke();
+
+      // Petite flèche de sens au milieu
+      const mid=ptOnPath(p.pts,.48);
+      const nxt=ptOnPath(p.pts,.52);
+      const ang=Math.atan2(nxt[1]-mid[1],nxt[0]-mid[0]);
+      ctx.strokeStyle=FLOW_C[p.st];ctx.lineWidth=1.2;
+      ctx.beginPath();
+      ctx.moveTo(mid[0]-Math.cos(ang-0.4)*5,mid[1]-Math.sin(ang-0.4)*5);
+      ctx.lineTo(mid[0]+Math.cos(ang)*5,mid[1]+Math.sin(ang)*5);
+      ctx.lineTo(mid[0]-Math.cos(ang+0.4)*5,mid[1]-Math.sin(ang+0.4)*5);
+      ctx.stroke();
+
+      // Particule animée
+      const offset=(p.id*.19)%1;
+      const pt=ptOnPath(p.pts,((_tPhase+offset)%1));
+      ctx.beginPath();ctx.arc(pt[0],pt[1],3.8,0,Math.PI*2);
+      ctx.fillStyle=FLOW_C[p.st];ctx.fill();
+      ctx.strokeStyle='rgba(0,0,0,.6)';ctx.lineWidth=.8;ctx.stroke();
+    }
+
+    /* ── Vannes ── */
+    for(const v of PID_VALVES) drawValve(v.nx*W,v.ny*H,v.type);
+
+    /* ── Tags instruments ── */
+    for(const ins of PID_INSTR){
+      const ix=ins.nx*W, iy=ins.ny*H, r=12;
+      // Ligne de connexion vers le tuyau le plus proche
+      ctx.strokeStyle=ins.col+'44';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.moveTo(ix,iy+r);ctx.lineTo(ix,iy+r+10);ctx.stroke();
+      ctx.setLineDash([]);
+      // Cercle tag
+      ctx.fillStyle='#07101e';
+      ctx.strokeStyle=ins.col;ctx.lineWidth=1.3;
+      ctx.beginPath();ctx.arc(ix,iy,r,0,Math.PI*2);ctx.fill();ctx.stroke();
+      // Texte
+      ctx.fillStyle=ins.col;
+      ctx.font=`700 7.5px -apple-system,sans-serif`; ctx.textAlign='center';
+      ctx.fillText(ins.tag,ix,iy-1);
+      ctx.font=`400 6.5px -apple-system,sans-serif`;
+      ctx.fillStyle='rgba(255,255,255,.4)';
+      ctx.fillText(ins.num,ix,iy+8);
+      ctx.textAlign='left';
+    }
+
+    /* ── Équipements P&ID ── */
+    for(const a of STATE.assets){
+      const m=PID_EQ[a.id];if(!m)continue;
+      drawEquip(m.nx*W,m.ny*H,m.type,a.status,a.id,a.name,a.id===window._tSel);
+    }
+
+    /* ── Légende (coin bas-gauche) ── */
+    const lx=12, ly=H-52;
+    [[BADGE_C.ok,'ok'],[BADGE_C.warn,'warn'],[BADGE_C.crit,'crit']].forEach(([b,_st],i)=>{
+      rrect(ctx,lx,ly+i*17,64,12,2);
+      ctx.fillStyle=b.fill;ctx.fill();
+      ctx.strokeStyle=b.txt+'55';ctx.lineWidth=.7;ctx.stroke();
+      ctx.fillStyle=b.txt;ctx.font=`600 7.5px -apple-system,sans-serif`;
+      ctx.fillText(b.lbl,lx+5,ly+i*17+9);
+    });
+
+    _updateDetail();
+    _tRaf=requestAnimationFrame(frame);
+  }
+  frame();
+  _updateDetail();
+}
+
+/* ── Panneau de détail latéral ── */
+function _updateDetail(){
+  const p=document.getElementById('twinDetailP');
+  if(!p)return;
+  const id=window._tSel||'MOT-04';
+  const a=STATE.assets.find(x=>x.id===id)||STATE.assets[0];
+  const d=_SD[id]||[];
+  const bc={crit:'b-crit',warn:'b-warn',ok:'b-ok'};
+  const bl={crit:'Critique',warn:'À surveiller',ok:'Nominal'};
+  const spark=_sparkData[id]||[];
+  const col={crit:'#f85149',warn:'#d29922',ok:'#3fb950'}[a.status];
+  const sparkId='twinSpk_'+id;
+
+  p.innerHTML=`
+  <div class="card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+      <div>
+        <div style="font-size:15px;font-weight:700">${id}</div>
+        <div style="font-size:12px;color:var(--muted)">${a.name}</div>
+      </div>
+      <span class="badge ${bc[a.status]}">${bl[a.status]}</span>
+    </div>
+    <table style="font-size:12.5px">${d.map(([k,v,sev])=>`
+      <tr><td style="color:var(--muted);padding:5px 6px">${k}</td>
+      <td class="mono" style="text-align:right;color:${sev==='crit'?'var(--crit)':sev==='warn'?'var(--warn)':'var(--txt)'}">${v}</td></tr>`).join('')}
+    </table>
+    <div style="margin:10px 0 4px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px">Signal principal — 60 dernières mesures</div>
+    <canvas id="${sparkId}" style="width:100%;height:82px;display:block"></canvas>
+    <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn" style="flex:1;font-size:12px;padding:7px" onclick="goDiag()">Diagnostiquer →</button>
+      <button class="btn ghost" style="flex:1;font-size:12px;padding:7px" onclick="twinMode('live')">Signaux live</button>
+    </div>
+  </div>
+  <div class="card" style="margin-top:10px;padding:12px">
+    <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Actions rapides</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <button class="btn ghost" style="text-align:left;font-size:12px;padding:6px 10px" onclick="goDiag()">⌕ Lancer un diagnostic RAG</button>
+      <button class="btn ghost" style="text-align:left;font-size:12px;padding:6px 10px" onclick="STATE.view='report';render()">▤ Générer un rapport de panne</button>
+      <button class="btn ghost" style="text-align:left;font-size:12px;padding:6px 10px" onclick="STATE.view='train';render()">◉ Rejouer en simulation</button>
+    </div>
+  </div>`;
+
+  /* sparkline dans le panel */
+  requestAnimationFrame(()=>{
+    const sc=document.getElementById(sparkId);
+    if(sc&&spark.length)lineChart(sc,[{data:spark,color:col}],{h:82,fill:true,
+      warn:STATE.signals[Object.keys(STATE.signals)[0]]?.warn,
+      crit:STATE.signals[Object.keys(STATE.signals)[0]]?.crit});
+  });
+}
+
+function twinSel(id){
+  window._tSel=id;
+  if(STATE.view==='twin')_updateDetail();
+}
+
+/* ============================ HORLOGE & BOUCLE ============================ */
+function clock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString(window.__LANG==='en'?'en-US':'fr-FR');}
+setInterval(clock,1000);clock();
+setInterval(tickLive,1500);
+
+/* ============================ COUCHE i18n (EN) — n'altère pas le FR ============================
+   Le français reste la source ; quand la langue passe en EN (sélecteur du site, via localStorage
+   'arkeva-lang'), un dictionnaire FR→EN est appliqué sur le DOM rendu. Réversible. */
+(function(){
+  window.__LANG = (function(){try{return localStorage.getItem('arkeva-lang')||'fr'}catch(e){return 'fr'}})();
+  document.documentElement.lang = window.__LANG;
+
+  var EXACT = {
+    "Nominal":"Nominal","À surveiller":"Monitor","Surveillance":"Monitoring","Critique":"Critical","Alerte":"Warning",
+    "auto":"auto","clôturé":"Closed","formation":"Training","Hier":"Yesterday","Envoyer":"Send","Procédure":"Procedure",
+    "Voir procédure":"View procedure","Ouvrir":"Open","Diagnostiquer":"Diagnose","sur":"on","Urgent":"Urgent",
+    "Élevée":"High","Planifié":"Scheduled","Durée":"Duration","Technicien":"Technician","Priorité":"Priority",
+    "Intervention":"Intervention","Équipement":"Equipment","État":"Status","Indicateur clé":"Key indicator",
+    "Intermédiaire":"Intermediate","Débutant":"Beginner","Avancé":"Advanced","Complétés":"Completed",
+    "Score moyen":"Average score","Scénarios disponibles":"Available scenarios","En ligne":"Online",
+    "Actions rapides":"Quick actions","Signaux live":"Live signals","Enregistrer le brouillon":"Save draft",
+    "Brouillon enregistré":"Draft saved","Pièce & couple ?":"Part & torque?","Sécurité ?":"Safety?","Stock ?":"Stock?",
+    "● Critique":"● Critical","● Élevée":"● High","Modèle :":"Model:","Majeure":"Major","Mineure":"Minor","Sources :":"Sources:","Source :":"Source:"
+  };
+  var SUB = {
+    "Vue d'ensemble de l'atelier — Ligne d'assemblage 3":"Workshop overview — Assembly line 3",
+    "Analyse des signaux capteurs & reconnaissance de patterns":"Sensor-signal analysis & pattern recognition",
+    "Corrélation multi-bases & aide à la résolution":"Multi-source correlation & resolution support",
+    "Génération automatique du rapport pour la GMAO":"Automatic report generation for the CMMS",
+    "Entraînement sur scénarios de panne":"Training on failure scenarios",
+    "Représentation virtuelle de la ligne en temps réel":"Real-time virtual representation of the line",
+    "100% local — aucune donnée sortante":"100% local — no data leaves site",
+    "Anomalie critique détectée — MOT-04 (Motoréducteur convoyeur)":"Critical anomaly detected — MOT-04 (Conveyor gearmotor)",
+    "Pattern « dégradation roulement » identifié — concordance 91% avec l'incident #2024-0417. Intervention recommandée sous 4 h.":"« Bearing degradation » pattern identified — 91% match with incident #2024-0417. Intervention recommended within 4 h.",
+    "Diagnostiquer →":"Diagnose →","Équipements surveillés":"Monitored equipment","5 hors-ligne":"5 offline",
+    "Alertes actives":"Active alerts","1 critique":"1 critical","2 mineures":"2 minor","Moyenne ligne 3":"Line 3 average",
+    "Patterns en base":"Patterns in base","347 rapports liés":"347 linked reports","MTBF (30 j)":"MTBF (30 d)","Vibration RMS — MOT-04":"RMS vibration — MOT-04",
+    "Dérive nette sur la dernière heure":"Clear drift over the last hour","Seuil alerte":"Warning threshold","Seuil critique":"Critical threshold",
+    "État de la ligne d'assemblage 3":"Assembly line 3 status","Synthèse temps réel des équipements":"Real-time equipment summary",
+    "Débit -12%":"Flow -12%","Jeu chaîne":"Chain slack",
+    "Motoréducteur convoyeur":"Conveyor gearmotor","Pompe hydraulique":"Hydraulic pump","Compresseur air":"Air compressor",
+    "Robot soudure":"Welding robot","Convoyeur principal":"Main conveyor","Armoire électrique":"Electrical cabinet",
+    "Activité récente de l'assistant":"Recent assistant activity",
+    "Détection pattern « dégradation roulement » sur MOT-04":"« Bearing degradation » pattern detected on MOT-04",
+    "Rapport #2026-0312 validé et poussé en GMAO (CMP-01)":"Report #2026-0312 validated and pushed to CMMS (CMP-01)",
+    "Formation « Diagnostic surchauffe palier » complétée — opérateur M. Diallo":"« Bearing overheating diagnosis » training completed — operator M. Diallo",
+    "Température paliers":"Bearing temperature","Courant moteur":"Motor current","Pression huile":"Oil pressure","Vibration RMS":"RMS vibration",
+    "Signaux capteurs MOT-04 — flux temps réel":"MOT-04 sensor signals — real-time stream",
+    "⏸ Figer le flux":"⏸ Freeze stream","▶ Reprendre le flux":"▶ Resume stream","🧠 Caractérisation du pattern":"🧠 Pattern characterization",
+    "Le moteur d'analyse extrait les caractéristiques (features) de la fenêtre glissante et compare la signature à la bibliothèque de patterns historiques.":"The analysis engine extracts features from the sliding window and compares the signature against the historical pattern library.",
+    "Type de signature":"Signature type","Dérive monotone + harmonique 2×":"Monotonic drift + 2× harmonic","Features dominantes":"Dominant features",
+    "Fréquence caractéristique":"Characteristic frequency","(bague ext.)":"(outer ring)","Vitesse de dérive":"Drift rate","Fenêtre d'analyse":"Analysis window",
+    "🔗 Patterns passés concordants":"🔗 Matching past patterns",
+    "Mise en correspondance par similarité (DTW + distance cosinus sur embeddings de signal).":"Similarity matching (DTW + cosine distance over signal embeddings).",
+    "Dégradation roulement côté accouplement. Remplacement roulement 6208-2RS. Arrêt 3h20.":"Bearing degradation on coupling side. 6208-2RS bearing replacement. 3h20 downtime.",
+    "Défaut alignement + balourd. Réalignement laser + équilibrage.":"Misalignment + unbalance. Laser realignment + balancing.",
+    "Manque de lubrification palier. Regraissage + ajustement plan de lubrification.":"Bearing under-lubrication. Re-greasing + lubrication-plan adjustment.",
+    "Lancer le diagnostic guidé →":"Start guided diagnosis →",
+    "💬 Assistant de diagnostic":"💬 Diagnostic assistant",
+    "Déclenché par le pattern détecté, ou posez une question si la panne n'est pas détectée automatiquement.":"Triggered by the detected pattern, or ask a question if the failure isn't detected automatically.",
+    "J'ai détecté une ":"I detected ","dégradation de roulement":"a bearing degradation",
+    " (concordance 91% avec l'incident #2024-0417). J'ai corrélé GMAO, SCADA, la knowledge base et les docs fournisseur. Voici le processus de résolution recommandé. Souhaitez-vous le dérouler ?":" (91% match with incident #2024-0417). I correlated CMMS, SCADA, the knowledge base and supplier docs. Here is the recommended resolution process. Would you like to run through it?",
+    "Ex : le moteur chauffe et vibre, que faire ?":"e.g. the motor is heating up and vibrating, what should I do?",
+    "🛠 Processus de résolution guidé":"🛠 Guided resolution process","✓ Valider l'étape courante":"✓ Validate current step","Générer le rapport →":"Generate report →",
+    "📚 Sources corrélées":"📚 Correlated sources",
+    "Recherche sémantique sur l'ensemble des bases. Chaque réponse est tracée vers sa source (citations vérifiables).":"Semantic search across all sources. Every answer is traced back to its source (verifiable citations).",
+    "⚙ Configuration RAG (local)":"⚙ RAG configuration (local)","Sources indexées":"Indexed sources","GMAO, SCADA, KB, docs PDF, notices":"CMMS, SCADA, KB, PDF docs, datasheets",
+    "Quel roulement et quel couple de serrage ?":"Which bearing and what tightening torque?","Quelles consignes de sécurité avant intervention ?":"What safety steps before the intervention?","La pièce est-elle en stock ?":"Is the part in stock?",
+    "Consigner & sécuriser (LOTO)":"Lock out & secure (LOTO)"," — Arrêt, consignation électrique armoire ARM-05, cadenassage, VAT. Réf : PRO-SEC-002.":" — Stop, electrical lockout of cabinet ARM-05, padlocking, voltage test. Ref: PRO-SEC-002.",
+    "Mesure vibratoire ciblée":"Targeted vibration measurement"," — Confirmer BPFO bague extérieure à 162 Hz avec l'analyseur portable. Comparer à la signature de référence.":" — Confirm outer-ring BPFO at 162 Hz with the portable analyzer. Compare to the reference signature.",
+    "Inspection visuelle / endoscopie":"Visual inspection / endoscopy"," — Vérifier jeu, traces d'échauffement, état graisse côté accouplement.":" — Check clearance, overheating marks, grease condition on coupling side.",
+    "Remplacement roulement 6208-2RS":"6208-2RS bearing replacement"," — Extraction, montage à chaud (induction 110°C), couple flasque 35 Nm. Stock magasin : 4 u.":" — Removal, heat-fit (induction 110°C), flange torque 35 Nm. Store stock: 4 u.",
+    "Regraissage & contrôle":"Re-greasing & check"," — Graisse SKF LGHP 2, requalification vibratoire à vide puis en charge.":" — SKF LGHP 2 grease, vibration re-qualification no-load then under load.",
+    "Clôture & rapport":"Closure & report"," — Déconsignation, essai, rédaction du rapport de panne pour la GMAO.":" — Lockout removal, test, writing the failure report for the CMMS.",
+    "Toutes les étapes sont validées":"All steps validated","Processus terminé — prêt pour le rapport":"Process complete — ready for the report",
+    "📝 Brouillon de rapport — généré automatiquement":"📝 Report draft — auto-generated",
+    "Rédigé à partir des signaux, du diagnostic et des actions validées. À relire et valider avant envoi en GMAO.":"Written from the signals, the diagnosis and the validated actions. Review and validate before sending to the CMMS.",
+    "Type de défaillance":"Failure type","Criticité":"Criticality","Diagnostic (synthèse auto)":"Diagnosis (auto summary)","Actions réalisées":"Actions performed","Pièces consommées":"Parts used","Temps d'intervention":"Intervention time",
+    "✓ Valider & envoyer en GMAO":"✓ Validate & send to CMMS","🔁 Réutilisation future":"🔁 Future reuse",
+    "Une fois validé, le rapport est indexé (texte + signature de signal) et devient un pattern réutilisable. Lors d'une panne similaire, il remontera automatiquement dans le diagnostic.":"Once validated, the report is indexed (text + signal signature) and becomes a reusable pattern. On a similar failure, it surfaces automatically in the diagnosis.",
+    "Indexation sémantique":"Semantic indexing","Liaison au pattern":"Pattern linking","Push GMAO":"CMMS push","📎 Traçabilité & sources":"📎 Traceability & sources",
+    "Le rapport conserve les liens vers toutes les sources utilisées :":"The report keeps links to every source used:","Rapport validé et envoyé en GMAO (OT-2026-0318 créé)":"Report validated and sent to CMMS (OT-2026-0318 created)",
+    "🎓 Scénarios d'entraînement":"🎓 Training scenarios",
+    "Les scénarios sont générés à partir des pannes réelles de la GMAO : l'opérateur s'entraîne sur des cas vécus, sans risque sur l'équipement réel. Le jumeau numérique rejoue la dérive des signaux.":"Scenarios are generated from real CMMS failures: operators train on real cases, with no risk to actual equipment. The digital twin replays the signal drift.",
+    "Dégradation roulement motoréducteur":"Gearmotor bearing degradation","Diagnostiquer une signature vibratoire BPFO, isoler l'équipement et conduire le remplacement.":"Diagnose a BPFO vibration signature, isolate the equipment and carry out the replacement.",
+    "Surchauffe palier — défaut lubrification":"Bearing overheating — lubrication fault","Reconnaître les signes de manque de graisse, appliquer le plan de lubrification.":"Recognize signs of insufficient grease, apply the lubrication plan.",
+    "Défaut variateur — code F07 surtension":"Drive fault — code F07 overvoltage","Analyser un code défaut variateur, vérifier le bus DC, le freinage et le câblage.":"Analyze a drive fault code, check the DC bus, braking and wiring.",
+    "Fuite circuit hydraulique PMP-02":"PMP-02 hydraulic-circuit leak","Localiser une chute de pression, tester les vérins, identifier le joint défaillant.":"Locate a pressure drop, test the cylinders, identify the failing seal.",
+    "↻ Refaire":"↻ Redo","▶ Reprendre":"▶ Resume","▶ Démarrer":"▶ Start","Scénario en cours — ":"Scenario in progress — ",
+    "Simulation lancée sur le jumeau numérique. Les signaux capteurs sont rejoués à partir d'un cas réel. Analysez et répondez.":"Simulation started on the digital twin. Sensor signals are replayed from a real case. Analyze and answer.",
+    "Situation :":"Situation:","Question 1/3 :":"Question 1/3:","Quelle est la première action obligatoire avant toute intervention mécanique ?":"What is the first mandatory action before any mechanical work?",
+    "A. Consigner et sécuriser l'équipement (LOTO)":"A. Lock out and secure the equipment (LOTO)","B. Démonter directement le carter":"B. Remove the housing straight away","C. Augmenter la lubrification en marche":"C. Increase lubrication while running",
+    "Correct !":"Correct!","La consignation LOTO est obligatoire (PRO-SEC-002). +1 point. Question suivante débloquée.":"LOTO lockout is mandatory (PRO-SEC-002). +1 point. Next question unlocked.",
+    "Incorrect.":"Incorrect.","Toute intervention doit être précédée d'une consignation/sécurisation (LOTO). C'est un prérequis sécurité absolu.":"Any intervention must be preceded by lockout/securing (LOTO). It is an absolute safety prerequisite.",
+    "⬡ Jumeau numérique — Ligne d'assemblage 3":"⬡ Digital twin — Assembly line 3","Sync SCADA · temps réel":"SCADA sync · real-time","🏭 Plan 2D":"🏭 2D layout","📊 Signaux live":"📊 Live signals","Flux matière actif":"Active material flow",
+    "Alertes actives · ":"Active alerts · "," en cours":" ongoing","Recommandations maintenance · ":"Maintenance recommendations · "," ordres de travail":" work orders",
+    "Vibration RMS critique — 7.1 mm/s (seuil 7.1)":"Critical RMS vibration — 7.1 mm/s (threshold 7.1)","Débit compresseur -12 % — risque d'arrêt ligne":"Compressor flow -12% — line-stop risk","Jeu chaîne convoyeur 1.8 mm — retension requise":"Conveyor chain slack 1.8 mm — re-tensioning required",
+    "il y a 4 min":"4 min ago","il y a 12 min":"12 min ago","il y a 31 min":"31 min ago",
+    "Remplacement roulements palier avant":"Front bearing replacement","Remplacement filtre air + contrôle soupape":"Air-filter replacement + valve check","Retension chaîne + graissage roulements":"Chain re-tensioning + bearing greasing","Inspection pompe hydraulique (préventif)":"Hydraulic-pump inspection (preventive)","Vérification tableau électrique (préventif)":"Electrical-panel check (preventive)",
+    "Signal principal — 60 dernières mesures":"Main signal — last 60 readings","Lancer un diagnostic RAG":"Run a RAG diagnosis","Générer un rapport de panne":"Generate a failure report","Rejouer en simulation":"Replay in simulation","Ouverture source : ":"Opening source: ",
+    "Tableau de bord":"Dashboard","Détection temps réel":"Real-time detection","Diagnostic & sources":"Diagnosis & sources","Rapport de panne":"Failure report","Jumeau numérique":"Digital twin","Formation":"Training",
+    "Historique MOT-04 — Ordre de travail OT-2024-0417":"MOT-04 history — Work order OT-2024-0417","Remplacement roulement côté accouplement. Pièce 6208-2RS, couple serrage 35 Nm, durée 3h20. Technicien : R. Martin.":"Coupling-side bearing replacement. Part 6208-2RS, tightening torque 35 Nm, duration 3h20. Technician: R. Martin.",
+    "Tendance vibratoire 60 min — voie AI-12":"60-min vibration trend — channel AI-12","Dérive RMS 2.4→7.1 mm/s, pic harmonique 2× vitesse rotation. Corrélé température palier +18°C.":"RMS drift 2.4→7.1 mm/s, 2× rotation-speed harmonic peak. Correlated with +18°C bearing temperature.",
+    "Procédure PRO-MEC-014 — Diagnostic roulement dégradé":"Procedure PRO-MEC-014 — Degraded-bearing diagnosis","Arbre de décision : isoler/consigner → mesure vibratoire ciblée → endoscopie → remplacement. Critères BPFO/BPFI.":"Decision tree: isolate/lock out → targeted vibration measurement → endoscopy → replacement. BPFO/BPFI criteria.",
+    "SEW Eurodrive — Manuel R57 DRN90, §7.3 Roulements":"SEW Eurodrive — R57 DRN90 manual, §7.3 Bearings","Référence roulement, jeu interne C3, plan de graissage, couples de serrage flasque.":"Bearing reference, C3 internal clearance, greasing plan, flange tightening torques.",
+    "Doc fournisseur":"Supplier doc","Notice en ligne":"Online datasheet","Catalogue SKF 6208-2RS — fiche technique":"SKF 6208-2RS catalogue — datasheet","Dimensions 40×80×18, charge dynamique 30.7 kN, vitesse limite. Disponibilité magasin : 4 u.":"Dimensions 40×80×18, dynamic load 30.7 kN, limit speed. Store availability: 4 u.",
+    "MOT-04 — Motoréducteur convoyeur (Ligne 3)":"MOT-04 — Conveyor gearmotor (Line 3)","Dégradation roulement côté accouplement (BPFO)":"Coupling-side bearing degradation (BPFO)",
+    "Détection automatique d'une dérive vibratoire (RMS 2.4→7.1 mm/s) avec apparition d'une harmonique 2× et fréquence BPFO ≈162 Hz, corrélée à une hausse de température palier (+18°C) et une baisse de pression huile. Signature à 91% concordante avec l'incident #2024-0417. Diagnostic confirmé par mesure vibratoire ciblée et endoscopie : roulement 6208-2RS dégradé côté accouplement.":"Automatic detection of a vibration drift (RMS 2.4→7.1 mm/s) with a 2× harmonic and BPFO frequency ≈162 Hz, correlated with a bearing-temperature rise (+18°C) and an oil-pressure drop. Signature 91% matching incident #2024-0417. Diagnosis confirmed by targeted vibration measurement and endoscopy: 6208-2RS bearing degraded on the coupling side.",
+    "1× roulement SKF 6208-2RS ; graisse SKF LGHP 2":"1× SKF 6208-2RS bearing; SKF LGHP 2 grease","3 h 10 (estimation)":"3 h 10 (estimate)",
+    "D'après le manuel SEW R57 DRN90 (§7.3) et le catalogue SKF : roulement ":"Per the SEW R57 DRN90 manual (§7.3) and the SKF catalogue: bearing "," (40×80×18, jeu C3). Couple de serrage flasque ":" (40×80×18, C3 clearance). Flange tightening torque ",". Montage à chaud par induction à 110°C recommandé. ":". Induction heat-fit at 110°C recommended. ",
+    "Avant toute intervention : ":"Before any work: ","consignation LOTO":"LOTO lockout"," (PRO-SEC-002) — arrêt, consignation électrique sur ARM-05, cadenassage individuel, vérification d'absence de tension (VAT), dissipation énergie résiduelle. EPI : gants anti-coupure, lunettes. ":" (PRO-SEC-002) — stop, electrical lockout on ARM-05, individual padlocking, voltage absence test (VAT), residual-energy dissipation. PPE: cut-resistant gloves, goggles. ",
+    "La pièce ":"The part ","6208-2RS est en stock":"6208-2RS is in stock"," : 4 unités au magasin (emplacement R-12-3). Aucune commande nécessaire. Le roulement de rechange du palier opposé est également disponible. ":": 4 units in store (location R-12-3). No order needed. The spare bearing for the opposite side is also available. ",
+    "En corrélant les signaux SCADA, l'historique GMAO et la knowledge base, le scénario le plus probable est une ":"By correlating SCADA signals, CMMS history and the knowledge base, the most likely scenario is a ","dégradation de roulement côté accouplement":"coupling-side bearing degradation"," sur MOT-04. Je recommande de suivre le processus guidé ci-contre. Je peux préciser la pièce, les consignes de sécurité ou le stock — demandez-moi.":" on MOT-04. I recommend following the guided process opposite. I can detail the part, the safety steps or the stock — just ask."
+  };
+
+  function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+  var subKeys = Object.keys(SUB).sort(function(a,b){return b.length-a.length;});
+  var subRe = subKeys.length ? new RegExp(subKeys.map(esc).join('|'),'g') : null;
+  function tr(s){
+    var k=s.trim(), t=s;
+    if(EXACT[k]!=null) t=s.replace(k,EXACT[k]);
+    else if(subRe) t=s.replace(subRe,function(m){return SUB[m];});
+    return t;
+  }
+  var ORIG = new WeakMap();
+  function applyTr(root){
+    if(!root) return;
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),n,arr=[];
+    while(n=w.nextNode()){
+      var pn=n.parentNode&&n.parentNode.nodeName;
+      if(pn==='SCRIPT'||pn==='STYLE'||pn==='NOSCRIPT') continue;
+      arr.push(n);
+    }
+    arr.forEach(function(node){
+      if(!ORIG.has(node)) ORIG.set(node,node.nodeValue);
+      var o=ORIG.get(node);
+      node.nodeValue = (window.__LANG==='en') ? tr(o) : o;
+    });
+    root.querySelectorAll&&root.querySelectorAll('[placeholder]').forEach(function(el){
+      if(el.__op==null) el.__op=el.getAttribute('placeholder');
+      el.setAttribute('placeholder', window.__LANG==='en'?tr(el.__op):el.__op);
+    });
+    root.querySelectorAll&&root.querySelectorAll('input').forEach(function(el){
+      if(!el.hasAttribute('value')&&el.__ov==null) return;
+      if(el.__ov==null) el.__ov=el.getAttribute('value')||'';
+      var nv=window.__LANG==='en'?tr(el.__ov):el.__ov; el.setAttribute('value',nv); el.value=nv;
+    });
+    root.querySelectorAll&&root.querySelectorAll('textarea').forEach(function(el){
+      if(el.__ot==null) el.__ot=el.textContent;
+      el.value = window.__LANG==='en'?tr(el.__ot):el.__ot;
+    });
+  }
+  window.__applyTr = applyTr;
+
+  /* enrobe les fonctions qui produisent du DOM (le FR d'origine est conservé tel quel) */
+  var _r=window.render; window.render=function(){_r.apply(this,arguments); applyTr(document.getElementById('content')); applyTr(document.querySelector('.topbar'));};
+  var _pm=window.pushMsg; window.pushMsg=function(){_pm.apply(this,arguments); applyTr(document.getElementById('chat'));};
+  var _to=window.toast; window.toast=function(){_to.apply(this,arguments); applyTr(document.getElementById('toast'));};
+  var _ss=window.startScenario; window.startScenario=function(){_ss.apply(this,arguments); applyTr(document.getElementById('scnRun'));};
+  var _sa=window.scnAnswer; window.scnAnswer=function(){_sa.apply(this,arguments); applyTr(document.getElementById('scnFb'));};
+  var _ud=window._updateDetail; window._updateDetail=function(){_ud.apply(this,arguments); applyTr(document.getElementById('twinDetailP'));};
+  var _tw=window.twinMode; window.twinMode=function(){_tw.apply(this,arguments); applyTr(document.getElementById('content'));};
+
+  /* synchro avec le sélecteur FR/EN du site (même origine → événement storage) */
+  window.addEventListener('storage', function(e){
+    if(e.key==='arkeva-lang'){ window.__LANG=e.newValue||'fr'; document.documentElement.lang=window.__LANG; applyTr(document.body); }
+  });
+})();
+
+render();
+window.__applyTr(document.body);
+</script>
+</body>
+</html>
